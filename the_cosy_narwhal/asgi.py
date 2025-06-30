@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'the_cosy_narwharl.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'the_cosy_narwhal.settings')
 
 application = get_asgi_application()

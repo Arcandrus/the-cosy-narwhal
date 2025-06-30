@@ -1,0 +1,124 @@
+:root {
+    --lilac: #d2c7ff;
+    --pink: #f6c6fa;
+    --champ: #f0efeb;
+    --fuchsia: #c154c1;
+}
+
+body {
+    background-color: var(--champ);
+    font-size: larger;
+}
+
+.nav-link {
+    color: var(--fuchsia);
+}
+
+.nav-link:hover {
+    color: var(--lilac);
+}
+
+.logo-font {
+    font-weight: bold;
+    font-family: "Bad Script";
+}
+
+.bg-grad {
+    background-image: linear-gradient(to bottom, var(--lilac), var(--champ));
+    padding: 20px;
+}
+
+.bg-grad-rev {
+    background-image: linear-gradient(to bottom, var(--champ), var(--pink));
+    padding: 20px;
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    /* center content horizontally */
+    align-items: center;
+    /* center content vertically */
+    width: 100%;
+    background-color: #666;
+    text-align: center;
+    padding: 10px;
+    z-index: 10;
+}
+
+.footer .row,
+.footer .col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    text-align: center;
+    padding-top: 100px;
+    margin: 0 auto;
+    width: 80%;
+    min-height: calc(100vh - 60px);
+    /* 100% viewport height minus footer height */
+    padding-bottom: 100px;
+    /* Reserve space for footer if needed */
+}
+
+.hero-img {
+    max-width: 250px;
+    border-radius: 15px;
+}
+
+.btn {
+    border-radius: 10px;
+}
+
+.btn-def {
+    font-weight: bold;
+    background-color: var(--pink);
+    color: var(--fuchsia);
+}
+
+.btn-def:hover {
+    background-color: var(--lilac);
+    color: var(--fuchsia);
+    border: 1px solid var(--fuchsia);
+}
+
+.carousel-container {
+    width: 450px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+.carousel-item img {
+    height: auto;
+    max-height: 400px;
+    margin: 0 auto;
+    display: block;
+    border-radius: 15px;
+}
+
+.carousel-control-prev {
+    width: fit-content;
+    left: 15px;
+    z-index: 5;
+}
+
+@media(max-width: 992px) {
+    .carousel-container {
+        width: 300px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+    }
+
+    .carousel-item img {
+        height: auto;
+        max-height: 250px;
+        margin: 0 auto;
+        display: block;
+        border-radius: 15px;
+    }
+}

@@ -1,18 +1,25 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block page_header %}
-<div class="container header-container">
-    <div class="row">
-        <div class="col"></div>
+{% block content %}
+<div class="container">
+    <img class="img-fluid hero-img" src="{{ MEDIA_URL }}brand_logo.jpg" alt="Brand Logo">
+
+    <h4 class="pt-2">Hello and welcome to my page. </h4>
+
+    <p>We're so happy you're here!</p>
+    <p>At The Cosy Narwhal, we create handcrafted crochet plushies and accessories full of charm, colour, and comfort.
+        Whether you're looking for the perfect gift, a new cuddle buddy, or something sweet to brighten your space,
+        you're in the right place.</p>
+
+    <p>What started as a hobby 6 years ago has turned in to a real passion of mine. Thank you for supporting a small
+        business with big dreams and even bigger stitches!</p>
+
+    <p>Take a look around — your new favourite plushie is waiting to be found.</p>
+    <button class="btn btn-def">SHOP HERE!</button>
+    <br>
+    <div class="row pt-3 carousel-container">
+        {% include 'includes/carousel.html' %}
     </div>
 </div>
-{% endblock %}
-
-{% block content %}
-
-<h1 class="display-4 logo-font text-black">
-    The new collections are here
-</h1>
-
 {% endblock %}
