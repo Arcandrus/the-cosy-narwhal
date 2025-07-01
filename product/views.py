@@ -37,10 +37,6 @@ def product_detail(request, product_id):
 
     # Get all products that share the same prefix
     variant_products = Product.objects.filter(code__startswith=prefix).order_by('id')
-
-    for variant in variant_products:
-        print(f"Product: {variant.name} (ID: {variant.id}), Color: {variant.color}")
-        print("Available colors:", list(variant.available_colors.all()))
         
     color_links = []
     for color in product.available_colors.all():

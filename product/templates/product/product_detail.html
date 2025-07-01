@@ -17,12 +17,12 @@
             <p><strong>Sorry this product is currently out of stock</strong></p>
             {% endif %}
             <p>{{ product.description|safe }}</p>
-            <div class="row">
+            <div class="row d-flex align-items-center">
                 <div class="col-6">
-                    <p><i class="star fa-solid fa-star"></i> {{ product.rating }}</p>
+                    <i class="star fa-solid fa-star"></i> {{ product.rating }}
                 </div>
                 <div class="col-6 text-right">
-                    <p>Price: £{{ product.price }}</p>
+                    Price: £{{ product.price }}
                 </div>
             </div>
             <div class="row">
