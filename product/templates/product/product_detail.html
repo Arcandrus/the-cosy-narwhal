@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load custom_filters %}
 
 {% block content %}
 
@@ -15,18 +16,27 @@
             {% if product.inventory == 0 %}
             <p><strong>Sorry this product is currently out of stock</strong></p>
             {% endif %}
-            <p>{{ product.description }}</p>
-            <p>Price: £{{ product.price }}</p>
-            {% if product.has_colors %}
-            <label for="color-select"><strong>Choose a color:</strong></label>
-            <select id="color-select" name="color" class="form-select mb-3">
-                {% for color_name, link_id in color_links %}
-                <option value="{{ link_id }}" {% if product.id == link_id %}selected{% endif %}>
-                    {{ color_name|title }}
-                </option>
-                {% endfor %}
-            </select>
-            {% endif %}
+            <p>{{ product.description|safe }}</p>
+            <div class="row">
+                <div class="col-6">
+                    <p><i class="star fa-solid fa-star"></i> {{ product.rating }}</p>
+                </div>
+                <div class="col-6 text-right">
+                    <p>Price: £{{ product.price }}</p>
+                </div>
+            </div>
+            <div class="row">
+                {% if product.has_colors %}
+                <label for="color-select">Choose a color: </label>
+                <select id="color-select" name="color" class="form-select rounded mb-3 ml-3">
+                    {% for color_name, link_id in color_links %}
+                    <option value="{{ link_id }}" {% if product.id == link_id %}selected{% endif %}>
+                        {{ color_name|replace:"_, "|title }}
+                    </option>
+                    {% endfor %}
+                </select>
+                {% endif %}
+            </div>
         </div>
     </div>
 

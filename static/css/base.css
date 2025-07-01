@@ -8,6 +8,19 @@
 body {
     background-color: var(--champ);
     font-size: larger;
+    color: var(--fuchsia);
+}
+
+.star {
+    color: gold;
+}
+
+small {
+    font-size: smaller;
+}
+
+.card {
+    border-radius: 15px;
 }
 
 .nav-link {
@@ -112,8 +125,8 @@ body {
     margin: 0 auto;
     width: 100%;
     height: auto;
-    max-height: 100%;
-    object-fit: contain;
+    max-height: 500px;
+    object-fit: cover;
 }
 
 @media(max-width: 992px) {

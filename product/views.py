@@ -3,7 +3,7 @@ from .models import Product
 
 
 def all_products(request):
-    # Get all products ordered by code or id (whatever keeps the order consistent)
+    # Get all products ordered by code
     all_products = Product.objects.order_by('code', 'id')
 
     # Use a set to track seen prefixes
@@ -33,11 +33,10 @@ def product_detail(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
 
     # Extract the prefix (e.g., "WHA") from the product code
-    prefix = product.code[:3]  # Assuming codes like WHA0001, WHA0002
+    prefix = product.code[:3] 
 
     # Get all products that share the same prefix
     variant_products = Product.objects.filter(code__startswith=prefix).order_by('id')
-    print(variant_products)
 
     for variant in variant_products:
         print(f"Product: {variant.name} (ID: {variant.id}), Color: {variant.color}")
@@ -48,7 +47,6 @@ def product_detail(request, product_id):
         variant = variant_products.filter(color=color).first()
         if variant:
             color_links.append((color.name.lower(), variant.id))
-    print(color_links)
 
     context = {
         'product': product,

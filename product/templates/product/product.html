@@ -15,13 +15,22 @@
                 </a>
                 <div class="card-footer bg-transparent border-0 text-left">
                     <div class="row">
-                        <div class="col">
+                        <div class="col text-center">
+                            <p><strong>{{ product.display_name }}</strong></p>
                             {% if product.inventory == 0 %}
-                            <p><strong>Sorry this product is currently out of stock</strong></p>
+                            <small>Currently out of stock</small>
                             {% endif %}
-                            <p>{{ product.display_name }}</p>
-                            <p>{{ product.rating }}</p>
-                            <p>Price: £{{ product.price }}</p>
+                            {% if product.has_colors %}
+                            <small>Color choices available</small>
+                            {% endif %}
+                            <div class="row">
+                                <div class="col-6">
+                                    <small><i class="star fa-solid fa-star"></i> {{ product.rating }}</small>
+                                </div>
+                                <div class="col-6">
+                                    <p>£{{ product.price }}</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
