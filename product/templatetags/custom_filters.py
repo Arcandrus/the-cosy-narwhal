@@ -1,4 +1,5 @@
 from django import template
+from product.models import Product
 
 register = template.Library()
 
@@ -6,3 +7,11 @@ register = template.Library()
 def replace(value, args):
     old, new = args.split(',')
     return value.replace(old, new)
+
+
+@register.filter
+def product_by_code(code):
+    try:
+        return Product.objects.get(code=code)
+    except Product.DoesNotExist:
+        return None

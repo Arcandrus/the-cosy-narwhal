@@ -8,7 +8,7 @@
 
     <h1 class="logo-font">{{ product.name }}</h1>
 
-    <div class="row bg-white">
+    <div class="row bg-white mt-4">
         <div class="col-12 col-md-6 mb-4">
             <img id="product-img" class="product-img img-fluid mt-4" src="{{ MEDIA_URL }}{{ product.image }}">
         </div>
@@ -25,7 +25,7 @@
                     Price: £{{ product.price }}
                 </div>
             </div>
-            <div class="row">
+            <div class="row justify-content-center">
                 {% if size_links %}
                 <label for="size-select">Choose a size: </label>
                 <select id="size-select" class="form-select mb-3 ml-3"
@@ -49,8 +49,19 @@
                 </select>
                 {% endif %}
             </div>
+            <div class="row mt-2 justify-content-center">
+                <div class="align-items-center">
+                    <form class="mt-4" method="POST" action="{% url 'add_to_bag' product.code %}">
+                        {% csrf_token %}
+                        <input type="{% if product.inventory == 0 %}hidden{% else %}number{% endif %}" name="quantity" value="1" min="1">
+                        <input type="hidden" name="redirect_url" value="{{ request.path }}">
+                        <button class="btn btn-def" type="submit" {% if product.inventory == 0 %}disabled{% endif %}>{% if product.inventory == 0 %}Out of Stock{% else %}Add to Cart{% endif %}</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
+</div>
 
 </div>
 <script>

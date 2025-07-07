@@ -68,7 +68,7 @@ small {
 
 .container {
     text-align: center;
-    padding-top: 100px;
+    padding-top: 120px;
     margin: 0 auto;
     width: 80%;
     min-height: calc(100vh - 60px);
@@ -133,6 +133,28 @@ small {
     border-radius: 15px;
     border: 1px solid var(--fuchsia);
     padding: 10px;
+}
+
+.message-container {
+    position: fixed;
+    top: 120px;
+    right: 15px;
+    border-radius: 15px;
+    z-index: 9999;
+}
+
+.toast-header {
+    color: var(--fuchsia);
+    background-color: var(--champ);  
+}
+
+.custom-toast {
+    overflow: visible;
+    background-color: var(--champ);
+}
+
+.toast-capper {
+    height: 2px;
 }
 
 @media(max-width: 1220px) {

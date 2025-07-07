@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row font-weight-bold mb-2">
+        <div class="col-3">Image</div>
+        <div class="col-5">Description</div>
+        <div class="col-2">Quantity</div>
+        <div class="col-2">Price</div>
+    </div>
+
+    {% for product_code, quantity in bag.items %}
+    {% with product=product_code|product_by_code %}
+    <div class="row align-items-center mb-3">
+        <div class="col-3">
+            {% if product.image %}
+            <img class="product-img" src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+            <img class="product-img" src="{{ product.image_url }}" alt="{{ product.name }}">
+            {% endif %}
+        </div>
+        <div class="col-5">
+            {{ product.name }}
+        </div>
+        <div class="col-2">
+            {{ quantity }}
+        </div>
+        <div class="col-1">
+            £{{ product.price }}
+        </div>
+        <div class="col-1">
+            <form method="POST" action="{% url 'remove_from_bag' product.code %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-danger" title="Remove item">&times;</button>
+            </form>
+        </div>
+    </div>
+    <hr>
+    {% endwith %}
+    {% empty %}
+    <div>Your bag is empty.</div>
+    {% endfor %}
+    <div class="row w-100">
+        <div class="col-8"></div> <!-- empty columns for spacing -->
+        {% if grand_total %}
+        <div class="col-2">Grand Total: </div>
+        <div class="col-2 text-end"> <!-- price column -->
+            £{{ grand_total|floatformat:2 }}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Buttons Row -->
+    <div class="row w-100 mt-3">
+        <div class="col-8"></div> <!-- spacer -->
+        <div class="col-4 text-end">
+            <a href="{% url 'products' %}" class="btn btn-def"><i class="fa-solid fa-store"></i> Keep Shopping</a>
+            <a href="#" class="btn btn-def"><i class="fa-solid fa-lock"></i> Checkout</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
