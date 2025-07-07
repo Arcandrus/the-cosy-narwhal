@@ -129,7 +129,27 @@ small {
     object-fit: cover;
 }
 
+.bg-white {
+    border-radius: 15px;
+    border: 1px solid var(--fuchsia);
+    padding: 10px;
+}
+
+@media(max-width: 1220px) {
+    .nav-link {
+        padding: 10px 0 0 0;
+    }
+}
+
 @media(max-width: 992px) {
+    body {
+        font-size: small;
+    }
+
+    .container {
+        padding-top: 150px;
+    }
+
     .carousel-container {
         width: 300px;
         margin: 0 auto;
@@ -143,5 +163,15 @@ small {
         margin: 0 auto;
         display: block;
         border-radius: 15px;
+    }
+}
+
+@media(max-width: 500px) {
+    .list-inline-item {
+        font-size: smaller;
+    }
+
+    .nav-link {
+        padding: 0;
     }
 }
