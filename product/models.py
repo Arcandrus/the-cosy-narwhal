@@ -40,11 +40,44 @@ class Product(models.Model):
 
 class Color(models.Model):
     COLOR_CHOICES = [
+        # Pinks & Reds
         ('pink', 'Pink'),
+        ('light_pink', 'Light Pink'),
+        ('rose_red', 'Rose Red'),
+        ('red', 'Red'),
+
+        # Yellows & Oranges
+        ('yellow', 'Yellow'),
+        ('light_yellow', 'Light Yellow'),
+        ('orange', 'Orange'),
+        ('gold_black', 'Gold & Black'),
+        ('yellow_black', 'Yellow & Black'),
+
+        # Greens
+        ('green', 'Green'),
+        ('dark_green', 'Dark Green'),
+        ('seafoam', 'Seafoam'),
+        ('seafoam_blue', 'Seafoam Blue'),
+        ('teal', 'Teal'),
+
+        # Blues & Purples
         ('blue', 'Blue'),
         ('light_blue', 'Light Blue'),
-        ('white', 'White'),
+        ('dark_blue', 'Dark Blue'),
+        ('medium_blue', 'Medium Blue'),
+        ('purple', 'Purple'),
+        ('grape', 'Grape'),
+
+        # Greys & Black
         ('gray', 'Gray'),
+        ('light_grey', 'Light Grey'),
+        ('dark_grey', 'Dark Grey'),
+        ('black', 'Black'),
+
+        # Neutrals & Others
+        ('white', 'White'),
+        ('peach', 'Peach'),
+        ('mixed', 'Mixed'),
         ('rainbow', 'Rainbow'),
     ]
 

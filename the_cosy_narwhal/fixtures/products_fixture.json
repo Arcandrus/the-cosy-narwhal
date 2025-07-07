@@ -1,0 +1,812 @@
+[
+    {
+        "model": "product.product",
+        "pk": 8,
+        "fields": {
+            "code": "STI0001",
+            "name": "Stingray",
+            "description": "",
+            "size": 0,
+            "has_colors": true,
+            "color": 22,
+            "price": "5.00",
+            "rating": 4.9,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 7
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 9,
+        "fields": {
+            "code": "STI0002",
+            "name": "Stingray",
+            "description": "",
+            "size": 0,
+            "has_colors": true,
+            "color": 23,
+            "price": "5.00",
+            "rating": 4.9,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 6
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 10,
+        "fields": {
+            "code": "STI0003",
+            "name": "Stingray",
+            "description": "",
+            "size": 0,
+            "has_colors": true,
+            "color": 2,
+            "price": "5.00",
+            "rating": 4.6,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 7
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 11,
+        "fields": {
+            "code": "MBS0001",
+            "name": "Mystery Bag - Stingray",
+            "description": "",
+            "size": 0,
+            "has_colors": false,
+            "color": 27,
+            "price": "5.00",
+            "rating": 4.1,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 30
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 12,
+        "fields": {
+            "code": "MMU0001",
+            "name": "Mini Mushrooms",
+            "description": "",
+            "size": 0,
+            "has_colors": true,
+            "color": 6,
+            "price": "6.00",
+            "rating": 5.0,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 3
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 13,
+        "fields": {
+            "code": "MMU0002",
+            "name": "Mini Mushrooms",
+            "description": "",
+            "size": 0,
+            "has_colors": true,
+            "color": 12,
+            "price": "6.00",
+            "rating": 4.0,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 3
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 14,
+        "fields": {
+            "code": "MMU0003",
+            "name": "Mini Mushrooms",
+            "description": "",
+            "size": 0,
+            "has_colors": true,
+            "color": 9,
+            "price": "6.00",
+            "rating": 4.4,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 3
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 15,
+        "fields": {
+            "code": "MMU0004",
+            "name": "Mini Mushrooms",
+            "description": "",
+            "size": 0,
+            "has_colors": true,
+            "color": 19,
+            "price": "6.00",
+            "rating": 4.7,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 3
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 16,
+        "fields": {
+            "code": "MMU0005",
+            "name": "Mini Mushrooms",
+            "description": "",
+            "size": 0,
+            "has_colors": true,
+            "color": 20,
+            "price": "6.00",
+            "rating": 4.6,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 3
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 17,
+        "fields": {
+            "code": "MMU0006",
+            "name": "Mini Mushrooms",
+            "description": "",
+            "size": 0,
+            "has_colors": true,
+            "color": 16,
+            "price": "6.00",
+            "rating": 4.1,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 3
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 18,
+        "fields": {
+            "code": "MMU0007",
+            "name": "Mini Mushrooms",
+            "description": "",
+            "size": 0,
+            "has_colors": true,
+            "color": 15,
+            "price": "6.00",
+            "rating": 5.0,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 3
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 19,
+        "fields": {
+            "code": "MMU0008",
+            "name": "Mini Mushrooms",
+            "description": "",
+            "size": 0,
+            "has_colors": true,
+            "color": 26,
+            "price": "6.00",
+            "rating": 4.9,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 3
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 20,
+        "fields": {
+            "code": "MMU0009",
+            "name": "Mini Mushrooms",
+            "description": "",
+            "size": 0,
+            "has_colors": true,
+            "color": 7,
+            "price": "6.00",
+            "rating": 4.4,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 3
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 21,
+        "fields": {
+            "code": "MMU0010",
+            "name": "Mini Mushrooms",
+            "description": "",
+            "size": 0,
+            "has_colors": true,
+            "color": 4,
+            "price": "6.00",
+            "rating": 4.9,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 3
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 22,
+        "fields": {
+            "code": "MMU0011",
+            "name": "Mini Mushrooms",
+            "description": "",
+            "size": 0,
+            "has_colors": true,
+            "color": 1,
+            "price": "6.00",
+            "rating": 4.7,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 3
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 23,
+        "fields": {
+            "code": "MMU0012",
+            "name": "Mini Mushrooms",
+            "description": "",
+            "size": 0,
+            "has_colors": true,
+            "color": 8,
+            "price": "6.00",
+            "rating": 4.8,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 3
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 24,
+        "fields": {
+            "code": "MUS0001",
+            "name": "Mushroom",
+            "description": "",
+            "size": 2,
+            "has_colors": true,
+            "color": 12,
+            "price": "18.00",
+            "rating": 4.6,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 1
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 25,
+        "fields": {
+            "code": "MUS0002",
+            "name": "Mushroom",
+            "description": "",
+            "size": 2,
+            "has_colors": true,
+            "color": 19,
+            "price": "18.00",
+            "rating": 4.7,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 1
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 26,
+        "fields": {
+            "code": "MUS0003",
+            "name": "Mushroom",
+            "description": "",
+            "size": 2,
+            "has_colors": true,
+            "color": 26,
+            "price": "18.00",
+            "rating": 4.2,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 1
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 27,
+        "fields": {
+            "code": "TUR0001",
+            "name": "Turtle",
+            "description": "",
+            "size": 1,
+            "has_colors": true,
+            "color": 13,
+            "price": "12.00",
+            "rating": 4.9,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 7
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 28,
+        "fields": {
+            "code": "TUR0002",
+            "name": "Turtle",
+            "description": "",
+            "size": 2,
+            "has_colors": true,
+            "color": 13,
+            "price": "16.00",
+            "rating": 4.5,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 1
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 29,
+        "fields": {
+            "code": "SQU0001",
+            "name": "Squid",
+            "description": "",
+            "size": 2,
+            "has_colors": true,
+            "color": 8,
+            "price": "25.00",
+            "rating": 5.0,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 1
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 30,
+        "fields": {
+            "code": "SQU0002",
+            "name": "Squid",
+            "description": "",
+            "size": 2,
+            "has_colors": true,
+            "color": 16,
+            "price": "25.00",
+            "rating": 4.8,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 1
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 31,
+        "fields": {
+            "code": "SQU0003",
+            "name": "Squid",
+            "description": "",
+            "size": 2,
+            "has_colors": true,
+            "color": 20,
+            "price": "25.00",
+            "rating": 5.0,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 1
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 32,
+        "fields": {
+            "code": "SPI0001",
+            "name": "Spider",
+            "description": "",
+            "size": 2,
+            "has_colors": true,
+            "color": 24,
+            "price": "18.00",
+            "rating": 4.7,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 1
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 33,
+        "fields": {
+            "code": "SPI0002",
+            "name": "Spider",
+            "description": "",
+            "size": 2,
+            "has_colors": true,
+            "color": 23,
+            "price": "18.00",
+            "rating": 4.8,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 1
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 34,
+        "fields": {
+            "code": "SPI0003",
+            "name": "Spider",
+            "description": "",
+            "size": 2,
+            "has_colors": true,
+            "color": 5,
+            "price": "18.00",
+            "rating": 4.6,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 1
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 35,
+        "fields": {
+            "code": "SPI0004",
+            "name": "Spider",
+            "description": "",
+            "size": 2,
+            "has_colors": true,
+            "color": 13,
+            "price": "18.00",
+            "rating": 4.7,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 1
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 36,
+        "fields": {
+            "code": "WHA0001",
+            "name": "Whale",
+            "description": "",
+            "size": 1,
+            "has_colors": true,
+            "color": 1,
+            "price": "10.00",
+            "rating": 4.1,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 4
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 37,
+        "fields": {
+            "code": "WHA0002",
+            "name": "Whale",
+            "description": "",
+            "size": 1,
+            "has_colors": true,
+            "color": 2,
+            "price": "10.00",
+            "rating": 4.8,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 2
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 38,
+        "fields": {
+            "code": "WHA0003",
+            "name": "Whale",
+            "description": "",
+            "size": 1,
+            "has_colors": true,
+            "color": 3,
+            "price": "10.00",
+            "rating": 4.9,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 4
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 39,
+        "fields": {
+            "code": "WHA0004",
+            "name": "Whale",
+            "description": "",
+            "size": 1,
+            "has_colors": true,
+            "color": 8,
+            "price": "10.00",
+            "rating": 4.1,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 3
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 40,
+        "fields": {
+            "code": "WHA0005",
+            "name": "Whale",
+            "description": "",
+            "size": 1,
+            "has_colors": true,
+            "color": 26,
+            "price": "10.00",
+            "rating": 4.6,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 1
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 41,
+        "fields": {
+            "code": "BEE0001",
+            "name": "Bumble Bee",
+            "description": "",
+            "size": 1,
+            "has_colors": true,
+            "color": 10,
+            "price": "8.00",
+            "rating": 4.9,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 0
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 42,
+        "fields": {
+            "code": "BEE0002",
+            "name": "Bumble Bee",
+            "description": "",
+            "size": 1,
+            "has_colors": true,
+            "color": 11,
+            "price": "8.00",
+            "rating": 4.5,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 0
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 43,
+        "fields": {
+            "code": "OCT0001",
+            "name": "Octopus",
+            "description": "",
+            "size": 1,
+            "has_colors": true,
+            "color": 19,
+            "price": "14.00",
+            "rating": 4.4,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 1
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 44,
+        "fields": {
+            "code": "OCT0002",
+            "name": "Octopus",
+            "description": "",
+            "size": 1,
+            "has_colors": true,
+            "color": 20,
+            "price": "14.00",
+            "rating": 4.4,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 1
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 45,
+        "fields": {
+            "code": "OCT0003",
+            "name": "Octopus",
+            "description": "",
+            "size": 1,
+            "has_colors": true,
+            "color": 14,
+            "price": "14.00",
+            "rating": 4.0,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 1
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 46,
+        "fields": {
+            "code": "OCT0004",
+            "name": "Octopus",
+            "description": "",
+            "size": 1,
+            "has_colors": true,
+            "color": 12,
+            "price": "14.00",
+            "rating": 4.1,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 1
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 47,
+        "fields": {
+            "code": "OCT0005",
+            "name": "Octopus",
+            "description": "",
+            "size": 1,
+            "has_colors": true,
+            "color": 18,
+            "price": "14.00",
+            "rating": 4.6,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 1
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 48,
+        "fields": {
+            "code": "OCT0006",
+            "name": "Octopus",
+            "description": "",
+            "size": 1,
+            "has_colors": true,
+            "color": 1,
+            "price": "14.00",
+            "rating": 4.0,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 1
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 49,
+        "fields": {
+            "code": "OCT0007",
+            "name": "Octopus",
+            "description": "",
+            "size": 1,
+            "has_colors": true,
+            "color": 26,
+            "price": "14.00",
+            "rating": 4.2,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 1
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 50,
+        "fields": {
+            "code": "OCT0008",
+            "name": "Octopus",
+            "description": "",
+            "size": 1,
+            "has_colors": true,
+            "color": 7,
+            "price": "14.00",
+            "rating": 4.6,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 1
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 51,
+        "fields": {
+            "code": "JEL0001",
+            "name": "Jellyfish",
+            "description": "",
+            "size": 0,
+            "has_colors": false,
+            "color": 27,
+            "price": "6.00",
+            "rating": 4.3,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 30
+        }
+    },
+    {
+        "model": "product.product",
+        "pk": 52,
+        "fields": {
+            "code": "JEL0002",
+            "name": "Jellyfish",
+            "description": "",
+            "size": 2,
+            "has_colors": false,
+            "color": 27,
+            "price": "15.00",
+            "rating": 4.6,
+            "image": null,
+            "image_url": "",
+            "care_details": "Made with 100% polyester yarn and hypoallergenic soft toy filling. Machine Washable at 30 degrees. Colours may run or fade. Not suitable for children under 3yo due to smaller parts.",
+            "inventory": 6
+        }
+    }
+]

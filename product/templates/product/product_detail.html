@@ -26,6 +26,18 @@
                 </div>
             </div>
             <div class="row">
+                {% if size_links %}
+                <label for="size-select">Choose a size: </label>
+                <select id="size-select" class="form-select mb-3 ml-3"
+                    onchange="location.href=this.options[this.selectedIndex].dataset.url;">
+                    <option value="{{ product.size }}">{{ product.get_size_display }}</option>
+                    {% for size_id, size_label, variant_id in size_links %}
+                    <option value="{{ size_id }}" data-url="{% url 'product_detail' variant_id %}">
+                        {{ size_label }}
+                    </option>
+                    {% endfor %}
+                </select>
+                {% endif %}
                 {% if product.has_colors %}
                 <label for="color-select">Choose a color: </label>
                 <select id="color-select" name="color" class="form-select rounded mb-3 ml-3">

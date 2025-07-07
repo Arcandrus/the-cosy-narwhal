@@ -14,5 +14,13 @@ class ProductAdmin(admin.ModelAdmin):
 
     ordering = ("code",)
 
+class ColorAdmin(admin.ModelAdmin):
+    list_display = (
+        "pk",
+        "name",
+    )
+
+    ordering = ("pk",)
+
 admin.site.register(Product, ProductAdmin)
-admin.site.register(Color)
+admin.site.register(Color, ColorAdmin)

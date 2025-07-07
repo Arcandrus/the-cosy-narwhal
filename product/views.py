@@ -44,10 +44,20 @@ def product_detail(request, product_id):
         if variant:
             color_links.append((color.name.lower(), variant.id))
 
+    SIZE_DICT = dict(Product.SIZE)
+    size_links = []
+    for size_value, size_label in Product.SIZE:
+        if size_value == product.size:
+            continue  # Skip current size
+        variant = variant_products.filter(size=size_value, color=product.color).first()
+        if variant:
+            size_links.append((size_value, size_label, variant.id))
+
     context = {
         'product': product,
         'product_id_str': str(product.id),
         'color_links': color_links,
+        'size_links': size_links,
     }
     
     return render(request, "product/product_detail.html", context)
