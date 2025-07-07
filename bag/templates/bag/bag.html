@@ -28,14 +28,14 @@
         <div class="col-2">
             {{ quantity }}
         </div>
-        <div class="col-1">
-            £{{ product.price }}
-        </div>
-        <div class="col-1">
-            <form method="POST" action="{% url 'remove_from_bag' product.code %}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-sm btn-danger" title="Remove item">&times;</button>
-            </form>
+        <div class="col-2 d-flex justify-content-center align-items-center">
+            <div class="d-flex align-items-center gap-2">
+                <span class="mr-4">£{{ product.price }}</span>
+                <form method="POST" action="{% url 'remove_from_bag' product.code %}" class="mb-0">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-danger" title="Remove item">X</button>
+                </form>
+            </div>
         </div>
     </div>
     <hr>
@@ -55,8 +55,8 @@
 
     <!-- Buttons Row -->
     <div class="row w-100 mt-3">
-        <div class="col-8"></div> <!-- spacer -->
-        <div class="col-4 text-end">
+        <div class="col-lg-8 d-lg-flex d-none"></div> <!-- spacer -->
+        <div class="col-lg-4 col-12 text-end">
             <a href="{% url 'products' %}" class="btn btn-def"><i class="fa-solid fa-store"></i> Keep Shopping</a>
             <a href="#" class="btn btn-def"><i class="fa-solid fa-lock"></i> Checkout</a>
         </div>
