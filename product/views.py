@@ -44,6 +44,8 @@ def product_detail(request, product_id):
         if variant:
             color_links.append((color.name.lower(), variant.id))
 
+    color_links.sort(key=lambda x: x[0])
+    
     SIZE_DICT = dict(Product.SIZE)
     size_links = []
     for size_value, size_label in Product.SIZE:
