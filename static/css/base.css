@@ -145,7 +145,7 @@ small {
 
 .toast-header {
     color: var(--fuchsia);
-    background-color: var(--champ);  
+    background-color: var(--champ);
 }
 
 .custom-toast {
@@ -155,6 +155,26 @@ small {
 
 .toast-capper {
     height: 2px;
+}
+
+.password-rules {
+    font-size: smaller;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    gap: 1rem;
+}
+
+form .form-control {
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 @media(max-width: 1220px) {

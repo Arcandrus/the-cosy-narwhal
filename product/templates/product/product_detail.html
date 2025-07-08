@@ -3,9 +3,6 @@
 {% load custom_filters %}
 
 {% block content %}
-
-<div class="container">
-
     <h1 class="logo-font">{{ product.name }}</h1>
 
     <div class="row bg-white mt-4">
@@ -61,9 +58,11 @@
             </div>
         </div>
     </div>
-</div>
 
-</div>
+{% endblock %}
+
+{% block postloadjs %}
+{{ block.super }}
 <script>
     document.getElementById('color-select')?.addEventListener('change', function () {
         const selectedProductId = this.value;

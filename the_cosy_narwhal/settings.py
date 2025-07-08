@@ -36,8 +36,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
+SITE_ID = 1
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -49,6 +49,11 @@ INSTALLED_APPS = [
     'home',
     'product',
     'bag',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -59,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'the_cosy_narwhal.urls'
@@ -66,7 +72,7 @@ ROOT_URLCONF = 'the_cosy_narwhal.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -93,9 +99,39 @@ DATABASES = {
     }
 }
 
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+# Require email confirmation
+ACCOUNT_FORMS = {'signup': 'the_cosy_narwhal.forms.CustomSignupForm'}
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_SIGNUP_FIELDS = [
+    'full_name*',
+    'username*',
+    'email*',
+    'street_address1*',
+    'street_address2',     # optional
+    'town_or_city*',
+    'county*',
+    'postcode*',
+    'country*',
+    'password1*',
+    'password2*',
+]
+ACCOUNT_LOGIN_METHODS = {'username'}
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Redirect after login/logout
+LOGIN_REDIRECT_URL = "home"
+ACCOUNT_LOGOUT_REDIRECT_URL = "home"
 
 AUTH_PASSWORD_VALIDATORS = [
     {
