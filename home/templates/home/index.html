@@ -2,38 +2,35 @@
 {% load static %}
 
 {% block content %}
-    <div class="row bg-white align-items-center">
-        <!-- Logo on the left -->
-        <div class="col-md-4">
-            <img class="img-fluid hero-img" src="{{ MEDIA_URL }}brand_logo.jpg" alt="Brand Logo">
-        </div>
-
-        <!-- Text on the right -->
-        <div class="col-md-8 text-start">
-            <h4>Hello and welcome to my page.</h4>
-            <p>We're so happy you're here!</p>
-            <p>At The Cosy Narwhal, we create handcrafted crochet plushies and accessories full of charm, colour, and
-                comfort.
-                Whether you're looking for the perfect gift, a new cuddle buddy, or something sweet to brighten your
-                space,
-                you're in the right place.</p>
-            <p>What started as a hobby 6 years ago has turned into a real passion of mine. Thank you for supporting a
-                small
-                business with big dreams and even bigger stitches!</p>
-            <p>Take a look around — your new favourite plushie is waiting to be found.</p>
-        </div>
+<div class="row bg-white align-items-center">
+    <!-- Logo on the left -->
+    <div class="col-md-4">
+        <img class="img-fluid hero-img" src="{{ MEDIA_URL }}brand_logo.jpg" alt="Brand Logo">
     </div>
-    <div class="row w-100 justify-content-center">
-        <!-- Call to action button, centered below -->
+
+    <!-- Text on the right -->
+    <div class="col-md-8 text-start">
+        <h4>Hello and welcome to my page.</h4>
+        <p>We're so happy you're here!</p>
+        <p>At The Cosy Narwhal, we create handcrafted crochet plushies and accessories full of charm, colour, and
+            comfort.
+            Whether you're looking for the perfect gift, a new cuddle buddy, or something sweet to brighten your
+            space,
+            you're in the right place.</p>
+        <p>What started as a hobby 6 years ago has turned into a real passion of mine. Thank you for supporting a
+            small
+            business with big dreams and even bigger stitches!</p>
+        <p>Take a look around — your new favourite plushie is waiting to be found.</p>
         <div class="text-center pt-3">
             <a href="{% url 'products' %}">
                 <button class="btn btn-def">SHOP HERE!</button>
             </a>
         </div>
     </div>
+</div>
 
-    <!-- Carousel below -->
-    <div class="row pt-4 carousel-container">
-        {% include 'includes/carousel.html' %}
-    </div>
+<!-- Carousel below -->
+<div class="row pt-4 carousel-container">
+    {% include 'includes/carousel.html' %}
+</div>
 {% endblock %}
