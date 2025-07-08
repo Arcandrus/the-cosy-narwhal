@@ -111,7 +111,11 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 # Require email confirmation
-ACCOUNT_FORMS = {'signup': 'the_cosy_narwhal.forms.CustomSignupForm'}
+ACCOUNT_FORMS = {
+    'login': 'the_cosy_narwhal.forms.CustomLoginForm',
+    'signup': 'the_cosy_narwhal.forms.CustomSignupForm',
+    }
+
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_SIGNUP_FIELDS = [
     'full_name*',
@@ -126,7 +130,7 @@ ACCOUNT_SIGNUP_FIELDS = [
     'password1*',
     'password2*',
 ]
-ACCOUNT_LOGIN_METHODS = {'username'}
+ACCOUNT_LOGIN_METHODS = {"username"}
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Redirect after login/logout

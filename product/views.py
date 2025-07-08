@@ -5,36 +5,37 @@ from .models import Product
 
 def all_products(request):
     query = request.GET.get('q', '')
-    # Get all products ordered by code
     all_products = Product.objects.order_by('code', 'id')
 
     if query:
+        # Search: show all matching with full product names (no trimming)
         all_products = all_products.filter(
             Q(name__icontains=query) | Q(description__icontains=query)
         )
-
-    # Use a set to track seen prefixes
-    seen_prefixes = set()
-    unique_products = []
-
-    for product in all_products:
-        prefix = product.code[:3]
-        if prefix not in seen_prefixes:
-            # Conditionally trim the product name at the hyphen
-            if '-' in product.name:
-                product.display_name = product.name.split('-')[0].strip()
-            else:
-                product.display_name = product.name
-            unique_products.append(product)
-            seen_prefixes.add(prefix)
+        products_to_show = all_products
+        for product in products_to_show:
+            product.display_name = product.name  # full name with variant info
+    else:
+        # No search: show unique prefixes with trimmed names
+        seen_prefixes = set()
+        unique_products = []
+        for product in all_products:
+            prefix = product.code[:3]
+            if prefix not in seen_prefixes:
+                if '-' in product.name:
+                    product.display_name = product.name.split('-')[0].strip()
+                else:
+                    product.display_name = product.name
+                unique_products.append(product)
+                seen_prefixes.add(prefix)
+        products_to_show = unique_products
 
     context = {
-        'products': unique_products,
+        'products': products_to_show,
         'search_term': query,
     }
-    
-    return render(request, 'product/product.html', context)
 
+    return render(request, 'product/product.html', context)
 
 
 def product_detail(request, product_id):

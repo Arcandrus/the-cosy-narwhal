@@ -1,7 +1,26 @@
 from django import forms
-from allauth.account.forms import SignupForm
+from allauth.account.forms import SignupForm, LoginForm
 from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Field, Div
 from crispy_forms.layout import Submit
+
+
+class CustomLoginForm(LoginForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['login'].widget.attrs.update({
+            'placeholder': 'Username or email',
+            'class': 'form-control',
+            'autocomplete': 'username',
+        })
+        self.fields['password'].widget.attrs.update({
+            'placeholder': 'Password',
+            'class': 'form-control',
+            'autocomplete': 'current-password',
+        })
+        self.fields['remember'].widget.attrs.update({
+            'class': 'form-check-input',
+        })
 
 
 class CustomSignupForm(SignupForm):
