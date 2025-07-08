@@ -129,6 +129,15 @@ small {
     object-fit: cover;
 }
 
+.product-img-small {
+    border-radius: 15px;
+    display: block;
+    margin: 0 auto;
+    max-height: 150px;
+    max-width: 150px;
+    object-fit: cover;
+}
+
 .bg-white {
     border-radius: 15px;
     border: 1px solid var(--fuchsia);
@@ -175,6 +184,20 @@ form .form-control {
     max-width: 480px;
     margin-left: auto;
     margin-right: auto;
+}
+
+.disabled {
+    font-weight: bold;
+    background-color: var(--pink);
+    color: var(--fuchsia);
+    border: none;
+}
+
+.disabled:hover {
+    font-weight: bold;
+    background-color: var(--pink);
+    color: var(--fuchsia);
+    border: none;
 }
 
 @media(max-width: 1220px) {

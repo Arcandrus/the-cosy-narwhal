@@ -3,9 +3,9 @@ from django.db import models
 
 class Product(models.Model):
     SIZE = (
-        (0,'S'),
-        (1, 'M'),
-        (2, 'L')
+        (0,'Small'),
+        (1, 'Medium'),
+        (2, 'Large')
         )
     code = models.CharField(max_length=254, null=True, blank=True)
     name = models.CharField(max_length=254)

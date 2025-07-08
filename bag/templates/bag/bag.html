@@ -3,39 +3,37 @@
 {% load custom_filters %}
 
 {% block content %}
-
-<div class="container">
     <div class="row font-weight-bold mb-2">
-        <div class="col-3">Image</div>
-        <div class="col-5">Description</div>
-        <div class="col-2">Quantity</div>
-        <div class="col-2">Price</div>
+        <div class="col-9">Product Information</div>
+        <div class="col-2">Subtotal</div>
+        <div class="col-1"></div> <!-- spacer -->
     </div>
-
+    <hr>
     {% for product_code, quantity in bag.items %}
     {% with product=product_code|product_by_code %}
     <div class="row align-items-center mb-3">
         <div class="col-3">
             {% if product.image %}
-            <img class="product-img" src="{{ product.image.url }}" alt="{{ product.name }}">
+            <img class="product-img-small" src="{{ product.image.url }}" alt="{{ product.name }}">
             {% else %}
-            <img class="product-img" src="{{ product.image_url }}" alt="{{ product.name }}">
+            <img class="product-img-small" src="{{ product.image_url }}" alt="{{ product.name }}">
             {% endif %}
         </div>
-        <div class="col-5">
-            {{ product.name }}
-        </div>
-        <div class="col-2">
-            {{ quantity }}
+        <div class="col-6">
+            {{ product.name }} x{{ quantity }}
+            <br>
+            <strong>Price: </strong>£{{ product.price }}
         </div>
         <div class="col-2 d-flex justify-content-center align-items-center">
-            <div class="d-flex align-items-center gap-2">
-                <span class="mr-4">£{{ product.price }}</span>
-                <form method="POST" action="{% url 'remove_from_bag' product.code %}" class="mb-0">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-sm btn-danger" title="Remove item">X</button>
-                </form>
-            </div>
+            <span class="mr-4">
+                £{{ product.price|multiply:quantity|floatformat:2 }}
+            </span>
+        </div>
+        <div class="col-1 d-flex justify-content-center align-items-center">
+            <form method="POST" action="{% url 'remove_from_bag' product.code %}" class="mb-0">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-danger" title="Remove item">X</button>
+            </form>
         </div>
     </div>
     <hr>
@@ -44,9 +42,9 @@
     <div>Your cart is empty.</div>
     {% endfor %}
     <div class="row w-100">
-        <div class="col-8"></div> <!-- empty columns for spacing -->
+        <div class="col-8"></div> <!-- spacer -->
         {% if grand_total %}
-        <div class="col-2">Grand Total: </div>
+        <div class="col-2"><strong>Grand Total: </strong></div>
         <div class="col-2 text-end"> <!-- price column -->
             £{{ grand_total|floatformat:2 }}
         </div>
@@ -61,6 +59,5 @@
             <a href="#" class="btn btn-def"><i class="fa-solid fa-lock"></i> Checkout</a>
         </div>
     </div>
-</div>
 
 {% endblock %}

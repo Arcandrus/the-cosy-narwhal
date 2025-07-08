@@ -4,6 +4,20 @@
 {% block content %}
 
 <h1 class="logo-font mb-4">Products</h1>
+<div class="row justify-content-center mb-3">
+    {% if search_term %}
+    <div class="col-12 text-center">
+        <h4>Search results for "{{ search_term }}"</h4>
+    </div>
+    <div class="col-12 text-center">
+        {% if products %}
+        <p>Found {{ products|length }} product{{ products|length|pluralize }}.</p>
+        {% else %}
+        <p>No products found matching your search.</p>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
 <div class="row">
     {% for product in products %}
     <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">

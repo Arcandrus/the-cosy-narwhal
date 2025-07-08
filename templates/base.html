@@ -64,10 +64,12 @@
             </div>
 
             <div class="col-12 col-lg-4 d-flex align-items-center py-1 py-lg-0">
-                <form method="GET" action="" class="w-100">
+                <form method="GET" action="{% url 'products' %}" class="w-100">
                     <div class="input-group">
-                        <input class="form-control border border-black rounded" type="text" name="q"
-                            placeholder="Search our site">
+                        <input class="form-control border border-black rounded" 
+                            type="text" name="q"
+                            placeholder="Search our site"
+                            value="{{ search_term|default:'' }}">
                         <div class="input-group-append">
                             <button class="btn btn-black border border-black rounded" type="submit">
                                 <span class="icon"><i class="fas fa-search"></i></span>

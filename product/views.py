@@ -1,10 +1,17 @@
 from django.shortcuts import render, get_object_or_404
+from django.db.models import Q
 from .models import Product
 
 
 def all_products(request):
+    query = request.GET.get('q', '')
     # Get all products ordered by code
     all_products = Product.objects.order_by('code', 'id')
+
+    if query:
+        all_products = all_products.filter(
+            Q(name__icontains=query) | Q(description__icontains=query)
+        )
 
     # Use a set to track seen prefixes
     seen_prefixes = set()
@@ -23,6 +30,7 @@ def all_products(request):
 
     context = {
         'products': unique_products,
+        'search_term': query,
     }
     
     return render(request, 'product/product.html', context)

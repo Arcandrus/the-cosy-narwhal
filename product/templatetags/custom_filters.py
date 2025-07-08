@@ -15,3 +15,13 @@ def product_by_code(code):
         return Product.objects.get(code=code)
     except Product.DoesNotExist:
         return None
+    
+    from django import template
+
+
+@register.filter
+def multiply(value, arg):
+    try:
+        return float(value) * float(arg)
+    except (ValueError, TypeError):
+        return ''

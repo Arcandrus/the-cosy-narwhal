@@ -10,9 +10,6 @@
             <img id="product-img" class="product-img img-fluid mt-4" src="{{ MEDIA_URL }}{{ product.image }}">
         </div>
         <div class="col-12 col-md-6 text-left mt-4">
-            {% if product.inventory == 0 %}
-            <p><strong>Sorry this product is currently out of stock</strong></p>
-            {% endif %}
             <p>{{ product.description|safe }}</p>
             <div class="row d-flex align-items-center">
                 <div class="col-6">
@@ -25,7 +22,7 @@
             <div class="row justify-content-center">
                 {% if size_links %}
                 <label for="size-select">Choose a size: </label>
-                <select id="size-select" class="form-select mb-3 ml-3"
+                <select id="size-select" class="form-select rounded mb-3 ml-3"
                     onchange="location.href=this.options[this.selectedIndex].dataset.url;">
                     <option value="{{ product.size }}">{{ product.get_size_display }}</option>
                     {% for size_id, size_label, variant_id in size_links %}
@@ -47,14 +44,23 @@
                 {% endif %}
             </div>
             <div class="row mt-2 justify-content-center">
-                <div class="align-items-center">
-                    <form class="mt-4" method="POST" action="{% url 'add_to_bag' product.code %}">
+                <div class="d-flex align-items-center mt-4">
+                    <form class="d-flex align-items-center gap-2" method="POST" action="{% url 'add_to_bag' product.code %}">
                         {% csrf_token %}
-                        <input type="{% if product.inventory == 0 %}hidden{% else %}number{% endif %}" name="quantity" value="1" min="1">
+                        <input class="rounded form-control w-auto" 
+                            type="{% if product.inventory == 0 %}hidden{% else %}number{% endif %}" 
+                            name="quantity" value="1" min="1">
+                        
                         <input type="hidden" name="redirect_url" value="{{ request.path }}">
-                        <button class="btn btn-def" type="submit" {% if product.inventory == 0 %}disabled{% endif %}>{% if product.inventory == 0 %}Out of Stock{% else %}Add to Cart{% endif %}</button>
+                        
+                        <button class="btn btn-def {% if product.inventory == 0 %}disabled{% endif %}" type="submit" {% if product.inventory == 0 %}disabled{% endif %}>
+                            {% if product.inventory == 0 %}Sorry, I'm currently out of stock{% else %}Add to Cart{% endif %}
+                        </button>
                     </form>
                 </div>
+            </div>
+            <div class="row mt-2 justify-content-center">
+                <a href="{% url 'products' %}" class="btn btn-def"><i class="fa-solid fa-store"></i> Keep Shopping</a>
             </div>
         </div>
     </div>
