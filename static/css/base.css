@@ -36,6 +36,11 @@ small {
     font-family: "Bad Script";
 }
 
+h1, h2, h3, h4 {
+    font-weight: bold;
+    font-family: "Bad Script";
+}
+
 .bg-grad {
     background-image: linear-gradient(to bottom, var(--lilac), var(--champ));
     padding: 20px;
@@ -198,6 +203,18 @@ form .form-control {
     background-color: var(--pink);
     color: var(--fuchsia);
     border: none;
+}
+
+.product-info {
+    font-size: medium;
+}
+
+.table {
+    color: var(--fuchsia);
+}
+
+td {
+    align-content: center;
 }
 
 @media(max-width: 1220px) {

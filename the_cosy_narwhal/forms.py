@@ -1,8 +1,8 @@
 from django import forms
 from allauth.account.forms import SignupForm, LoginForm
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Field, Div
 from crispy_forms.layout import Submit
+from profiles.models import Profile
 
 
 class CustomLoginForm(LoginForm):
@@ -96,4 +96,14 @@ class CustomSignupForm(SignupForm):
     def save(self, request):
         user = super().save(request)
         # You can save extra fields to user profile here if needed
+        Profile.objects.create(
+            user=user,
+            full_name=self.cleaned_data['full_name'],
+            street_address1=self.cleaned_data['street_address1'],
+            street_address2=self.cleaned_data.get('street_address2', ''),
+            town_or_city=self.cleaned_data['town_or_city'],
+            county=self.cleaned_data['county'],
+            postcode=self.cleaned_data['postcode'],
+            country=self.cleaned_data['country'],
+        )
         return user

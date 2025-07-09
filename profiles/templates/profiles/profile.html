@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<h2>Your User Profile</h2>
+<hr>
+<div class="row">
+    <!-- Left Column: Profile Update Form -->
+    <div class="col-md-6">
+        <h4>Default Delivery Information</h4>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="full_name" class="form-control mb-3" placeholder="{{ profile.full_name }}">
+            <input type="text" name="street_address1" class="form-control mb-3"
+                placeholder="{{ profile.street_address1 }}">
+            <input type="text" name="street_address2" class="form-control mb-3"
+                placeholder="{% if street_address2 %}{{ profile.street_address2 }}{% else %} {% endif %}">
+            <input type="text" name="town_or_city" class="form-control mb-3" placeholder="{{ profile.town_or_city }}">
+            <input type="text" name="county" class="form-control mb-3" placeholder="{{ profile.county }}">
+            <input type="text" name="postcode" class="form-control mb-3" placeholder="{{ profile.postcode }}">
+            <input type="text" name="country" class="form-control mb-3" placeholder="{{ profile.country }}">
+
+            <button type="submit" class="btn btn-def">Update Profile</button>
+        </form>
+    </div>
+
+    <!-- Right Column: Placeholder for Order History -->
+    <div class="col-md-6">
+        <div class="border p-4 bg-light rounded">
+            <h4>Order History</h4>
+            {% if past_orders %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Order Number</th>
+                        <th>Date</th>
+                        <th>Total Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in past_orders %}
+                    <tr>
+                        <td><a href="{% url 'order_detail' order.order_number %}">{{ order.order_number|slice:":5" }}...</a></td>
+                        <td>{{ order.created_at|date:"M, j, g:ia" }}</td>
+                        <td>£{{ order.total_price }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>You have no past orders.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

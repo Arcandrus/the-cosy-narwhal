@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% block content %}
+
+<h1>Thank you for your order!</h1>
+<p>Your order number: <strong>{{ order.order_number }}</strong></p>
+
+<h2>Order Summary</h2>
+<ul>
+    {% for item in order_items %}
+    {% if product.image %}
+    <img class="product-img-small" src="{{ product.image.url }}" alt="{{ product.name }}">
+    {% else %}
+    <img class="product-img-small" src="{{ product.image_url }}" alt="{{ product.name }}">
+    {% endif %}
+
+    {{ product.name }}
+
+    <span class="product-info mr-4">
+        <strong>Price: </strong>£{{ product.price }}
+        <strong>Quantity: </strong> x{{ quantity }}
+    </span>
+
+    {% empty %}
+    <li>No items found.</li>
+    {% endfor %}
+</ul>
+<p><strong>Total Paid: £{{ order.total_price }}</strong></p>
+
+<p>We will email you the delivery details shortly.</p>
+
+{% endblock %}
