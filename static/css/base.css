@@ -217,6 +217,12 @@ td {
     align-content: center;
 }
 
+.order-table {
+    background: #fff;
+    border-radius: 15px;
+    padding: 12px;
+}
+
 @media(max-width: 1220px) {
     .nav-link {
         padding: 10px 0 0 0;

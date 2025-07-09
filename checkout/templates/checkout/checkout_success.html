@@ -3,30 +3,33 @@
 {% block content %}
 
 <h1>Thank you for your order!</h1>
-<p>Your order number: <strong>{{ order.order_number }}</strong></p>
-
-<h2>Order Summary</h2>
-<ul>
-    {% for item in order_items %}
-    {% if product.image %}
-    <img class="product-img-small" src="{{ product.image.url }}" alt="{{ product.name }}">
-    {% else %}
-    <img class="product-img-small" src="{{ product.image_url }}" alt="{{ product.name }}">
-    {% endif %}
-
-    {{ product.name }}
-
-    <span class="product-info mr-4">
-        <strong>Price: </strong>£{{ product.price }}
-        <strong>Quantity: </strong> x{{ quantity }}
-    </span>
-
-    {% empty %}
-    <li>No items found.</li>
-    {% endfor %}
-</ul>
+<p>Order Number: {{ order.order_number }}</p>
+<p>Order placed on: {{ order.created_at|date:"M, j, g:ia" }}</p>
+<table class="table">
+    <tbody>
+        {% for item in order_items %}
+        <tr>
+            <td>
+                {% if item.product.image %}
+                <img class="product-img-small" src="{{ item.product.image.url }}" alt="{{ product.name }}">
+                {% else %}
+                <img class="product-img-small" src="{{ item.product.image_url }}" alt="{{ product.name }}">
+                {% endif %}
+            </td>
+            <td>{{ item.product.name }}</td>
+            <td class="text-center">
+                <span class="product-info mr-4">
+                    <p><strong>Price: </strong>£{{ item.product.price }}</p>
+                    <p><strong>Quantity: </strong> x{{ item.quantity }}</p>
+                    <p><strong>Subtotal: </strong>£{{ item.product.price|multiply:item.quantity|floatformat:2 }}</p>
+                </span>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<hr>
 <p><strong>Total Paid: £{{ order.total_price }}</strong></p>
 
 <p>We will email you the delivery details shortly.</p>
-
 {% endblock %}
