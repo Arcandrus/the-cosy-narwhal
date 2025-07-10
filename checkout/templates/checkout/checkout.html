@@ -107,9 +107,9 @@
                     </td>
                     <td>{{ product.name }}</td>
                     <td class="text-center">
-                        <span class="product-info mr-4">
-                            <strong>Price: </strong>£{{ product.price }}
-                            <strong>Quantity: </strong> x{{ quantity }}
+                        <span class="product-info-checkout">
+                            <strong>Price: </strong>£{{ product.price }}<br>
+                            <strong>Quantity: </strong> x{{ quantity }}<br>
                             <strong>Subtotal: </strong>£{{ product.price|multiply:quantity|floatformat:2 }}
                         </span>
                     </td>

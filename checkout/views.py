@@ -36,10 +36,10 @@ def checkout_view(request):
         except Product.DoesNotExist:
             continue
 
+    user_email = request.user.email
+
     if request.method == 'POST':
-        print("Profile:", profile)
-        print("Profile full_name:", profile.full_name)
-        form = DeliveryInfoForm(request.POST, instance=profile)
+        form = DeliveryInfoForm(request.POST, instance=profile, user_email=user_email)
         if form.is_valid():
             form.save()
 
@@ -52,7 +52,7 @@ def checkout_view(request):
                 )
             except Exception as e:
                 messages.error(request, f"Payment initialization error: {e}")
-                form = DeliveryInfoForm(instance=profile)  # reset form
+                form = DeliveryInfoForm(instance=profile, user_email=user_email)  # reset form
                 return render(request, 'checkout/checkout.html', {
                     'order_items': order_items,
                     'total_price': total_price,
@@ -75,7 +75,7 @@ def checkout_view(request):
         print("Profile:", profile)
         print("Profile full_name:", profile.full_name)
         # GET request — just show the form with prepopulated profile data
-        form = DeliveryInfoForm(instance=profile)
+        form = DeliveryInfoForm(instance=profile, user_email=user_email)
 
     return render(request, 'checkout/checkout.html', {
         'order_items': order_items,
@@ -83,7 +83,6 @@ def checkout_view(request):
         'form': form,
         'bag_json': json.dumps(bag),
     })
-
 
 @login_required
 def checkout_success(request, order_number):

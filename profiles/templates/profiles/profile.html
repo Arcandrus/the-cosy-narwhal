@@ -10,15 +10,14 @@
         <h4>Default Delivery Information</h4>
         <form method="POST">
             {% csrf_token %}
-            <input type="text" name="full_name" class="form-control mb-3" placeholder="{{ profile.full_name }}">
-            <input type="text" name="street_address1" class="form-control mb-3"
-                placeholder="{{ profile.street_address1 }}">
-            <input type="text" name="street_address2" class="form-control mb-3"
-                placeholder="{% if street_address2 %}{{ profile.street_address2 }}{% else %} {% endif %}">
-            <input type="text" name="town_or_city" class="form-control mb-3" placeholder="{{ profile.town_or_city }}">
-            <input type="text" name="county" class="form-control mb-3" placeholder="{{ profile.county }}">
-            <input type="text" name="postcode" class="form-control mb-3" placeholder="{{ profile.postcode }}">
-            <input type="text" name="country" class="form-control mb-3" placeholder="{{ profile.country }}">
+            <input type="text" name="full_name" class="form-control mb-3" value="{{ profile.full_name }}">
+            <input type="email" name="email" class="form-control mb-3" value="{{ user.email }}">
+            <input type="text" name="street_address1" class="form-control mb-3" value="{{ profile.street_address1 }}">
+            <input type="text" name="street_address2" class="form-control mb-3" {% if profile.street_address2 %} value="{{ profile.street_address2 }}" {% else %} value="" placeholder="Street Address 2" {% endif %}>
+            <input type="text" name="town_or_city" class="form-control mb-3" value="{{ profile.town_or_city }}">
+            <input type="text" name="county" class="form-control mb-3" value="{{ profile.county }}">
+            <input type="text" name="postcode" class="form-control mb-3" value="{{ profile.postcode }}">
+            <input type="text" name="country" class="form-control mb-3" value="{{ profile.country }}">
 
             <button type="submit" class="btn btn-def">Update Profile</button>
         </form>

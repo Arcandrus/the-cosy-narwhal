@@ -36,7 +36,10 @@ small {
     font-family: "Bad Script";
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
     font-weight: bold;
     font-family: "Bad Script";
 }
@@ -207,6 +210,10 @@ form .form-control {
 
 .product-info {
     font-size: medium;
+}
+
+.product-info-checkout {
+    font-size: small;
 }
 
 .table {
