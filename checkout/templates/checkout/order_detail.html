@@ -32,5 +32,45 @@
 
 <p><strong>Total Paid: £{{ order.total_price }}</strong></p>
 
+<h3>Delivery Information</h3>
+<div class="delivery-info-container">
+    <table class="delivery-info-table">
+        <tbody>
+            <tr>
+                <th>Full Name</th>
+                <td>{{ order.full_name }}</td>
+            </tr>
+            <tr>
+                <th>Address Line 1</th>
+                <td>{{ order.street_address1 }}</td>
+            </tr>
+            {% if order.street_address2 %}
+            <tr>
+                <th>Address Line 2</th>
+                <td>{{ order.street_address2 }}</td>
+            </tr>
+            {% endif %}
+            <tr>
+                <th>Town/City</th>
+                <td>{{ order.town_or_city }}</td>
+            </tr>
+            {% if order.county %}
+            <tr>
+                <th>County</th>
+                <td>{{ order.county }}</td>
+            </tr>
+            {% endif %}
+            <tr>
+                <th>Postcode</th>
+                <td>{{ order.postcode }}</td>
+            </tr>
+            <tr>
+                <th>Country</th>
+                <td>{{ order.country }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
 <p>Confirmation email was sent to <strong>{{ user.email }}.</strong></p>
 {% endblock %}

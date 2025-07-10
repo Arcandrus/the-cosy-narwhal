@@ -225,10 +225,41 @@ td {
 }
 
 .order-table {
-    background: #fff;
     border-radius: 15px;
     padding: 12px;
+    background-color: #fff;
 }
+
+.delivery-info-container {
+    margin: 1rem 0 2rem;
+    /* remove flexbox */
+}
+
+.delivery-info-table {
+    width: 500px;
+    margin: 0 auto;
+    padding: 15px;
+    border-radius: 15px;
+    border: 1px solid var(--pink);
+    border-collapse: separate;
+    /* important */
+    border-spacing: 0;
+    /* remove spacing */
+    overflow: hidden;
+    /* clip children */
+}
+
+.delivery-info-table th,
+.delivery-info-table td {
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.delivery-info-table th {
+    width: 40%;
+    font-weight: 600;
+}
+
 
 @media(max-width: 1220px) {
     .nav-link {
