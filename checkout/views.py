@@ -43,6 +43,19 @@ def checkout_view(request):
         if form.is_valid():
             form.save()
 
+            # ✅ Save delivery info in session
+            delivery_data = form.cleaned_data
+            request.session['delivery_info'] = {
+                'full_name': delivery_data.get('full_name', ''),
+                'street_address1': delivery_data.get('street_address1', ''),
+                'street_address2': delivery_data.get('street_address2', ''),
+                'town_or_city': delivery_data.get('town_or_city', ''),
+                'county': delivery_data.get('county', ''),
+                'postcode': delivery_data.get('postcode', ''),
+                'country': delivery_data.get('country', ''),
+            }
+            request.session.modified = True  # ✅ Important for saving session updates
+
             # Create Stripe PaymentIntent
             try:
                 intent = stripe.PaymentIntent.create(
@@ -60,6 +73,7 @@ def checkout_view(request):
                     'bag_json': json.dumps(bag),
                 })
 
+            # ✅ Include delivery_info in context
             context = {
                 'order_items': order_items,
                 'total_price': total_price,
@@ -68,21 +82,24 @@ def checkout_view(request):
                 'client_secret': intent.client_secret,
                 'payment_phase': True,
                 'bag_json': json.dumps(bag),
+                'delivery_info': request.session.get('delivery_info', {}),
             }
             return render(request, 'checkout/checkout.html', context)
     else:
         print("Handling GET")
         print("Profile:", profile)
         print("Profile full_name:", profile.full_name)
-        # GET request — just show the form with prepopulated profile data
         form = DeliveryInfoForm(instance=profile, user_email=user_email)
 
+    # ✅ Add delivery_info to GET context in case page is reloaded during payment phase
     return render(request, 'checkout/checkout.html', {
         'order_items': order_items,
         'total_price': total_price,
         'form': form,
         'bag_json': json.dumps(bag),
+        'delivery_info': request.session.get('delivery_info', {}),
     })
+
 
 @login_required
 def checkout_success(request, order_number):
@@ -122,18 +139,37 @@ def save_order(request):
         data = json.loads(request.body)
         bag = data.get('items')
         total_price = data.get('total_price')
+
+        # Get delivery info fields from the payload
+        full_name = data.get('full_name')
+        street_address1 = data.get('street_address1')
+        street_address2 = data.get('street_address2', '')
+        town_or_city = data.get('town_or_city')
+        county = data.get('county', '')
+        postcode = data.get('postcode')
+        country = data.get('country')
+
+        # Simple validation for required delivery fields
+        if not all([full_name, street_address1, town_or_city, postcode, country]):
+            return JsonResponse({'error': 'Missing delivery information'}, status=400)
     except Exception:
         return JsonResponse({'error': 'Invalid JSON data'}, status=400)
 
     if not bag or total_price is None:
         return JsonResponse({'error': 'Invalid order data'}, status=400)
 
-    # Example: if items is JSONField
     try:
         order = Order.objects.create(
             user=request.user,
-            items=bag,  # store dict directly if JSONField
+            items=bag,
             total_price=total_price,
+            full_name=full_name,
+            street_address1=street_address1,
+            street_address2=street_address2,
+            town_or_city=town_or_city,
+            county=county,
+            postcode=postcode,
+            country=country,
         )
     except Exception as e:
         return JsonResponse({'error': f'Failed to save order: {str(e)}'}, status=500)
@@ -142,7 +178,6 @@ def save_order(request):
     request.session['bag'] = {}
     request.session.save()
 
-    # Return a safe fallback for order_number
     order_number = getattr(order, 'order_number', order.pk)
 
     return JsonResponse({'status': 'success', 'order_number': order_number})

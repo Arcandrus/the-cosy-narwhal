@@ -8,7 +8,7 @@
     <!-- Left Column: Profile Update Form -->
     <div class="col-md-6">
         <h4>Default Delivery Information</h4>
-        <form method="POST">
+        <form  class="mt-4" method="POST">
             {% csrf_token %}
             <input type="text" name="full_name" class="form-control mb-3" value="{{ profile.full_name }}">
             <input type="email" name="email" class="form-control mb-3" value="{{ user.email }}">
@@ -19,7 +19,7 @@
             <input type="text" name="postcode" class="form-control mb-3" value="{{ profile.postcode }}">
             <input type="text" name="country" class="form-control mb-3" value="{{ profile.country }}">
 
-            <button type="submit" class="btn btn-def">Update Profile</button>
+            <button type="submit" class="btn btn-def">Update Delivery Information</button>
         </form>
     </div>
 

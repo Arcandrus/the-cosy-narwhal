@@ -3,8 +3,6 @@
 {% block content %}
 <!-- checkout/checkout.html -->
 
-
-
 <!-- Left side: Order Summary -->
 <h2>Your Order</h2>
 
@@ -16,6 +14,15 @@
         <h2>Complete Payment</h2>
         <p>Please enter your payment details below</p>
         <form id="payment-form">
+            <!-- Hidden delivery fields pulled from session -->
+            <input type="hidden" name="full_name" value="{{ delivery_info.full_name }}">
+            <input type="hidden" name="street_address1" value="{{ delivery_info.street_address1 }}">
+            <input type="hidden" name="street_address2" value="{{ delivery_info.street_address2 }}">
+            <input type="hidden" name="town_or_city" value="{{ delivery_info.town_or_city }}">
+            <input type="hidden" name="county" value="{{ delivery_info.county }}">
+            <input type="hidden" name="postcode" value="{{ delivery_info.postcode }}">
+            <input type="hidden" name="country" value="{{ delivery_info.country }}">
+
             <div class="form-control mt-3" id="card-element"><!--Stripe.js injects the Card Element here--></div>
             <button class="btn btn-def mt-3" id="submit">Pay £{{ total_price }}</button>
             <div id="error-message"></div>
@@ -31,7 +38,6 @@
             const form = document.getElementById('payment-form');
             const errorMessage = document.getElementById('error-message');
 
-            // Parse JSON safely from the hidden element with id 'bag-data'
             let bag = {};
             try {
                 bag = JSON.parse(document.getElementById('bag-data').textContent);
@@ -44,18 +50,24 @@
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
 
+                const fullName = document.querySelector('input[name="full_name"]').value;
+                const streetAddress1 = document.querySelector('input[name="street_address1"]').value;
+                const streetAddress2 = document.querySelector('input[name="street_address2"]').value;
+                const townOrCity = document.querySelector('input[name="town_or_city"]').value;
+                const county = document.querySelector('input[name="county"]').value;
+                const postcode = document.querySelector('input[name="postcode"]').value;
+                const country = document.querySelector('input[name="country"]').value;
+
                 const { error, paymentIntent } = await stripe.confirmCardPayment(
                     '{{ client_secret }}', {
                     payment_method: {
                         card: cardElement,
                     }
-                }
-                );
+                });
 
                 if (error) {
                     errorMessage.textContent = error.message;
                 } else if (paymentIntent.status === 'succeeded') {
-                    // Send order data to backend to save the order
                     fetch("{% url 'save_order' %}", {
                         method: "POST",
                         headers: {
@@ -65,6 +77,13 @@
                         body: JSON.stringify({
                             items: bag,
                             total_price: totalPrice,
+                            full_name: fullName,
+                            street_address1: streetAddress1,
+                            street_address2: streetAddress2,
+                            town_or_city: townOrCity,
+                            county: county,
+                            postcode: postcode,
+                            country: country,
                         }),
                     })
                         .then(res => res.json())
@@ -80,7 +99,6 @@
                         });
                 }
             });
-
         </script>
 
         {% else %}
