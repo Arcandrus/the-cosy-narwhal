@@ -41,9 +41,10 @@ def checkout_view(request):
     if request.method == 'POST':
         form = DeliveryInfoForm(request.POST, instance=profile, user_email=user_email)
         if form.is_valid():
-            form.save()
+            # Capture the save_info checkbox value ('on' if checked)
+            save_info = request.POST.get('save_info') == 'on'
 
-            # ✅ Save delivery info in session
+            # Save delivery info in session
             delivery_data = form.cleaned_data
             request.session['delivery_info'] = {
                 'full_name': delivery_data.get('full_name', ''),
@@ -54,7 +55,8 @@ def checkout_view(request):
                 'postcode': delivery_data.get('postcode', ''),
                 'country': delivery_data.get('country', ''),
             }
-            request.session.modified = True  # ✅ Important for saving session updates
+            request.session['save_info'] = save_info  # Store checkbox state
+            request.session.modified = True  # Important for saving session updates
 
             # Create Stripe PaymentIntent
             try:
@@ -64,16 +66,18 @@ def checkout_view(request):
                     metadata={'user_id': request.user.id},
                 )
             except Exception as e:
-                messages.error(request, f"Payment initialization error: {e}")
-                form = DeliveryInfoForm(instance=profile, user_email=user_email)  # reset form
+                # Handle Stripe error
+                form.add_error(None, f"Payment initialization error: {e}")
                 return render(request, 'checkout/checkout.html', {
                     'order_items': order_items,
                     'total_price': total_price,
                     'form': form,
                     'bag_json': json.dumps(bag),
+                    'delivery_info': request.session.get('delivery_info', {}),
+                    'save_info': request.session.get('save_info', True),
                 })
 
-            # ✅ Include delivery_info in context
+            # Render payment phase
             context = {
                 'order_items': order_items,
                 'total_price': total_price,
@@ -83,21 +87,21 @@ def checkout_view(request):
                 'payment_phase': True,
                 'bag_json': json.dumps(bag),
                 'delivery_info': request.session.get('delivery_info', {}),
+                'save_info': request.session.get('save_info', True),
             }
             return render(request, 'checkout/checkout.html', context)
     else:
-        print("Handling GET")
-        print("Profile:", profile)
-        print("Profile full_name:", profile.full_name)
+        # GET request - show delivery info form
         form = DeliveryInfoForm(instance=profile, user_email=user_email)
 
-    # ✅ Add delivery_info to GET context in case page is reloaded during payment phase
+    # Render delivery info form phase
     return render(request, 'checkout/checkout.html', {
         'order_items': order_items,
         'total_price': total_price,
         'form': form,
         'bag_json': json.dumps(bag),
         'delivery_info': request.session.get('delivery_info', {}),
+        'save_info': request.session.get('save_info', True),
     })
 
 
@@ -140,7 +144,7 @@ def save_order(request):
         bag = data.get('items')
         total_price = data.get('total_price')
 
-        # Get delivery info fields from the payload
+        # Get delivery info
         full_name = data.get('full_name')
         street_address1 = data.get('street_address1')
         street_address2 = data.get('street_address2', '')
@@ -148,16 +152,15 @@ def save_order(request):
         county = data.get('county', '')
         postcode = data.get('postcode')
         country = data.get('country')
-
-        # Simple validation for required delivery fields
-        if not all([full_name, street_address1, town_or_city, postcode, country]):
-            return JsonResponse({'error': 'Missing delivery information'}, status=400)
+        save_info = data.get('save_info', True)  # Defaults to True if not sent
+        print("DEBUG: save_info received:", save_info)
     except Exception:
         return JsonResponse({'error': 'Invalid JSON data'}, status=400)
 
     if not bag or total_price is None:
         return JsonResponse({'error': 'Invalid order data'}, status=400)
 
+    # Save the order
     try:
         order = Order.objects.create(
             user=request.user,
@@ -174,13 +177,25 @@ def save_order(request):
     except Exception as e:
         return JsonResponse({'error': f'Failed to save order: {str(e)}'}, status=500)
 
-    # Clear the bag session data
+    # Save delivery info to profile if requested
+    if save_info:
+        print("DEBUG: Saving profile info")
+        profile = request.user.profile
+        profile.full_name = full_name
+        profile.street_address1 = street_address1
+        profile.street_address2 = street_address2
+        profile.town_or_city = town_or_city
+        profile.county = county
+        profile.postcode = postcode
+        profile.country = country
+        profile.save()
+    else:
+        print("DEBUG: Not saving profile info")
+    # Clear bag
     request.session['bag'] = {}
     request.session.save()
 
-    order_number = getattr(order, 'order_number', order.pk)
-
-    return JsonResponse({'status': 'success', 'order_number': order_number})
+    return JsonResponse({'status': 'success', 'order_number': getattr(order, 'order_number', order.pk)})
 
 
 @login_required
