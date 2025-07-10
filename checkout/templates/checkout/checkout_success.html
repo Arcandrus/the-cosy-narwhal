@@ -3,7 +3,7 @@
 {% block content %}
 
 <h1>Thank you for your order!</h1>
-<p>Order Number: {{ order.order_number }}</p>
+<p>Order Number: <strong>{{ order.order_number }}</strong></p>
 <p>Order placed on: {{ order.created_at|date:"M, j, g:ia" }}</p>
 <table class="table">
     <tbody>
@@ -31,5 +31,5 @@
 <hr>
 <p><strong>Total Paid: £{{ order.total_price }}</strong></p>
 
-<p>We will email you the delivery details shortly.</p>
+<p>We will email <strong>{{ user.email }}.</strong> with the confirmation details shortly.</p>
 {% endblock %}
