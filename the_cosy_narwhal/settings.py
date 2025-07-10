@@ -140,7 +140,7 @@ ACCOUNT_SIGNUP_FIELDS = [
 ]
 ACCOUNT_LOGIN_METHODS = {"username"}
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'The Cosy Narwhal <no-reply@thecosynarwhal.com>'
+DEFAULT_FROM_EMAIL = 'The Cosy Narwhal <thecosynarwhal@outlook.com>'
 
 # Redirect after login/logout
 LOGIN_REDIRECT_URL = "home"
