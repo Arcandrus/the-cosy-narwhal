@@ -4,10 +4,110 @@
 <h1>Add New Product</h1>
 
 <form method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Add Product</button>
+    {% csrf_token %}
+
+    <div class="mb-3">
+        {{ form.code.label_tag }}
+        {{ form.code }}
+        {% for error in form.code.errors %}
+        <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.name.label_tag }}
+        {{ form.name }}
+        {% for error in form.name.errors %}
+        <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.description.label_tag }}
+        {{ form.description }}
+        {% for error in form.description.errors %}
+        <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.size.label_tag }}
+        {{ form.size }}
+        {% for error in form.size.errors %}
+        <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.has_colors.label_tag }}
+        {{ form.has_colors }}
+        {% for error in form.has_colors.errors %}
+        <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.color.label_tag }}
+        {{ form.color }}
+        {% for error in form.color.errors %}
+        <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    {# ✅ Custom grid layout for available_colors #}
+    <label>{{ form.available_colors.label }}</label>
+    <div class="color-list mb-3">
+        <div class="row">
+            {% for checkbox in form.available_colors %}
+            <div class="col-md-4 col-sm-6">
+                <div class="form-check">
+                    {{ checkbox.tag }}
+                    <label class="form-check-label" for="{{ checkbox.id_for_label }}">
+                        {{ checkbox.choice_label }}
+                    </label>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% for error in form.available_colors.errors %}
+        <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.price.label_tag }}
+        {{ form.price }}
+        {% for error in form.price.errors %}
+        <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.image.label_tag }}
+        {{ form.image }}
+        {% for error in form.image.errors %}
+        <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.image_url.label_tag }}
+        {{ form.image_url }}
+        {% for error in form.image_url.errors %}
+        <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.inventory.label_tag }}
+        {{ form.inventory }}
+        {% for error in form.inventory.errors %}
+        <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <button class="btn btn-def" type="submit">Add Product</button>
 </form>
 
-<a href="{% url 'product_management' %}">Back to Product Management</a>
+
 {% endblock %}

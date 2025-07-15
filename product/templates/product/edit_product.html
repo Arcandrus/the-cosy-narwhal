@@ -5,17 +5,17 @@
 
 <form method="get" action=".">
     <label for="search">Search by code or name:</label>
-    <input type="text" name="search" id="search" value="{{ request.GET.search }}">
-    <button type="submit">Search</button>
+    <input class="form-control" type="text" name="search" id="search" value="{{ request.GET.search }}">
+    <button class="btn btn-def mt-2" type="submit">Search</button>
 </form>
 {% if search_query %}
-    <h3>Search Results:</h3>
+    <h3 class="mt-4">Search Results:</h3>
     {% if search_results %}
-        <ul>
         {% for product in search_results %}
-            <li>{{ product.code }} - {{ product.name }}</li>
+            <p>
+                <a href="?product_id={{ product.id }}">{{ product.code }} - {{ product.name }}</a>
+            </p>
         {% endfor %}
-        </ul>
     {% else %}
         <p>No products found matching "{{ search_query }}".</p>
     {% endif %}
@@ -23,7 +23,7 @@
 
 <form method="get" action=".">
     <label for="product_select">Or select product from list:</label>
-    <select name="product_id" id="product_select" onchange="this.form.submit()">
+    <select class="form-control" name="product_id" id="product_select" onchange="this.form.submit()">
         <option value="">Select a product</option>
         {% for p in products %}
             <option value="{{ p.id }}" {% if selected_product and p.id == selected_product.id %}selected{% endif %}>{{ p.name }} ({{ p.code }})</option>
@@ -35,10 +35,110 @@
     <hr>
     <h2>Editing: {{ selected_product.name }} ({{ selected_product.code }})</h2>
     <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="hidden" name="product_id" value="{{ selected_product.id }}">
-        <button type="submit">Save changes</button>
-    </form>
+    {% csrf_token %}
+    <input type="hidden" name="product_id" value="{{ selected_product.id }}">
+
+    <div class="mb-3">
+        {{ form.code.label_tag }}
+        {{ form.code }}
+        {% for error in form.code.errors %}
+        <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.name.label_tag }}
+        {{ form.name }}
+        {% for error in form.name.errors %}
+        <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.description.label_tag }}
+        {{ form.description }}
+        {% for error in form.description.errors %}
+        <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.size.label_tag }}
+        {{ form.size }}
+        {% for error in form.size.errors %}
+        <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.has_colors.label_tag }}
+        {{ form.has_colors }}
+        {% for error in form.has_colors.errors %}
+        <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.color.label_tag }}
+        {{ form.color }}
+        {% for error in form.color.errors %}
+        <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    {# ✅ Custom grid layout for available_colors #}
+    <label>{{ form.available_colors.label }}</label>
+    <div class="color-list mb-3">
+        <div class="row">
+            {% for checkbox in form.available_colors %}
+            <div class="col-md-4 col-sm-6">
+                <div class="form-check">
+                    {{ checkbox.tag }}
+                    <label class="form-check-label" for="{{ checkbox.id_for_label }}">
+                        {{ checkbox.choice_label }}
+                    </label>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% for error in form.available_colors.errors %}
+        <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.price.label_tag }}
+        {{ form.price }}
+        {% for error in form.price.errors %}
+        <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.image.label_tag }}
+        {{ form.image }}
+        {% for error in form.image.errors %}
+        <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.image_url.label_tag }}
+        {{ form.image_url }}
+        {% for error in form.image_url.errors %}
+        <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="mb-3">
+        {{ form.inventory.label_tag }}
+        {{ form.inventory }}
+        {% for error in form.inventory.errors %}
+        <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <button class="btn btn-def" type="submit">Save Product</button>
+</form>
 {% endif %}
 {% endblock %}

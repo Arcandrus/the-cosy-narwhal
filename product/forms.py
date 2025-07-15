@@ -20,6 +20,9 @@ class ReviewForm(forms.ModelForm):
         )
         self.fields['rating'].label = 'Rating'
 
+from django import forms
+from .models import Product  # Adjust import as needed
+
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
@@ -34,12 +37,19 @@ class ProductForm(forms.ModelForm):
             'price',
             'image',
             'image_url',
-            'care_details',
             'inventory',
         ]
-
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3}),
             'available_colors': forms.CheckboxSelectMultiple(), 
-            'care_details': forms.Textarea(attrs={'rows': 2}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            # Skip adding form-control for checkbox/radio groups
+            if isinstance(field.widget, (forms.CheckboxSelectMultiple, forms.CheckboxInput, forms.RadioSelect)):
+                continue
+            # Add 'form-control' class
+            existing_classes = field.widget.attrs.get('class', '')
+            field.widget.attrs['class'] = f'{existing_classes} form-control'.strip()

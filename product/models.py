@@ -32,7 +32,6 @@ class Product(models.Model):
     rating = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True, default=0)
     image = models.ImageField(null=True, blank=True)
     image_url = models.URLField(max_length=1024, null=True, blank=True)
-    care_details = models.CharField(max_length=254, null=True, blank=True)
     inventory = models.IntegerField(null=True, blank=False, default=0)
 
     def __str__(self):
