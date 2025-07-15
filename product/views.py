@@ -2,6 +2,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
 from .models import Product
 from .forms import ReviewForm
+from django.contrib.auth.decorators import user_passes_test
+from .forms import ProductForm
+from django.db import models
+from django.contrib import messages
 
 
 def all_products(request):
@@ -89,3 +93,102 @@ def product_detail(request, product_id):
     }
     
     return render(request, "product/product_detail.html", context)
+
+
+def is_superuser(user):
+    return user.is_authenticated and user.is_superuser
+
+
+@user_passes_test(is_superuser)
+def product_management(request):
+    return render(request, 'product/product_management.html')
+
+@user_passes_test(is_superuser)
+def add_product(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES) 
+        if form.is_valid():
+            form.save()
+            new_product = form.save()
+            messages.success(request, f"'{new_product.name}' added successfully!")
+            return redirect('product_management') 
+    else:
+        form = ProductForm()
+
+    return render(request, 'product/add_product.html', {'form': form})
+
+
+@user_passes_test(is_superuser)
+def edit_product(request):
+    products = Product.objects.all().order_by('name')  # full list for dropdown
+
+    product = None
+    form = None
+    search_results = None
+
+    # Get params
+    product_id = request.GET.get('product_id')
+    search_query = request.GET.get('search')
+
+    # Load product to edit
+    if product_id:
+        product = get_object_or_404(Product, pk=product_id)
+    elif search_query:
+        # Get all matching products for search results
+        search_results = Product.objects.filter(
+            models.Q(code__icontains=search_query) | 
+            models.Q(name__icontains=search_query)
+        ).order_by('name')
+        # Select first matching product to edit (optional)
+        product = search_results.first()
+
+    if request.method == 'POST':
+        product_id_post = request.POST.get('product_id')
+        product = get_object_or_404(Product, pk=product_id_post)
+        form = ProductForm(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            messages.success(request, f'{product.name} Updated Successfully')
+            form.save()
+            return redirect(f"{request.path}?product_id={product.id}")
+        else:
+            print(form.errors)
+    else:
+        if product:
+            form = ProductForm(instance=product)
+
+    context = {
+        'products': products,
+        'form': form,
+        'selected_product': product,
+        'search_query': search_query,
+        'search_results': search_results,
+    }
+
+    return render(request, 'product/edit_product.html', context)
+
+
+@user_passes_test(is_superuser)
+def remove_product(request):
+    products = Product.objects.all().order_by('name')
+    search_query = request.GET.get('search')
+    product_to_delete = None
+    search_results = []
+
+    if search_query:
+        search_results = Product.objects.filter(
+            models.Q(code__icontains=search_query) | models.Q(name__icontains=search_query)
+        )
+
+    if request.method == 'POST':
+        product_id = request.POST.get('product_id')
+        product_to_delete = get_object_or_404(Product, pk=product_id)
+        product_to_delete.delete()
+        messages.success(request, f"Product '{product_to_delete.name}' was removed successfully.")
+        return redirect('remove_product')
+
+    context = {
+        'products': products,
+        'search_query': search_query,
+        'search_results': search_results,
+    }
+    return render(request, 'product/remove_product.html', context)

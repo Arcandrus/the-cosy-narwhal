@@ -1,5 +1,5 @@
 from django import forms
-from .models import Review
+from .models import Product, Review
 
 class ReviewForm(forms.ModelForm):
     class Meta:
@@ -19,3 +19,27 @@ class ReviewForm(forms.ModelForm):
             choices=[(i, str(i)) for i in range(1, 6)],
         )
         self.fields['rating'].label = 'Rating'
+
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = [
+            'code',
+            'name',
+            'description',
+            'size',
+            'has_colors',
+            'color',
+            'available_colors',
+            'price',
+            'image',
+            'image_url',
+            'care_details',
+            'inventory',
+        ]
+
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 3}),
+            'available_colors': forms.CheckboxSelectMultiple(), 
+            'care_details': forms.Textarea(attrs={'rows': 2}),
+        }
