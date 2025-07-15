@@ -1,6 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
 from .models import Product
+from .forms import ReviewForm
 
 
 def all_products(request):
@@ -42,7 +43,7 @@ def product_detail(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
 
     # Extract the prefix (e.g., "WHA") from the product code
-    prefix = product.code[:3] 
+    prefix = product.code[:3]
 
     # Get all products that share the same prefix
     variant_products = Product.objects.filter(code__startswith=prefix).order_by('id')
@@ -64,12 +65,27 @@ def product_detail(request, product_id):
         if variant:
             size_links.append((size_value, size_label, variant.id))
 
+    # Get all reviews for this product, newest first
+    reviews = product.reviews.all().order_by('-created_at')
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.product = product
+            review.user = request.user
+            review.save()
+            return redirect('product_detail', product_id=product.id)
+    else:
+        form = ReviewForm()
+
     context = {
         'product': product,
         'product_id_str': str(product.id),
         'color_links': color_links,
         'size_links': size_links,
+        'reviews': reviews,
+        'form': form,
     }
     
     return render(request, "product/product_detail.html", context)
-

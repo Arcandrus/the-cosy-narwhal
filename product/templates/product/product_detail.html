@@ -3,68 +3,125 @@
 {% load custom_filters %}
 
 {% block content %}
-    <h1 class="logo-font">{{ product.name }}</h1>
+<h1 class="logo-font">{{ product.name }}</h1>
 
-    <div class="row bg-white mt-4">
-        <div class="col-12 col-md-6 mb-4">
-            <img id="product-img" class="product-img img-fluid mt-4" src="{{ MEDIA_URL }}{{ product.image }}">
-        </div>
-        <div class="col-12 col-md-6 text-left mt-4">
-            <p>{{ product.description|safe }}</p>
-            <div class="row d-flex align-items-center">
-                <div class="col-6">
+<div class="row bg-white mt-4">
+    <div class="col-12 col-md-6 mb-4">
+        <img id="product-img" class="product-img img-fluid mt-4" src="{{ MEDIA_URL }}{{ product.image }}">
+    </div>
+    <div class="col-12 col-md-6 text-left mt-4">
+        <p>{{ product.description|safe }}</p>
+        <div class="row d-flex align-items-center">
+            <div class="col-6">
+                <a class="nav-link" href="#reviews">
                     <i class="star fa-solid fa-star"></i> {{ product.rating }}
-                </div>
-                <div class="col-6 text-right">
-                    Price: £{{ product.price }}
-                </div>
+                </a>
             </div>
-            <div class="row justify-content-center">
-                {% if size_links %}
-                <label for="size-select">Choose a size: </label>
-                <select id="size-select" class="form-select rounded mb-3 ml-3"
-                    onchange="location.href=this.options[this.selectedIndex].dataset.url;">
-                    <option value="{{ product.size }}">{{ product.get_size_display }}</option>
-                    {% for size_id, size_label, variant_id in size_links %}
-                    <option value="{{ size_id }}" data-url="{% url 'product_detail' variant_id %}">
-                        {{ size_label }}
-                    </option>
-                    {% endfor %}
-                </select>
+            <div class="col-6 text-right">
+                Price: £{{ product.price }}
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            {% if size_links %}
+            <label for="size-select">Choose a size: </label>
+            <select id="size-select" class="form-select rounded mb-3 ml-3"
+                onchange="location.href=this.options[this.selectedIndex].dataset.url;">
+                <option value="{{ product.size }}">{{ product.get_size_display }}</option>
+                {% for size_id, size_label, variant_id in size_links %}
+                <option value="{{ size_id }}" data-url="{% url 'product_detail' variant_id %}">
+                    {{ size_label }}
+                </option>
+                {% endfor %}
+            </select>
+            {% endif %}
+            {% if product.has_colors %}
+            <label for="color-select">Choose a color: </label>
+            <select id="color-select" name="color" class="form-select rounded mb-3 ml-3">
+                {% for color_name, link_id in color_links %}
+                <option value="{{ link_id }}" {% if product.id == link_id %}selected{% endif %}>
+                    {{ color_name|replace:"_, "|title }}
+                </option>
+                {% endfor %}
+            </select>
+            {% endif %}
+        </div>
+        <div class="row mt-2 justify-content-center">
+            <div class="d-flex align-items-center mt-4">
+                <form class="d-flex align-items-center gap-2" method="POST"
+                    action="{% url 'add_to_bag' product.code %}">
+                    {% csrf_token %}
+                    <input class="rounded form-control w-auto"
+                        type="{% if product.inventory == 0 %}hidden{% else %}number{% endif %}" name="quantity"
+                        value="1" min="1">
+
+                    <input type="hidden" name="redirect_url" value="{{ request.path }}">
+
+                    <button class="btn btn-def {% if product.inventory == 0 %}disabled{% endif %}" type="submit" {% if product.inventory == 0 %}disabled{% endif %}>
+                        {% if product.inventory == 0 %}Sorry, I'm currently out of stock{% else %}Add to Cart{% endif %}
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="row mt-2 justify-content-center">
+            <a href="{% url 'products' %}" class="btn btn-def"><i class="fa-solid fa-store"></i> Keep Shopping</a>
+        </div>
+    </div>
+</div>
+<hr>
+
+<h3>Reviews</h3>
+<a name="reviews"></a>
+{% if reviews %}
+<div class="reviews-list mb-4">
+    {% for review in reviews %}
+    <div class="review border p-3 mb-3 rounded">
+        <strong>{{ review.user.username }}</strong>
+        <span class="text-warning">
+            {% for i in 1|to_list:5 %}
+                {% if i <= review.rating %}
+                    <i class="fa fa-star"></i>
+                {% else %}
+                    <i class="fa fa-star-o"></i>
                 {% endif %}
-                {% if product.has_colors %}
-                <label for="color-select">Choose a color: </label>
-                <select id="color-select" name="color" class="form-select rounded mb-3 ml-3">
-                    {% for color_name, link_id in color_links %}
-                    <option value="{{ link_id }}" {% if product.id == link_id %}selected{% endif %}>
-                        {{ color_name|replace:"_, "|title }}
-                    </option>
-                    {% endfor %}
-                </select>
-                {% endif %}
-            </div>
-            <div class="row mt-2 justify-content-center">
-                <div class="d-flex align-items-center mt-4">
-                    <form class="d-flex align-items-center gap-2" method="POST" action="{% url 'add_to_bag' product.code %}">
-                        {% csrf_token %}
-                        <input class="rounded form-control w-auto" 
-                            type="{% if product.inventory == 0 %}hidden{% else %}number{% endif %}" 
-                            name="quantity" value="1" min="1">
-                        
-                        <input type="hidden" name="redirect_url" value="{{ request.path }}">
-                        
-                        <button class="btn btn-def {% if product.inventory == 0 %}disabled{% endif %}" type="submit" {% if product.inventory == 0 %}disabled{% endif %}>
-                            {% if product.inventory == 0 %}Sorry, I'm currently out of stock{% else %}Add to Cart{% endif %}
-                        </button>
-                    </form>
-                </div>
-            </div>
-            <div class="row mt-2 justify-content-center">
-                <a href="{% url 'products' %}" class="btn btn-def"><i class="fa-solid fa-store"></i> Keep Shopping</a>
-            </div>
+            {% endfor %}
+        </span>
+        <br>
+        <p>{{ review.text|linebreaks }}</p>
+        <small>{{ review.created_at|date:"F j, Y, g:i a" }}</small>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p>No reviews yet. Be the first to review this product!</p>
+{% endif %}
+
+<hr>
+
+{% if user.is_authenticated %}
+<h3>Leave a Review</h3>
+<form method="post" action="">
+    {% csrf_token %}
+    
+    <div class="form-group">
+        <label>Rating:</label>
+        <div class="star-rating">
+            {% for i in "54321" %}
+                <input type="radio" name="rating" id="star{{ i }}" value="{{ i }}" {% if form.rating.value == i|stringformat:"s" %}checked{% endif %}>
+                <label for="star{{ i }}" title="{{ i }} stars">&#9733;</label>
+            {% endfor %}
         </div>
     </div>
 
+    <div class="form-group">
+        {{ form.text.label_tag }}
+        {{ form.text }}
+    </div>
+
+    <button type="submit" class="btn btn-def">Submit Review</button>
+</form>
+{% else %}
+<p><a href="{% url 'account_login' %}">Log in</a> to leave a review.</p>
+{% endif %}
 {% endblock %}
 
 {% block postloadjs %}

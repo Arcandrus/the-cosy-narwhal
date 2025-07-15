@@ -1,5 +1,6 @@
 from django.db import models
-
+from django.contrib.auth.models import User
+from django.db.models import Avg
 
 class Product(models.Model):
     SIZE = (
@@ -28,7 +29,7 @@ class Product(models.Model):
     )
     
     price = models.DecimalField(max_digits=6, decimal_places=2)
-    rating = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    rating = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True, default=0)
     image = models.ImageField(null=True, blank=True)
     image_url = models.URLField(max_length=1024, null=True, blank=True)
     care_details = models.CharField(max_length=254, null=True, blank=True)
@@ -85,3 +86,29 @@ class Color(models.Model):
 
     def __str__(self):
         return self.get_name_display()
+
+
+class Review(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField()
+    rating = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)])
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.update_product_rating()
+
+    def delete(self, *args, **kwargs):
+        product = self.product
+        super().delete(*args, **kwargs)
+        self.update_product_rating(product)
+
+    def update_product_rating(self, product=None):
+        product = product or self.product
+        avg_rating = product.reviews.aggregate(avg=Avg('rating'))['avg'] or 0
+        product.rating = round(avg_rating, 2)
+        product.save()
+
+    def __str__(self):
+        return f"{self.product.name} review by {self.user.username} ({self.rating}★)"

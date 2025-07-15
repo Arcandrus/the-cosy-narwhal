@@ -25,3 +25,8 @@ def multiply(value, arg):
         return float(value) * float(arg)
     except (ValueError, TypeError):
         return ''
+    
+@register.filter
+def to_list(start, end):
+    """Generate a range from start to end inclusive."""
+    return range(start, end + 1)
