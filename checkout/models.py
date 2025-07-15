@@ -8,7 +8,8 @@ from django.conf import settings
 
 class Order(models.Model):
     order_number = models.CharField(max_length=32, unique=True, editable=False)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.CASCADE)
+    email = models.EmailField(max_length=254, default='Unknown')
     items = models.JSONField()  # or Postgres JSONField if needed
     total_price = models.DecimalField(
         max_digits=10,

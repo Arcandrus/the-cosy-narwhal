@@ -15,6 +15,7 @@
         <p>Please enter your payment details below</p>
         <form id="payment-form">
             <!-- Hidden delivery fields pulled from session -->
+            <input type="hidden" name="email" value="{{ delivery_info.email }}">
             <input type="hidden" name="full_name" value="{{ delivery_info.full_name }}">
             <input type="hidden" name="street_address1" value="{{ delivery_info.street_address1 }}">
             <input type="hidden" name="street_address2" value="{{ delivery_info.street_address2 }}">
@@ -50,7 +51,7 @@
 
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
-
+                const email = document.querySelector('input[name="email"]').value;
                 const fullName = document.querySelector('input[name="full_name"]').value;
                 const streetAddress1 = document.querySelector('input[name="street_address1"]').value;
                 const streetAddress2 = document.querySelector('input[name="street_address2"]').value;
@@ -80,6 +81,7 @@
                         },
                         body: JSON.stringify({
                             items: bag,
+                            email: email,
                             total_price: totalPrice,
                             full_name: fullName,
                             street_address1: streetAddress1,
@@ -112,6 +114,7 @@
         <form method="post" action="{% url 'checkout' %}">
             {% csrf_token %}
             {{ form.as_p }}
+            {% if user.is_authenticated %}
         <div class="form-check mt-3">
             <input 
                 class="form-check-input" 
@@ -123,6 +126,7 @@
                 Save this delivery Information as default.
             </label>
         </div>
+        {% endif %}
             <button class="btn btn-def" type="submit">Continue to Payment</button>
         </form>
         {% endif %}

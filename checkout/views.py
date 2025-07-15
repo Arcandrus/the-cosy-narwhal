@@ -9,16 +9,18 @@ from django.contrib import messages
 from .models import Order
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.http import JsonResponse
+from django.contrib.auth.models import AnonymousUser
+from django.contrib.auth import get_user_model
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
-@login_required
 def checkout_view(request):
     print("Checkout view called with method:", request.method)
     bag = request.session.get('bag', {})
-    profile = request.user.profile
 
     # Build order summary & total price
     order_items = []
@@ -36,7 +38,12 @@ def checkout_view(request):
         except Product.DoesNotExist:
             continue
 
-    user_email = request.user.email
+    # Authenticated user data (if available)
+    profile = None
+    user_email = ''
+    if request.user.is_authenticated:
+        profile = getattr(request.user, 'profile', None)
+        user_email = request.user.email
 
     if request.method == 'POST':
         form = DeliveryInfoForm(request.POST, instance=profile, user_email=user_email)
@@ -47,6 +54,7 @@ def checkout_view(request):
             # Save delivery info in session
             delivery_data = form.cleaned_data
             request.session['delivery_info'] = {
+                'email': delivery_data.get('email'),
                 'full_name': delivery_data.get('full_name', ''),
                 'street_address1': delivery_data.get('street_address1', ''),
                 'street_address2': delivery_data.get('street_address2', ''),
@@ -55,18 +63,20 @@ def checkout_view(request):
                 'postcode': delivery_data.get('postcode', ''),
                 'country': delivery_data.get('country', ''),
             }
-            request.session['save_info'] = save_info  # Store checkbox state
-            request.session.modified = True  # Important for saving session updates
-
+            request.session['save_info'] = save_info
+            request.session.modified = True
             # Create Stripe PaymentIntent
             try:
+                metadata = {}
+                if request.user.is_authenticated:
+                    metadata['user_id'] = request.user.id
+
                 intent = stripe.PaymentIntent.create(
-                    amount=int(total_price * 100),  # amount in pence
+                    amount=int(total_price * 100),
                     currency='gbp',
-                    metadata={'user_id': request.user.id},
+                    metadata=metadata,
                 )
             except Exception as e:
-                # Handle Stripe error
                 form.add_error(None, f"Payment initialization error: {e}")
                 return render(request, 'checkout/checkout.html', {
                     'order_items': order_items,
@@ -77,8 +87,7 @@ def checkout_view(request):
                     'save_info': request.session.get('save_info', True),
                 })
 
-            # Render payment phase
-            context = {
+            return render(request, 'checkout/checkout.html', {
                 'order_items': order_items,
                 'total_price': total_price,
                 'form': form,
@@ -88,13 +97,11 @@ def checkout_view(request):
                 'bag_json': json.dumps(bag),
                 'delivery_info': request.session.get('delivery_info', {}),
                 'save_info': request.session.get('save_info', True),
-            }
-            return render(request, 'checkout/checkout.html', context)
+            })
     else:
         # GET request - show delivery info form
         form = DeliveryInfoForm(instance=profile, user_email=user_email)
 
-    # Render delivery info form phase
     return render(request, 'checkout/checkout.html', {
         'order_items': order_items,
         'total_price': total_price,
@@ -105,7 +112,6 @@ def checkout_view(request):
     })
 
 
-@login_required
 def checkout_success(request, order_number):
     order = get_object_or_404(Order, order_number=order_number)
 
@@ -133,8 +139,8 @@ def checkout_success(request, order_number):
     return render(request, 'checkout/checkout_success.html', context)
 
 
+
 @csrf_protect
-@login_required
 def save_order(request):
     if request.method != 'POST':
         return JsonResponse({'error': 'POST request required'}, status=400)
@@ -145,6 +151,7 @@ def save_order(request):
         total_price = data.get('total_price')
 
         # Get delivery info
+        email = data.get('email')
         full_name = data.get('full_name')
         street_address1 = data.get('street_address1')
         street_address2 = data.get('street_address2', '')
@@ -153,17 +160,19 @@ def save_order(request):
         postcode = data.get('postcode')
         country = data.get('country')
         save_info = data.get('save_info', True)  # Defaults to True if not sent
-        print("DEBUG: save_info received:", save_info)
     except Exception:
         return JsonResponse({'error': 'Invalid JSON data'}, status=400)
 
     if not bag or total_price is None:
         return JsonResponse({'error': 'Invalid order data'}, status=400)
 
+    user = request.user if request.user.is_authenticated else None
+
     # Save the order
     try:
         order = Order.objects.create(
-            user=request.user,
+            user=user,
+            email=email,
             items=bag,
             total_price=total_price,
             full_name=full_name,
@@ -177,20 +186,57 @@ def save_order(request):
     except Exception as e:
         return JsonResponse({'error': f'Failed to save order: {str(e)}'}, status=500)
 
-    # Save delivery info to profile if requested
-    if save_info:
-        print("DEBUG: Saving profile info")
-        profile = request.user.profile
-        profile.full_name = full_name
-        profile.street_address1 = street_address1
-        profile.street_address2 = street_address2
-        profile.town_or_city = town_or_city
-        profile.county = county
-        profile.postcode = postcode
-        profile.country = country
-        profile.save()
+    # Save delivery info to profile if requested and user is authenticated
+    if save_info and user is not None:
+        profile = getattr(user, 'profile', None)
+        if profile:
+            profile.full_name = full_name
+            profile.street_address1 = street_address1
+            profile.street_address2 = street_address2
+            profile.town_or_city = town_or_city
+            profile.county = county
+            profile.postcode = postcode
+            profile.country = country
+            profile.save()
     else:
-        print("DEBUG: Not saving profile info")
+        print("DEBUG: Not saving profile info or user not authenticated")
+    order_items = []
+    for code, qty in bag.items():
+        try:
+            product = Product.objects.get(code=code)
+            line_total = product.price * qty
+            order_items.append({
+                'product': product,
+                'quantity': qty,
+                'line_total': line_total,
+            })
+        except Product.DoesNotExist:
+            continue
+    try:
+        context = {
+            'order_number': order.order_number,
+            'full_name': full_name,
+            'street_address1': street_address1,
+            'street_address2': street_address2,
+            'town_or_city': town_or_city,
+            'county': county,
+            'postcode': postcode,
+            'country': country,
+            'order_items': order_items,
+            'total': total_price,
+        }
+        message = render_to_string('emails/conf_email.txt', context)
+        subject = f'The Cosy Narwhal - Order Number {order.order_number}'
+
+        send_mail(
+            subject,
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            [email],
+        )
+    except Exception as e:
+        print("Failed to send confirmation email:", e)
+
     # Clear bag
     request.session['bag'] = {}
     request.session.save()

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
+from django.template.loader import render_to_string
 from django.conf import settings
 from .forms import ContactForm
 
@@ -22,24 +23,26 @@ def contact(request):
         if form.is_valid():
             data = form.cleaned_data
             subject = f"New Contact Form Submission - {data['reason']}"
-            message = f"""
-            Name: {data['name']}
-            Email: {data['email']}
-            Reason: {data['reason']}
-            Order Number: {data['order_number']}
-            
-            Message:
-            {data['message']}
-            """
+
+            # Render the email body from template
+            message = render_to_string('emails/contact.txt', {
+                'name': data['name'],
+                'email': data['email'],
+                'reason': data['reason'],
+                'order_number': data['order_number'],
+                'message': data['message'],
+            })
+
             send_mail(
                 subject,
                 message,
                 settings.DEFAULT_FROM_EMAIL,
-                ['thecosynarwhal@outlook.com'], 
+                ['thecosynarwhal@outlook.com'],
             )
             return redirect('contact_success')
     else:
         form = ContactForm()
+
     return render(request, 'home/contact.html', {'form': form})
 
 def contact_success(request):

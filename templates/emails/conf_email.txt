@@ -1,0 +1,22 @@
+Hi {{ full_name }},
+
+Thank you for your order from The Cosy Narwhal!
+
+Order Summary:
+{% for item in order_items %}
+{{ item.product.name }} (x{{ item.quantity }}): £{{ item.line_total|floatformat:2 }}
+{% endfor %}
+
+Total: £{{ total|floatformat:2 }}
+
+Your order will be delivered to:
+{{ street_address1 }}
+{{ street_address2 }}
+{{ town_or_city }}, {{ county }}
+{{ postcode }}
+{{ country }}
+
+If you have any questions, feel free to contact us at thecosynarwhal@outlook.com.
+
+Warm wishes,  
+The Cosy Narwhal

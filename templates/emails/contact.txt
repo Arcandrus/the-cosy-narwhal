@@ -1,0 +1,7 @@
+New Contact Form Submission from {{ name }}
+Customer Email: {{ email }}
+Reason: {{ reason }}
+{% if order_number %} Order Number : {{ order_number }} {% endif %}
+
+Message:
+{{ message }}
