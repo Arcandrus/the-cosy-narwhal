@@ -10,17 +10,15 @@
 </form>
 {% if search_query %}
     <h3>Search Results:</h3>
-    <ul>
-        {% for product in products %}
-            <li>
-                <a href="{% url 'edit_product' %}?product_id={{ product.id }}">
-                    {{ product.code }} - {{ product.name }}
-                </a>
-            </li>
+    {% if search_results %}
+        <ul>
+        {% for product in search_results %}
+            <li>{{ product.code }} - {{ product.name }}</li>
         {% endfor %}
-    </ul>
-{% else %}
-    <p>No products found.</p>
+        </ul>
+    {% else %}
+        <p>No products found matching "{{ search_query }}".</p>
+    {% endif %}
 {% endif %}
 
 <form method="get" action=".">

@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Product Management</h1>
+<h1 class="mb-4">Product Management</h1>
 
-<ul>
-  <li><a href="{% url 'add_product' %}">Add Product to Database</a></li>
-  <li><a href="{% url 'edit_product' %}">Edit Product in Database</a></li>
-  <li><a href="{% url 'remove_product' %}">Remove Product in Database</a></li>
-</ul>
+<p><a href="{% url 'add_product' %}"><button class="btn btn-def">Add Product to Database</button></a></p>
+<p><a href="{% url 'edit_product' %}"><button class="btn btn-def">Edit Product in Database</button></a></p>
+<p><a href="{% url 'remove_product' %}"><button class="btn btn-def">Remove Product in Database</button></a></p>
+
 {% endblock %}
