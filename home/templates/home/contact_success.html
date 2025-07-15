@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<h3>Thank you!</h3>
+<hr>
+<p>We will endevour to reach out to you within 24hrs regarding your enquiry.</p>
+
+<div class="text-center pt-3">
+    <a href="{% url 'home' %}">
+        <button class="btn btn-def">Return Home</button>
+    </a>
+</div>
+{% endblock %}

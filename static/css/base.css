@@ -55,23 +55,19 @@ h4 {
 }
 
 .footer {
+    font-size: medium;
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    /* center content horizontally */
     align-items: center;
-    /* center content vertically */
     width: 100%;
-    background-color: #666;
     text-align: center;
     padding: 10px;
     z-index: 10;
 }
 
-.footer .row,
-.footer .col {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+footer .nav-link {
+    padding: 0;
 }
 
 .container {

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<h3>Contact Us</h3>
+<p>If you are having issues with an order, want to talk about a custom project you'd like to arrange or anything else, please use the contact form below.</p>
+
+<form method="post">
+    {% csrf_token %}
+    
+    {{ form.name }}<br>
+    {{ form.email }}<br>
+    {{ form.reason }}<br>
+
+    <div id="order-number-field" style="display: none;">
+        {{ form.order_number }}<br>
+    </div>
+
+    {{ form.message }}<br>
+
+    <button type="submit" class="btn btn-def mt-2">Submit</button>
+</form>
+
+<script>
+    const reasonSelect = document.getElementById("id_reason");
+    const orderNumberField = document.getElementById("order-number-field");
+
+    function toggleOrderField() {
+        const val = reasonSelect.value;
+        if (['refund', 'problem', 'wisimo'].includes(val)) {
+            orderNumberField.style.display = "block";
+        } else {
+            orderNumberField.style.display = "none";
+        }
+    }
+
+    reasonSelect.addEventListener('change', toggleOrderField);
+    document.addEventListener('DOMContentLoaded', toggleOrderField);
+</script>
+
+{% endblock %}
