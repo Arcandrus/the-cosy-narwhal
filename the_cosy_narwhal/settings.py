@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 from django.contrib.messages import constants as messages
 import os
-import dj_database_url
+import dj_database_url # type:ignore
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -50,7 +50,7 @@ else:
         'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
     }
 
-ALLOWED_HOSTS = ['the-cosy-narwhal.herokuapp.com', 
+ALLOWED_HOSTS = ['https://the-cosy-narwhal-56b23ce5c2ce.herokuapp.com', 
                  'localhost', 
                  '127.0.0.1']
 
