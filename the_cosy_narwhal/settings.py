@@ -134,20 +134,7 @@ ACCOUNT_FORMS = {
     }
 
 ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_SIGNUP_FIELDS = [
-    'full_name',
-    'username',
-    'email',
-    'street_address1',
-    'street_address2',     # optional
-    'town_or_city*',
-    'county',
-    'postcode',
-    'country',
-    'password1',
-    'password2',
-]
-ACCOUNT_LOGIN_METHODS = {"username"}
+ACCOUNT_LOGIN_METHOD = "username"
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'The Cosy Narwhal <thecosynarwhal@outlook.com>'
 
