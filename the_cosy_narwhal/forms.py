@@ -75,9 +75,7 @@ class CustomSignupForm(SignupForm):
         self.fields["password2"].widget.attrs.update(
             {"placeholder": "Confirm Password"}
         )
-        self.fields[
-            "password1"
-        ].help_text = """
+        self.fields["password1"].help_text = """
             <div class="password-rules">
                 Your password can't be too similar to your other personal information.
                 <br>
@@ -87,23 +85,24 @@ class CustomSignupForm(SignupForm):
                 <br>
                 Your password can't be entirely numeric.
             </div>
-            """
+        """
 
-        # Remove labels across all fields
+        # Remove labels from all fields
         for field in self.fields.values():
             field.label = ""
 
     def save(self, request):
         user = super().save(request)
-        # You can save extra fields to user profile here if needed
-        Profile.objects.create(
-            user=user,
-            full_name=self.cleaned_data['full_name'],
-            street_address1=self.cleaned_data['street_address1'],
-            street_address2=self.cleaned_data.get('street_address2', ''),
-            town_or_city=self.cleaned_data['town_or_city'],
-            county=self.cleaned_data['county'],
-            postcode=self.cleaned_data['postcode'],
-            country=self.cleaned_data['country'],
-        )
+
+        # Signal already created profile; update it here
+        profile = user.profile
+        profile.full_name = self.cleaned_data['full_name']
+        profile.street_address1 = self.cleaned_data['street_address1']
+        profile.street_address2 = self.cleaned_data.get('street_address2', '')
+        profile.town_or_city = self.cleaned_data['town_or_city']
+        profile.county = self.cleaned_data['county']
+        profile.postcode = self.cleaned_data['postcode']
+        profile.country = self.cleaned_data['country']
+        profile.save()
+
         return user
