@@ -36,7 +36,7 @@ MESSAGE_TAGS = {
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
+DEBUG = True
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -106,7 +106,6 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
                 'django.template.context_processors.debug',
-                'django.template.context_processors.request',
                 'django.template.context_processors.static',
                 'bag.context_processors.bag_contents',
             ],
@@ -186,7 +185,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 # Stripe config
 STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY')
