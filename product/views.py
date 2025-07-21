@@ -103,6 +103,7 @@ def is_superuser(user):
 def product_management(request):
     return render(request, 'product/product_management.html')
 
+
 @user_passes_test(is_superuser)
 def add_product(request):
     if request.method == 'POST':
