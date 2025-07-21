@@ -30,9 +30,18 @@ class Product(models.Model):
     
     price = models.DecimalField(max_digits=6, decimal_places=2)
     rating = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True, default=0)
-    image = models.ImageField(upload_to='media/', null=True, blank=True)
+    image = models.ImageField(upload_to='', null=True, blank=True)
     image_url = models.URLField(max_length=1024, null=True, blank=True)
     inventory = models.IntegerField(null=True, blank=False, default=0)
+
+    def save(self, *args, **kwargs):
+            super().save(*args, **kwargs)
+            if self.image:
+                # Update image_url with the full URL to the S3 image
+                if self.image_url != self.image.url:
+                    self.image_url = self.image.url
+                    # Save again to update image_url field
+                    super().save(update_fields=['image_url'])
 
     def __str__(self):
         return self.name
