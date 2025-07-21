@@ -9,8 +9,8 @@ Order Summary:
 Total: £{{ total|floatformat:2 }}
 
 Your order will be delivered to:
-{{ street_address1 }}
-{% if street_address2 %} {{ street_address2 }} {% endif %}
+{{ street_address1 }}{% if street_address2 and street_address2 != "None" %}
+  {{ street_address2 }}{% endif %}
 {{ town_or_city }}, {{ county }}
 {{ postcode }}
 {{ country }}

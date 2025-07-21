@@ -13,11 +13,10 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 from django.contrib.messages import constants as messages
 import os
-import stripe
-from dotenv import load_dotenv
+from dotenv import load_dotenv #type:ignore
+import dj_database_url #type:ignore
 
 load_dotenv()
-import dj_database_url #type:ignore
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
