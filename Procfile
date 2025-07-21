@@ -1,0 +1,1 @@
+web: gunicorn the_cosy_narwhal.wsgi --log-file -
