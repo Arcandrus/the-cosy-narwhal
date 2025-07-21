@@ -30,10 +30,10 @@ MESSAGE_TAGS = {
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-auv=3z7d&e43(d)q=(b+mvdwy+&o&!!f31hw&2@f$cchxn08p2'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DJANGO_DEBUG', '') == 'True'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases

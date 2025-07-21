@@ -3,6 +3,7 @@ asgiref==3.8.1
 certifi==2025.7.14
 charset-normalizer==3.4.2
 crispy-bootstrap5==2025.6
+dj-database-url==3.0.1
 Django==5.2.3
 django-allauth==65.10.0
 django-crispy-forms==2.4
