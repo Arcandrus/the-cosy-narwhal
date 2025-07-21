@@ -14,6 +14,8 @@ from pathlib import Path
 from django.contrib.messages import constants as messages
 import os
 import dj_database_url # type:ignore
+import logging
+import logging.config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -129,17 +131,17 @@ ACCOUNT_FORMS = {
 
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_SIGNUP_FIELDS = [
-    'full_name*',
-    'username*',
-    'email*',
-    'street_address1*',
+    'full_name',
+    'username',
+    'email',
+    'street_address1',
     'street_address2',     # optional
     'town_or_city*',
-    'county*',
-    'postcode*',
-    'country*',
-    'password1*',
-    'password2*',
+    'county',
+    'postcode',
+    'country',
+    'password1',
+    'password2',
 ]
 ACCOUNT_LOGIN_METHODS = {"username"}
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -164,7 +166,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
@@ -175,7 +176,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
@@ -201,3 +201,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
 STRIPE_WEBHOOK_SECRET = os.environ.get('STRIPE_WH_SECRET')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+}
