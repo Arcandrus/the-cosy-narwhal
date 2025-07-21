@@ -1,0 +1,35 @@
+[
+  { "model": "the_cosy_narwhal.color", "pk": 1, "fields": { "name": "pink" } },
+  { "model": "the_cosy_narwhal.color", "pk": 2, "fields": { "name": "light_pink" } },
+  { "model": "the_cosy_narwhal.color", "pk": 3, "fields": { "name": "rose_red" } },
+  { "model": "the_cosy_narwhal.color", "pk": 4, "fields": { "name": "red" } },
+
+  { "model": "the_cosy_narwhal.color", "pk": 5, "fields": { "name": "yellow" } },
+  { "model": "the_cosy_narwhal.color", "pk": 6, "fields": { "name": "light_yellow" } },
+  { "model": "the_cosy_narwhal.color", "pk": 7, "fields": { "name": "orange" } },
+  { "model": "the_cosy_narwhal.color", "pk": 8, "fields": { "name": "gold_black" } },
+  { "model": "the_cosy_narwhal.color", "pk": 9, "fields": { "name": "yellow_black" } },
+
+  { "model": "the_cosy_narwhal.color", "pk": 10, "fields": { "name": "green" } },
+  { "model": "the_cosy_narwhal.color", "pk": 11, "fields": { "name": "dark_green" } },
+  { "model": "the_cosy_narwhal.color", "pk": 12, "fields": { "name": "seafoam" } },
+  { "model": "the_cosy_narwhal.color", "pk": 13, "fields": { "name": "seafoam_blue" } },
+  { "model": "the_cosy_narwhal.color", "pk": 14, "fields": { "name": "teal" } },
+
+  { "model": "the_cosy_narwhal.color", "pk": 15, "fields": { "name": "blue" } },
+  { "model": "the_cosy_narwhal.color", "pk": 16, "fields": { "name": "light_blue" } },
+  { "model": "the_cosy_narwhal.color", "pk": 17, "fields": { "name": "dark_blue" } },
+  { "model": "the_cosy_narwhal.color", "pk": 18, "fields": { "name": "medium_blue" } },
+  { "model": "the_cosy_narwhal.color", "pk": 19, "fields": { "name": "purple" } },
+  { "model": "the_cosy_narwhal.color", "pk": 20, "fields": { "name": "grape" } },
+
+  { "model": "the_cosy_narwhal.color", "pk": 21, "fields": { "name": "gray" } },
+  { "model": "the_cosy_narwhal.color", "pk": 22, "fields": { "name": "light_grey" } },
+  { "model": "the_cosy_narwhal.color", "pk": 23, "fields": { "name": "dark_grey" } },
+  { "model": "the_cosy_narwhal.color", "pk": 24, "fields": { "name": "black" } },
+
+  { "model": "the_cosy_narwhal.color", "pk": 25, "fields": { "name": "white" } },
+  { "model": "the_cosy_narwhal.color", "pk": 26, "fields": { "name": "peach" } },
+  { "model": "the_cosy_narwhal.color", "pk": 27, "fields": { "name": "mixed" } },
+  { "model": "the_cosy_narwhal.color", "pk": 28, "fields": { "name": "rainbow" } }
+]
