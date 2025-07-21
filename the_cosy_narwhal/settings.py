@@ -50,7 +50,7 @@ else:
         'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
     }
 
-ALLOWED_HOSTS = ['https://the-cosy-narwhal-56b23ce5c2ce.herokuapp.com', 
+ALLOWED_HOSTS = ['.herokuapp.com', 
                  'localhost', 
                  '127.0.0.1']
 
