@@ -33,7 +33,7 @@ MESSAGE_TAGS = {
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DJANGO_DEBUG', '') == 'True'
+DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
