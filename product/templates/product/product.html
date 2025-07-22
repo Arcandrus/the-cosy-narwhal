@@ -23,7 +23,7 @@
     <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
         <div class="card bg-pur h-100 border-0">
             <a href="{% url 'product_detail' product.id %}">
-                <img id="product-img" class="product-img img-fluid mt-4" src="{{ MEDIA_URL }}{{ product.image }}">
+                <img id="product-img" class="product-img img-fluid mt-4" src="{{ product.image_url}}">
             </a>
             <div class="card-footer bg-transparent border-0 text-left">
                 <div class="row">
