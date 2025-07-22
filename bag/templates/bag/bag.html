@@ -1,37 +1,75 @@
 {% extends "base.html" %}
 {% load custom_filters %}
+
 {% block content %}
-    <div class="row font-weight-bold mb-2">
-        <div class="col-9">Product Information</div>
-        <div class="col-2">Subtotal</div>
-        <div class="col-1"></div> <!-- spacer -->
-    </div>
-    <hr>
+
+<!-- Table display on larger screens -->
+<table class="table d-none d-md-table">
+    <tbody>
+        {% for product_code, quantity in bag.items %}
+        {% with product=product_code|product_by_code %}
+        <tr>
+            <td>
+                {% if product.image %}
+                <img class="product-img-small" src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% else %}
+                <img class="product-img-small" src="{{ product.image_url }}" alt="{{ product.name }}">
+                {% endif %}
+            </td>
+            <td colspan="2">{{ product.name }}</td>
+            <td>
+                <form method="POST" action="{% url 'remove_from_bag' product.code %}" class="mb-0">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-danger" title="Remove item">X</button>
+                </form>
+            </td>
+        </tr>
+        <tr class="text-center product-info">
+            <td>
+                <strong>Quantity: </strong> x{{ quantity }}
+            </td>
+            <td colspan="2">
+                <strong>Price: </strong>£{{ product.price }}
+            </td>
+            <td>
+                <strong>Subtotal: </strong>£{{ product.price|multiply:quantity|floatformat:2 }}
+            </td>
+        </tr>
+        {% endwith %}
+        {% empty %}
+        <tr>
+            <td colspan="5">Your cart is empty.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<!-- Stacked div display on smaller screens -->
+<div class="d-block d-md-none">
     {% for product_code, quantity in bag.items %}
     {% with product=product_code|product_by_code %}
-    <div class="row align-items-center mb-3">
-        <div class="col-3">
-            {% if product.image %}
-            <img class="product-img-small" src="{{ product.image.url }}" alt="{{ product.name }}">
-            {% else %}
-            <img class="product-img-small" src="{{ product.image_url }}" alt="{{ product.name }}">
-            {% endif %}
-        </div>
-        <div class="col-6">
-            {{ product.name }} 
-        </div>
-        <div class="col-2 d-flex justify-content-center align-items-center">
-        <span class="product-info mr-4">
-            <strong>Price: </strong>£{{ product.price }}
-            <strong>Quantity: </strong>  x{{ quantity }}
-            <strong>Subtotal: </strong>£{{ product.price|multiply:quantity|floatformat:2 }}
-        </span>
-        </div>
-        <div class="col-1 d-flex justify-content-center align-items-center">
-            <form method="POST" action="{% url 'remove_from_bag' product.code %}" class="mb-0">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-sm btn-danger" title="Remove item">X</button>
-            </form>
+    <div class="mb-2 p-2">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+            <div class="mb-3">
+                {% if product.image %}
+                <img class="product-img-small" src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% else %}
+                <img class="product-img-small" src="{{ product.image_url }}" alt="{{ product.name }}">
+                {% endif %}
+            </div>
+            <div>
+                <h6 class="mb-3">{{ product.name }}</h6>
+            </div>
+            <div>
+                <div><strong>Quantity: </strong>x{{ quantity }}</div>
+                <div><strong>Price: </strong>£{{ product.price }}</div>
+                <div><strong>Subtotal: </strong>£{{ product.price|multiply:quantity|floatformat:2 }}</div>
+            </div>
+            <div>
+                <form method="POST" action="{% url 'remove_from_bag' product.code %}" class="mb-0">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-danger" title="Remove item">X</button>
+                </form>
+            </div>
         </div>
     </div>
     <hr>
@@ -39,31 +77,37 @@
     {% empty %}
     <div>Your cart is empty.</div>
     {% endfor %}
-    <div class="row w-100">
-        <div class="col-8"></div> <!-- spacer -->
-        {% if grand_total %}
-        <div class="col-2"><strong>Grand Total: </strong></div>
-        <div class="col-2 text-end"> <!-- price column -->
-            £{{ grand_total|floatformat:2 }}
-        </div>
-        {% endif %}
-    </div>
+</div>
 
-    <!-- Buttons Row -->
-    <div class="row w-100 mt-3">
-        <div class="col-lg-8 d-lg-flex d-none"></div> <!-- spacer -->
-        <div class="col-lg-4 col-12 text-end">
-            <a href="{% url 'products' %}" class="btn btn-def"><i class="fa-solid fa-store"></i> Keep Shopping</a>
-            {% if bag %}
-            <a href="{% url 'checkout' %}" class="btn btn-def">
-                <i class="fa-solid fa-lock"></i> Checkout
-            </a>
+<hr>
+<div class="col text-right mb-4">
+    <strong>Grand Total: </strong>£{{ grand_total }}
+</div>
+
+<div class="row w-100 mt-3">
+    <div class="col-lg-8 d-none d-lg-block"></div> <!-- spacer only on large -->
+
+    <div class="col-12 col-lg-4 d-flex 
+            justify-content-end 
+            justify-content-sm-center 
+            flex-wrap flex-sm-nowrap 
+            flex-column flex-sm-row
+            align-items-center align-items-sm-start">
+        <a href="{% url 'products' %}" class="btn btn-def mr-sm-4 mb-2 mb-sm-0 me-sm-2">
+            <i class="fa-solid fa-store"></i> Keep Shopping
+        </a>
+
+        {% if bag %}
+        <a href="{% url 'checkout' %}" class="btn btn-def mb-2 mb-sm-0">
+            <i class="fa-solid fa-lock"></i> Checkout
+        </a>
         {% else %}
-        <button class="btn btn-def" disabled>
+        <button class="btn btn-def mb-2 mb-sm-0" disabled>
             <i class="fa-solid fa-lock"></i> Checkout
         </button>
         {% endif %}
-        </div>
     </div>
+</div>
+
 
 {% endblock %}

@@ -148,10 +148,10 @@
                     </tr>
                     <tr class="text-center product-info-checkout">
                         <td>
-                            <strong>Price: </strong>£{{ product.price }}
+                            <strong>Quantity: </strong> x{{ quantity }}
                         </td>
                         <td>
-                            <strong>Quantity: </strong> x{{ quantity }}
+                            <strong>Price: </strong>£{{ product.price }}
                         </td>
                         <td>
                             <strong>Subtotal: </strong>£{{ product.price|multiply:quantity|floatformat:2 }}
@@ -182,8 +182,8 @@
                             <h6 class="mb-3">{{ product.name }}</h6>
                         </div>
                         <div>
-                            <div><strong>Price: </strong>£{{ product.price }}</div>
                             <div><strong>Quantity: </strong>x{{ quantity }}</div>
+                            <div><strong>Price: </strong>£{{ product.price }}</div>
                             <div><strong>Subtotal: </strong>£{{ product.price|multiply:quantity|floatformat:2 }}</div>
                         </div>
                     </div>
