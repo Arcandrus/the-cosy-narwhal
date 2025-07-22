@@ -131,7 +131,7 @@
     </div>
     <div class="col-md-6">
         <div class="scroll">
-            <table class="table">
+            <table class="table d-none d-md-table">
                 <tbody>
                     {% for product_code, quantity in bag.items %}
                     {% with product=product_code|product_by_code %}
@@ -160,9 +160,34 @@
                     {% endfor %}
                 </tbody>
             </table>
+            <div class="d-block d-md-none">
+                {% for product_code, quantity in bag.items %}
+                {% with product=product_code|product_by_code %}
+                <div class="mb-2 p-2">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            {% if product.image %}
+                            <img class="product-img-small" src="{{ product.image.url }}" alt="{{ product.name }}">
+                            {% else %}
+                            <img class="product-img-small" src="{{ product.image_url }}" alt="{{ product.name }}">
+                            {% endif %}
+                        </div>
+                        <div>
+                            <h6 class="mb-1">{{ product.name }}</h6>
+                            <div><strong>Price: </strong>£{{ product.price }}</div>
+                            <div><strong>Quantity: </strong>x{{ quantity }}</div>
+                            <div><strong>Subtotal: </strong>£{{ product.price|multiply:quantity|floatformat:2 }}</div>
+                        </div>
+                    </div>
+                </div>
+                {% endwith %}
+                {% empty %}
+                <div>Your cart is empty.</div>
+                {% endfor %}
+            </div>
         </div>
         <hr>
-        <div class="col text-right">
+        <div class="col text-right mb-4">
             <strong>Grand Total: </strong>£{{ total_price }}
         </div>
     </div>
