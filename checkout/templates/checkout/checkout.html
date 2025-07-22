@@ -108,14 +108,13 @@
             });
         </script>
 
-
         {% else %}
         <h2>Delivery Information</h2>
         <form method="post" action="{% url 'checkout' %}">
             {% csrf_token %}
             {{ form.as_p }}
             {% if user.is_authenticated %}
-        <div class="form-check mt-3">
+        <div class="form-check mt-3 d-flex justify-content-center">
             <input 
                 class="form-check-input" 
                 type="checkbox" 
