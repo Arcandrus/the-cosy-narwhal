@@ -300,7 +300,7 @@ td {
 }
 
 .scroll {
-  max-height: 80vh;
+  max-height: 440px;
   overflow-y: auto;
 }
 
