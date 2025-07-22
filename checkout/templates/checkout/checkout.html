@@ -162,7 +162,7 @@
                 </tbody>
             </table>
             <!-- Stacked div display on smaller screens -->
-            <div class="d-block d-md-none justify-content-center">
+            <div class="d-block d-md-none flex-column justify-content-center">
                 {% for product_code, quantity in bag.items %}
                 {% with product=product_code|product_by_code %}
                 <div class="mb-2 p-2">
