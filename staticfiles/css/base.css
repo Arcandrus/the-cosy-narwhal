@@ -299,6 +299,11 @@ td {
     padding-left: 80px;
 }
 
+.scroll {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
 @media(max-width: 1220px) {
     .nav-link {
         padding: 10px 0 0 0;
