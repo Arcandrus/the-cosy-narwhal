@@ -1,13 +1,12 @@
 {% extends "base.html" %}
 {% load custom_filters %}
 {% block content %}
-<!-- checkout/checkout.html -->
 
 <!-- Left side: Order Summary -->
 <h2>Your Order</h2>
 
 <hr>
-<div class="row align-items-center mb-3">
+<div class="row flex-column-reverse flex-md-row align-items-start mb-3">
     <!-- Right side: Delivery Form OR Stripe Payment Widget -->
     <div class="col-md-6">
         {% if payment_phase %}
