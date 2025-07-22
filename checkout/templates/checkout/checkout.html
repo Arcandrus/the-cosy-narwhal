@@ -144,13 +144,17 @@
                             <img class="product-img-small" src="{{ product.image_url }}" alt="{{ product.name }}">
                             {% endif %}
                         </td>
-                        <td>{{ product.name }}</td>
-                        <td class="text-center">
-                            <span class="product-info-checkout">
-                                <strong>Price: </strong>£{{ product.price }}<br>
-                                <strong>Quantity: </strong> x{{ quantity }}<br>
-                                <strong>Subtotal: </strong>£{{ product.price|multiply:quantity|floatformat:2 }}
-                            </span>
+                        <td colspan="2">{{ product.name }}</td>
+                    </tr>
+                    <tr class="text-center product-info-checkout">
+                        <td>
+                            <strong>Price: </strong>£{{ product.price }}
+                        </td>
+                        <td>
+                            <strong>Quantity: </strong> x{{ quantity }}
+                        </td>
+                        <td>
+                            <strong>Subtotal: </strong>£{{ product.price|multiply:quantity|floatformat:2 }}
                         </td>
                     </tr>
                     {% endwith %}
@@ -162,12 +166,12 @@
                 </tbody>
             </table>
             <!-- Stacked div display on smaller screens -->
-            <div class="d-block d-md-none flex-column justify-content-center">
+            <div class="d-block d-md-none">
                 {% for product_code, quantity in bag.items %}
                 {% with product=product_code|product_by_code %}
                 <div class="mb-2 p-2">
-                    <div class="d-flex align-items-center">
-                        <div class="me-3">
+                    <div class="d-flex flex-column justify-content-center align-items-center">
+                        <div class="mb-3">
                             {% if product.image %}
                             <img class="product-img-small" src="{{ product.image.url }}" alt="{{ product.name }}">
                             {% else %}
@@ -175,7 +179,7 @@
                             {% endif %}
                         </div>
                         <div>
-                            <h6 class="mb-1">{{ product.name }}</h6>
+                            <h6 class="mb-3">{{ product.name }}</h6>
                         </div>
                         <div>
                             <div><strong>Price: </strong>£{{ product.price }}</div>
@@ -184,6 +188,7 @@
                         </div>
                     </div>
                 </div>
+                <hr>
                 {% endwith %}
                 {% empty %}
                 <div>Your cart is empty.</div>
