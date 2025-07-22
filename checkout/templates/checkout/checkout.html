@@ -131,6 +131,7 @@
     </div>
     <div class="col-md-6">
         <div class="scroll">
+            <!-- Table display on larger screens -->
             <table class="table d-none d-md-table">
                 <tbody>
                     {% for product_code, quantity in bag.items %}
@@ -160,7 +161,8 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <div class="d-block d-md-none">
+            <!-- Stacked div display on smaller screens -->
+            <div class="d-block d-md-none justify-content-center">
                 {% for product_code, quantity in bag.items %}
                 {% with product=product_code|product_by_code %}
                 <div class="mb-2 p-2">
@@ -174,6 +176,8 @@
                         </div>
                         <div>
                             <h6 class="mb-1">{{ product.name }}</h6>
+                        </div>
+                        <div>
                             <div><strong>Price: </strong>£{{ product.price }}</div>
                             <div><strong>Quantity: </strong>x{{ quantity }}</div>
                             <div><strong>Subtotal: </strong>£{{ product.price|multiply:quantity|floatformat:2 }}</div>
