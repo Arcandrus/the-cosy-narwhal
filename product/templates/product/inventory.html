@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+  /* Center the table on the screen */
+  table {
+    margin: 20px auto;  /* top/bottom 20px, horizontally centered */
+    border-collapse: collapse;
+    width: auto; /* shrink to content width */
+  }
+
+  /* Add padding and center text in headers and cells */
+  table th, table td {
+    padding: 10px 15px;
+    text-align: center;
+  }
+</style>
+
+<h2>Update Inventory</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    <table>
+        <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Inventory</th>
+        </tr>
+
+        {% for form in formset %}
+        <tr>
+            <td>
+                {% if form.instance.image_url %}
+                <img src="{{ form.instance.image_url }}" alt="{{ form.instance.name }}" width="50">
+                {% endif %}
+            </td>
+            <td>{{ form.instance.name }}</td>
+            <td>{{ form.inventory }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <button class="btn btn-def" type="submit">Save Changes</button>
+</form>
+
+{% endblock %}

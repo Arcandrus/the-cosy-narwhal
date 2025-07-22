@@ -1,5 +1,6 @@
 from django import forms
 from .models import Product, Review
+from django.forms import modelformset_factory
 
 class ReviewForm(forms.ModelForm):
     class Meta:
@@ -19,9 +20,6 @@ class ReviewForm(forms.ModelForm):
             choices=[(i, str(i)) for i in range(1, 6)],
         )
         self.fields['rating'].label = 'Rating'
-
-from django import forms
-from .models import Product  # Adjust import as needed
 
 class ProductForm(forms.ModelForm):
     class Meta:
@@ -53,3 +51,17 @@ class ProductForm(forms.ModelForm):
             # Add 'form-control' class
             existing_classes = field.widget.attrs.get('class', '')
             field.widget.attrs['class'] = f'{existing_classes} form-control'.strip()
+
+class ProductInventoryForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['inventory']
+        widgets = {
+            'inventory': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+
+ProductInventoryFormSet = modelformset_factory(
+    Product,
+    form=ProductInventoryForm,
+    extra=0
+)

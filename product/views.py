@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import user_passes_test
 from .forms import ProductForm
 from django.db import models
 from django.contrib import messages
+from .forms import ProductInventoryFormSet
 
 
 def all_products(request):
@@ -193,3 +194,27 @@ def remove_product(request):
         'search_results': search_results,
     }
     return render(request, 'product/remove_product.html', context)
+
+@user_passes_test(is_superuser)
+def update_inventory(request):
+    queryset = Product.objects.all()
+
+    if request.method == 'POST':
+        formset = ProductInventoryFormSet(request.POST, queryset=queryset)
+
+        print("POST received!")
+        print("Raw POST data:", request.POST)
+
+        if formset.is_valid():
+            print("Formset is valid.")
+            formset.save()
+            messages.success(request, "Inventory successfully updated.")
+            return redirect('product_management')
+        else:
+            print("Formset errors:", formset.errors)
+    else:
+        formset = ProductInventoryFormSet(queryset=queryset)
+
+    return render(request, 'product/inventory.html', {
+        'formset': formset,
+    })
