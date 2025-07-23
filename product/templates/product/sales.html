@@ -5,12 +5,24 @@
 <h1 class="mb-4 text-center">Sales Report</h1>
 
 <form method="get" id="filterForm" class="mb-4 d-flex justify-content-center align-items-center gap-3">
+
+    <!-- Period Filter -->
     <select class="form-select w-auto rounded form-control" name="period" id="period" onchange="this.form.submit()">
         <option value="1" {% if selected_period == '1' %}selected{% endif %}>Last 24 hours</option>
         <option value="7" {% if selected_period == '7' %}selected{% endif %}>Last 7 days</option>
         <option value="30" {% if selected_period == '30' %}selected{% endif %}>Last 30 days</option>
         <option value="all" {% if selected_period == 'all' %}selected{% endif %}>All time</option>
     </select>
+
+    <!-- Sort By Filter -->
+    <select class="form-select w-auto rounded form-control" name="sort" id="sort" onchange="this.form.submit()">
+        <option value="most_sales" {% if selected_sort == 'most_sales' %}selected{% endif %}>Most Sales</option>
+        <option value="highest_subtotal" {% if selected_sort == 'highest_subtotal' %}selected{% endif %}>Highest Subtotal</option>
+        <option value="lowest_stock" {% if selected_sort == 'lowest_stock' %}selected{% endif %}>Lowest Stock</option>
+        <option value="price_high_to_low" {% if selected_sort == 'price_high_to_low' %}selected{% endif %}>Price High to Low</option>
+        <option value="price_low_to_high" {% if selected_sort == 'price_low_to_high' %}selected{% endif %}>Price Low to High</option>
+    </select>
+
 </form>
 
 {% if products_sales %}

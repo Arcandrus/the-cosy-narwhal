@@ -239,6 +239,7 @@ def update_inventory(request):
 def sales(request):
     # Get filter period from query params, default to 7 days
     period = request.GET.get('period', '7')
+    sort = request.GET.get('sort', 'most_sales')  # get sorting option, default to most_sales
     now = timezone.now()
 
     if period == '1':
@@ -287,11 +288,25 @@ def sales(request):
             'inventory': product.inventory,
         })
 
-    products_sales.sort(key=lambda x: x['units_sold'], reverse=True)
+    # Sorting logic
+    if sort == 'most_sales':
+        products_sales.sort(key=lambda x: x['units_sold'], reverse=True)
+    elif sort == 'highest_subtotal':
+        products_sales.sort(key=lambda x: x['subtotal'], reverse=True)
+    elif sort == 'lowest_stock':
+        products_sales.sort(key=lambda x: x['inventory'])
+    elif sort == 'price_high_to_low':
+        products_sales.sort(key=lambda x: x['price'], reverse=True)
+    elif sort == 'price_low_to_high':
+        products_sales.sort(key=lambda x: x['price'])
+    else:
+        # default fallback sort
+        products_sales.sort(key=lambda x: x['units_sold'], reverse=True)
 
     context = {
         'products_sales': products_sales,
         'selected_period': period,
+        'selected_sort': sort,  # pass the selected sort for template to highlight dropdown
         'total_sales': total_sales,
     }
 
