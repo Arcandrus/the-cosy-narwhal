@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from product.models import Product
-
+from the_cosy_narwhal.utils import calculate_delivery
 
 def format_color_name(color_name):
     if not color_name:
@@ -11,7 +11,36 @@ def format_color_name(color_name):
 
 
 def view_bag(request):
-    return render(request, 'bag/bag.html')
+    bag = request.session.get('bag', {})
+
+    order_items = []
+    total_price = 0
+
+    for code, qty in bag.items():
+        try:
+            product = Product.objects.get(code=code)
+            line_total = product.price * qty
+            total_price += line_total
+            order_items.append({
+                'product': product,
+                'quantity': qty,
+                'line_total': line_total,
+            })
+        except Product.DoesNotExist:
+            continue
+
+    delivery_charge, delivery_type, grand_total = calculate_delivery(order_items)
+
+    context = {
+        'bag': bag,  # so your template can still loop if you want, or switch to order_items
+        'order_items': order_items,
+        'total_price': total_price,
+        'delivery_charge': delivery_charge,
+        'delivery_type': delivery_type,
+        'grand_total': grand_total,
+    }
+
+    return render(request, 'bag/bag.html', context)
 
 
 def add_to_bag(request, item_id):

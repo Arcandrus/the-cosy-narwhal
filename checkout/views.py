@@ -13,6 +13,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
+from the_cosy_narwhal.utils import calculate_delivery
 
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -38,6 +39,8 @@ def checkout_view(request):
         except Product.DoesNotExist:
             continue
 
+    delivery_charge, delivery_type, grand_total = calculate_delivery(order_items)
+    
     # Authenticated user data (if available)
     profile = None
     user_email = ''
@@ -81,6 +84,9 @@ def checkout_view(request):
                 return render(request, 'checkout/checkout.html', {
                     'order_items': order_items,
                     'total_price': total_price,
+                    'delivery_charge': delivery_charge,
+                    'delivery_type': delivery_type,
+                    'grand_total': grand_total,
                     'form': form,
                     'bag_json': json.dumps(bag),
                     'delivery_info': request.session.get('delivery_info', {}),
@@ -90,6 +96,9 @@ def checkout_view(request):
             return render(request, 'checkout/checkout.html', {
                 'order_items': order_items,
                 'total_price': total_price,
+                'delivery_charge': delivery_charge,
+                'delivery_type': delivery_type,
+                'grand_total': grand_total,
                 'form': form,
                 'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
                 'client_secret': intent.client_secret,
@@ -99,12 +108,14 @@ def checkout_view(request):
                 'save_info': request.session.get('save_info', True),
             })
     else:
-        # GET request - show delivery info form
         form = DeliveryInfoForm(instance=profile, user_email=user_email)
 
     return render(request, 'checkout/checkout.html', {
         'order_items': order_items,
         'total_price': total_price,
+        'delivery_charge': delivery_charge,
+        'delivery_type': delivery_type,
+        'grand_total': grand_total,
         'form': form,
         'bag_json': json.dumps(bag),
         'delivery_info': request.session.get('delivery_info', {}),
@@ -141,10 +152,16 @@ def checkout_success(request, order_number):
         except Product.DoesNotExist:
             continue
 
+    delivery_charge, delivery_type, total_with_delivery = calculate_delivery(order_items)
+
     context = {
         'order': order,
         'order_items': order_items,
+        'delivery_charge': delivery_charge,
+        'delivery_type': delivery_type,
+        'total_with_delivery': total_with_delivery,
     }
+
     return render(request, 'checkout/checkout_success.html', context)
 
 
@@ -255,7 +272,7 @@ def save_order(request):
 @login_required
 def order_detail(request, order_number):
     order = get_object_or_404(Order, order_number=order_number)
-    item_data = order.items  # this is the stored dictionary of items in the bag
+    item_data = order.items  # stored dictionary of items in the bag
     item_list = []
 
     for code, qty in item_data.items():
@@ -269,8 +286,14 @@ def order_detail(request, order_number):
         except Product.DoesNotExist:
             continue
 
+    # Calculate delivery charge, type, and grand total
+    delivery_charge, delivery_type, grand_total = calculate_delivery(item_list)
+
     context = {
         'order': order,
         'item_list': item_list,
+        'delivery_charge': delivery_charge,
+        'delivery_type': delivery_type,
+        'grand_total': grand_total,
     }
     return render(request, 'checkout/order_detail.html', context)

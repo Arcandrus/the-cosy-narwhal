@@ -25,11 +25,11 @@
             <input type="hidden" id="save-info" name="save_info" value="{{ save_info|default_if_none:'true' }}">
 
             <div class="form-control mt-3" id="card-element"><!--Stripe.js injects the Card Element here--></div>    
-            <button class="btn btn-def mt-3" id="submit">Pay £{{ total_price }}</button>
+            <button class="btn btn-def mt-3" id="submit">Pay £{{ grand_total|floatformat:2 }}</button>
             <div id="error-message"></div>
         </form>
         <script type="application/json" id="bag-data">{{ bag_json|safe }}</script>
-        <span id="total-price" style="display:none;">{{ total_price }}</span>
+        <span id="total-price" style="display:none;">{{ grand_total|floatformat:2 }}</span>
         <script type="text/javascript">
             const stripe = Stripe('{{ stripe_public_key }}');
             const elements = stripe.elements();
@@ -197,7 +197,8 @@
         </div>
         <hr>
         <div class="col text-right mb-4">
-            <strong>Grand Total: </strong>£{{ total_price }}
+            <p><strong>Delivery: </strong>£{{ delivery_charge|floatformat:2 }}</p>
+            <p><strong>Grand Total: </strong>£{{ grand_total|floatformat:2 }}</p>
         </div>
     </div>
     <hr>

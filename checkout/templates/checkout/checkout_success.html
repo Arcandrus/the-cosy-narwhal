@@ -29,7 +29,8 @@
     </tbody>
 </table>
 <hr>
-<p><strong>Total Paid: £{{ order.total_price }}</strong></p>
+<p><strong>Delivery: £{{ delivery_charge|floatformat:2 }}</strong></p>
+<p><strong>Total (including delivery): £{{ total_with_delivery|floatformat:2 }}</strong></p>
 
 <h3>Delivery Information</h3>
 <div class="delivery-info-container">

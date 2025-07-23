@@ -81,7 +81,8 @@
 
 <hr>
 <div class="col text-right mb-4">
-    <strong>Grand Total: </strong>£{{ grand_total }}
+    <p><strong>Delivery: </strong>£{{ delivery_charge|floatformat:2 }}</p>
+    <p><strong>Grand Total: </strong>£{{ grand_total|floatformat:2 }}</p>
 </div>
 
 <div class="row w-100 mt-3">
@@ -108,6 +109,5 @@
         {% endif %}
     </div>
 </div>
-
 
 {% endblock %}
