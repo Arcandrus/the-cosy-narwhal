@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<h1 class="mb-4 text-center">Sales Report</h1>
+
+<form method="get" id="filterForm" class="mb-4 d-flex justify-content-center align-items-center gap-3">
+    <select class="form-select w-auto rounded form-control" name="period" id="period" onchange="this.form.submit()">
+        <option value="1" {% if selected_period == '1' %}selected{% endif %}>Last 24 hours</option>
+        <option value="7" {% if selected_period == '7' %}selected{% endif %}>Last 7 days</option>
+        <option value="30" {% if selected_period == '30' %}selected{% endif %}>Last 30 days</option>
+        <option value="all" {% if selected_period == 'all' %}selected{% endif %}>All time</option>
+    </select>
+</form>
+
+{% if products_sales %}
+<!-- Large screens: Grid row layout -->
+<div class="d-none d-md-block">
+    <!-- Header Row -->
+    <div class="row fw-bold border-bottom pb-2 mb-2 text-center">
+        <div class="col-2 col-md-1"><strong>Image</strong></div>
+        <div class="col-2 col-md-2"><strong>Product Code</strong></div>
+        <div class="col-6 col-md-3"><strong>Name</strong></div>
+        <div class="col-2 col-md-1"><strong>Sold</strong></div>
+        <div class="col-4 col-md-1"><strong>Price</strong></div>
+        <div class="col-4 col-md-2"><strong>Subtotal</strong></div>
+        <div class="col-4 col-md-2"><strong>Stock</strong></div>
+    </div>
+
+    <!-- Data Rows -->
+    {% for item in products_sales %}
+    <div class="row align-items-center text-center text-md-start py-2 border-bottom">
+        <div class="col-2 col-md-1">
+            {% if item.image %}
+            <img src="{{ item.image }}" alt="{{ item.name }}" class="img-fluid" style="max-height: 50px;">
+            {% else %}
+            No Image
+            {% endif %}
+        </div>
+        <div class="col-2 col-md-2">{{ item.code }}</div>
+        <div class="col-6 col-md-3">{{ item.name }}</div>
+        <div class="col-2 col-md-1">{{ item.units_sold }}</div>
+        <div class="col-4 col-md-1">£{{ item.price }}</div>
+        <div class="col-4 col-md-2">£{{ item.subtotal }}</div>
+        <div class="col-4 col-md-2">{{ item.inventory }}</div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Small screens: Stacked layout -->
+<div class="d-block d-md-none">
+    {% for item in products_sales %}
+    <div class="border rounded p-3 mb-3">
+        <div class="d-flex justify-content-center mb-3">
+            {% if item.image %}
+            <img src="{{ item.image }}" alt="{{ item.name }}" class="img-fluid" style="max-height: 100px;">
+            {% else %}
+            <div class="text-muted">No Image</div>
+            {% endif %}
+        </div>
+        <div class="text-center mb-2">
+            <h5 class="mb-1">{{ item.name }}</h5>
+            <p>{{ item.code }}</p>
+        </div>
+        <div class="d-flex justify-content-between">
+            <div><strong>Sold:</strong> {{ item.units_sold }}</div>
+            <div><strong>Price:</strong> £{{ item.price }}</div>
+        </div>
+        <div class="d-flex justify-content-between mt-2">
+            <div><strong>Subtotal:</strong> £{{ item.subtotal }}</div>
+            <div><strong>Stock:</strong> {{ item.inventory }}</div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% else %}
+<p class="text-center">No sales in this timeframe.</p>
+{% endif %}
+
+<!-- Total Sales -->
+{% if products_sales %}
+<div class="mt-4 text-center">
+    <h5>Total Sales for Period: £{{ total_sales }}</h5>
+</div>
+{% endif %}
+{% endblock %}

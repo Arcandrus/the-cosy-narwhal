@@ -7,7 +7,11 @@ from .forms import ProductForm
 from django.db import models
 from django.contrib import messages
 from .forms import ProductInventoryFormSet
-
+from checkout.models import Order
+from django.utils import timezone
+from datetime import timedelta
+from collections import defaultdict
+from decimal import Decimal
 
 def all_products(request):
     query = request.GET.get('q', '')
@@ -47,33 +51,42 @@ def all_products(request):
 def product_detail(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
 
-    # Extract the prefix (e.g., "WHA") from the product code
     prefix = product.code[:3]
-
-    # Get all products that share the same prefix
     variant_products = Product.objects.filter(code__startswith=prefix).order_by('id')
-        
+
+    # Build color_links
     color_links = []
     for color in product.available_colors.all():
         variant = variant_products.filter(color=color).first()
         if variant:
             color_links.append((color.name.lower(), variant.id))
-
     color_links.sort(key=lambda x: x[0])
-    
-    SIZE_DICT = dict(Product.SIZE)
+
+    # Build size_links
     size_links = []
     for size_value, size_label in Product.SIZE:
         if size_value == product.size:
-            continue  # Skip current size
+            continue
         variant = variant_products.filter(size=size_value, color=product.color).first()
         if variant:
             size_links.append((size_value, size_label, variant.id))
 
-    # Get all reviews for this product, newest first
     reviews = product.reviews.all().order_by('-created_at')
 
-    if request.method == 'POST':
+    # ✅ Check if user can leave a review
+    can_review = False
+    if request.user.is_authenticated:
+        already_reviewed = reviews.filter(user=request.user).exists()
+
+        if not already_reviewed:
+            user_orders = Order.objects.filter(user=request.user)
+            for order in user_orders:
+                if product.code in order.items:
+                    can_review = True
+                    break
+
+    # Only accept POST if allowed
+    if request.method == 'POST' and can_review:
         form = ReviewForm(request.POST)
         if form.is_valid():
             review = form.save(commit=False)
@@ -91,8 +104,9 @@ def product_detail(request, product_id):
         'size_links': size_links,
         'reviews': reviews,
         'form': form,
+        'can_review': can_review,
     }
-    
+
     return render(request, "product/product_detail.html", context)
 
 
@@ -195,6 +209,7 @@ def remove_product(request):
     }
     return render(request, 'product/remove_product.html', context)
 
+
 @user_passes_test(is_superuser)
 def update_inventory(request):
     queryset = Product.objects.all()
@@ -218,3 +233,66 @@ def update_inventory(request):
     return render(request, 'product/inventory.html', {
         'formset': formset,
     })
+
+
+@user_passes_test(is_superuser)
+def sales(request):
+    # Get filter period from query params, default to 7 days
+    period = request.GET.get('period', '7')
+    now = timezone.now()
+
+    if period == '1':
+        start_date = now - timedelta(days=1)
+    elif period == '7':
+        start_date = now - timedelta(days=7)
+    elif period == '30':
+        start_date = now - timedelta(days=30)
+    else:  # 'all' or invalid value
+        start_date = None
+
+    if start_date:
+        orders = Order.objects.filter(created_at__gte=start_date)
+    else:
+        orders = Order.objects.all()
+
+    # Aggregate total units sold per product code
+    sales_data = defaultdict(int)
+    for order in orders:
+        for code, qty in order.items.items():
+            sales_data[code] += qty
+
+    # Build product sales info
+    products_sales = []
+    total_sales = Decimal('0.00')  # initialize total
+
+    product_codes = sales_data.keys()
+    products = Product.objects.filter(code__in=product_codes)
+    products_map = {p.code: p for p in products}
+
+    for code, qty_sold in sales_data.items():
+        product = products_map.get(code)
+        if not product:
+            continue  # product deleted
+
+        subtotal = qty_sold * product.price
+        total_sales += subtotal
+
+        products_sales.append({
+            'image': product.image.url if product.image else None,
+            'code': product.code,
+            'name': product.name,
+            'units_sold': qty_sold,
+            'price': product.price,
+            'subtotal': subtotal,
+            'inventory': product.inventory,
+        })
+
+    products_sales.sort(key=lambda x: x['units_sold'], reverse=True)
+
+    context = {
+        'products_sales': products_sales,
+        'selected_period': period,
+        'total_sales': total_sales,
+    }
+
+    return render(request, 'product/sales.html', context)

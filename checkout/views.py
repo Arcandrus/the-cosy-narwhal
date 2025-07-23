@@ -114,10 +114,19 @@ def checkout_view(request):
 
 def checkout_success(request, order_number):
     order = get_object_or_404(Order, order_number=order_number)
+    
+    # Decrement inventory for each product in the order
+    for code, qty in order.items.items():
+        try:
+            product = Product.objects.get(code=code)
+            product.inventory = max(product.inventory - qty, 0)  # Prevent negative inventory
+            product.save()
+        except Product.DoesNotExist:
+            # Optionally log this or handle missing product case
+            continue
 
-    # Optional: you can clear the bag here if you haven't done it before
     request.session['bag'] = {}
-    request.session.pop('order_data', None)  # clear if exists, no error if not
+    request.session.pop('order_data', None)
 
     # Build order items to show nicely
     order_items = []
@@ -137,7 +146,6 @@ def checkout_success(request, order_number):
         'order_items': order_items,
     }
     return render(request, 'checkout/checkout_success.html', context)
-
 
 
 @csrf_protect
@@ -247,7 +255,7 @@ def save_order(request):
 @login_required
 def order_detail(request, order_number):
     order = get_object_or_404(Order, order_number=order_number)
-    item_data = order.items  # this is your stored dictionary
+    item_data = order.items  # this is the stored dictionary of items in the bag
     item_list = []
 
     for code, qty in item_data.items():
@@ -259,7 +267,7 @@ def order_detail(request, order_number):
                 'line_total': product.price * qty,
             })
         except Product.DoesNotExist:
-            continue  # or handle missing product more explicitly
+            continue
 
     context = {
         'order': order,

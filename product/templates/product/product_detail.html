@@ -45,6 +45,9 @@
             </select>
             {% endif %}
         </div>
+        <div class="text-center">
+            Stock available: {{ product.inventory }}
+        </div>
         <div class="row mt-2 justify-content-center">
             <div class="d-flex align-items-center mt-4">
                 <form class="d-flex align-items-center gap-2" method="POST"
@@ -52,7 +55,7 @@
                     {% csrf_token %}
                     <input class="rounded form-control w-auto"
                         type="{% if product.inventory == 0 %}hidden{% else %}number{% endif %}" name="quantity"
-                        value="1" min="1">
+                        value="1" min="1" max="{{ product.inventory }}">
 
                     <input type="hidden" name="redirect_url" value="{{ request.path }}">
 
@@ -98,28 +101,30 @@
 <hr>
 
 {% if user.is_authenticated %}
-<h3>Leave a Review</h3>
-<form method="post" action="">
-    {% csrf_token %}
-    
-    <div class="form-group">
-        <div class="star-rating">
-            {% for i in "54321" %}
-                <input type="radio" name="rating" id="star{{ i }}" value="{{ i }}" {% if form.rating.value == i|stringformat:"s" %}checked{% endif %}>
-                <label for="star{{ i }}" title="{{ i }} stars">&#9733;</label>
-            {% endfor %}
-        </div>
-    </div>
-
-    <div class="form-group">
-        {{ form.text }}
-    </div>
-
-    <button type="submit" class="btn btn-def">Submit Review</button>
-</form>
+    {% if can_review %}
+        <h3>Leave a Review</h3>
+        <form method="post" action="">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="star-rating">
+                    {% for i in "54321" %}
+                        <input type="radio" name="rating" id="star{{ i }}" value="{{ i }}" {% if form.rating.value == i|stringformat:"s" %}checked{% endif %}>
+                        <label for="star{{ i }}" title="{{ i }} stars">&#9733;</label>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form.text }}
+            </div>
+            <button type="submit" class="btn btn-def">Submit Review</button>
+        </form>
+    {% else %}
+        <p>You must purchase this product before leaving a review, or you’ve already reviewed it.</p>
+    {% endif %}
 {% else %}
-<p><a href="{% url 'account_login' %}">Log in</a> to leave a review.</p>
+    <p><a href="{% url 'account_login' %}">Log in</a> to leave a review.</p>
 {% endif %}
+
 {% endblock %}
 
 {% block postloadjs %}
