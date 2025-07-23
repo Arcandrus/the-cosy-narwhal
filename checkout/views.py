@@ -75,7 +75,7 @@ def checkout_view(request):
                     metadata['user_id'] = request.user.id
 
                 intent = stripe.PaymentIntent.create(
-                    amount=int(total_price * 100),
+                    amount=int(grand_total * 100),
                     currency='gbp',
                     metadata=metadata,
                 )
