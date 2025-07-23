@@ -225,6 +225,8 @@ def save_order(request):
             profile.save()
     else:
         print("DEBUG: Not saving profile info or user not authenticated")
+
+    # Build order items for email and delivery calculation
     order_items = []
     for code, qty in bag.items():
         try:
@@ -237,6 +239,10 @@ def save_order(request):
             })
         except Product.DoesNotExist:
             continue
+
+    # Calculate delivery charge, type, and grand total
+    delivery_charge, delivery_type, grand_total = calculate_delivery(order_items)
+
     try:
         context = {
             'order_number': order.order_number,
@@ -248,7 +254,8 @@ def save_order(request):
             'postcode': postcode,
             'country': country,
             'order_items': order_items,
-            'total': total_price,
+            'delivery_charge': delivery_charge,
+            'total': grand_total,
         }
         message = render_to_string('emails/conf_email.txt', context)
         subject = f'The Cosy Narwhal - Order Number {order.order_number}'
@@ -267,7 +274,6 @@ def save_order(request):
     request.session.save()
 
     return JsonResponse({'status': 'success', 'order_number': getattr(order, 'order_number', order.pk)})
-
 
 @login_required
 def order_detail(request, order_number):
