@@ -14,6 +14,7 @@ from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from the_cosy_narwhal.utils import calculate_delivery
+from django.core.mail import EmailMultiAlternatives
 
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -257,15 +258,20 @@ def save_order(request):
             'delivery_charge': delivery_charge,
             'total': grand_total,
         }
-        message = render_to_string('emails/conf_email.txt', context)
-        subject = f'The Cosy Narwhal - Order Number {order.order_number}'
 
-        send_mail(
-            subject,
-            message,
-            settings.DEFAULT_FROM_EMAIL,
-            [email],
-        )
+        subject = f'The Cosy Narwhal - Order Number {order.order_number}'
+        from_email = settings.DEFAULT_FROM_EMAIL
+        to_email = [email]
+
+        # Render both HTML and plain text (optional fallback)
+        html_message = render_to_string('emails/conf_email.html', context)
+        text_message = render_to_string('emails/conf_email.txt', context)  # Make this template too
+
+        # Create and send the multi-part email
+        msg = EmailMultiAlternatives(subject, text_message, from_email, to_email)
+        msg.attach_alternative(html_message, "text/html")
+        msg.send()
+
     except Exception as e:
         print("Failed to send confirmation email:", e)
 

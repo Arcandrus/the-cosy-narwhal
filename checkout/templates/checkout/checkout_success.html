@@ -11,7 +11,7 @@
         <tr>
             <td>
                 {% if item.product.image %}
-                <img class="product-img-small" src="{{ item.product.image.url }}" alt="{{ product.name }}">
+                <img class="product-img-small" src="{{ item.product.image_url }}" alt="{{ product.name }}">
                 {% else %}
                 <img class="product-img-small" src="{{ item.product.image_url }}" alt="{{ product.name }}">
                 {% endif %}
@@ -73,4 +73,5 @@
 </div>
 
 <p>We will email <strong>{{ order.email }}.</strong> with the confirmation details shortly.</p>
+<p>Please check your spam folder as some providers will filter this kind of automated message to spam.</p>
 {% endblock %}

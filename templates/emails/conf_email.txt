@@ -16,7 +16,7 @@ Your order will be delivered to:
 {{ postcode }}
 {{ country }}
 
-If you have any questions, feel free to contact us at thecosynarwhal@outlook.com.
+If you have any questions, feel free to contact us at thecosynarwhal@gmail.com.
 
 Warm wishes,  
 The Cosy Narwhal

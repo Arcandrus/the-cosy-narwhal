@@ -135,8 +135,6 @@ ACCOUNT_FORMS = {
 
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_LOGIN_METHOD = "username"
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'The Cosy Narwhal <thecosynarwhal@outlook.com>'
 
 # Redirect after login/logout
 LOGIN_REDIRECT_URL = "home"
@@ -205,3 +203,11 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Your media URL will point to the S3 bucket domain
 MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'thecosynarwhal@gmail.com'
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
+DEFAULT_FROM_EMAIL = 'thecosynarwhal@gmail.com'
