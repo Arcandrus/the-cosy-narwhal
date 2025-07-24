@@ -3,6 +3,7 @@ from allauth.account.forms import SignupForm, LoginForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from profiles.models import Profile
+from allauth.account.utils import send_email_confirmation
 
 
 class CustomLoginForm(LoginForm):
@@ -94,7 +95,7 @@ class CustomSignupForm(SignupForm):
     def save(self, request):
         user = super().save(request)
 
-        # Signal already created profile; update it here
+        # update profile fields as you already do
         profile = user.profile
         profile.full_name = self.cleaned_data['full_name']
         profile.street_address1 = self.cleaned_data['street_address1']
@@ -104,5 +105,8 @@ class CustomSignupForm(SignupForm):
         profile.postcode = self.cleaned_data['postcode']
         profile.country = self.cleaned_data['country']
         profile.save()
+
+        # Manually send email confirmation here:
+        send_email_confirmation(request, user)
 
         return user

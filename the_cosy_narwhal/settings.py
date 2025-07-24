@@ -135,6 +135,7 @@ ACCOUNT_FORMS = {
 
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_LOGIN_METHOD = "username"
+ACCOUNT_EMAIL_VERIFICATION = "none"
 
 # Redirect after login/logout
 LOGIN_REDIRECT_URL = "home"
