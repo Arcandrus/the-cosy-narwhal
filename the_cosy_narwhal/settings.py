@@ -36,7 +36,7 @@ MESSAGE_TAGS = {
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -135,7 +135,7 @@ ACCOUNT_FORMS = {
 
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_LOGIN_METHOD = "username"
-ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_EMAIL_VERIFICATION = "optional"
 
 # Redirect after login/logout
 LOGIN_REDIRECT_URL = "home"

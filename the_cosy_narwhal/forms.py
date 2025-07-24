@@ -3,7 +3,6 @@ from allauth.account.forms import SignupForm, LoginForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from profiles.models import Profile
-from allauth.account.utils import send_email_confirmation
 
 
 class CustomLoginForm(LoginForm):
@@ -105,8 +104,5 @@ class CustomSignupForm(SignupForm):
         profile.postcode = self.cleaned_data['postcode']
         profile.country = self.cleaned_data['country']
         profile.save()
-
-        # Manually send email confirmation here:
-        send_email_confirmation(request, user)
 
         return user
