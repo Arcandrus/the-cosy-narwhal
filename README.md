@@ -61,8 +61,7 @@ A live demo to the website can be found [here](https://the-cosy-narwhal-0266caf0
 
 ## User Stories
 I decided to break the User Stories into three Epics, based on customer needs, admin needs and general functionality of the website. Each of these is explained and explored, along with acceptance criteria and using the Given/When/Then/And structure.
-
-## Customer (Shopper) User Stories
+## Customer User Stories
 
 ### Browse Products
 **User Story**  
@@ -73,8 +72,6 @@ _As a guest user, I want to browse all available crochet toys, so I can see what
 - **When** I load the page  
 - **Then** I see a grid or list of all available crochet toys with images and titles
 
----
-
 ### View Product Details
 **User Story**  
 _As a guest user, I want to view product details including size, color, and images, so I can make informed purchase decisions._
@@ -83,8 +80,6 @@ _As a guest user, I want to view product details including size, color, and imag
 - **Given** I click on a product  
 - **When** the product detail page loads  
 - **Then** I see the name, description, price, size options, color options, and product image(s)
-
----
 
 ### Guest Checkout
 **User Story**  
@@ -96,8 +91,6 @@ _As a guest user, I want to add items to my cart and checkout without creating a
 - **Then** I am not required to sign up or log in  
 - **And** I can proceed directly to payment
 
----
-
 ### Stripe Payment
 **User Story**  
 _As a customer, I want to pay securely using Stripe, so I can trust the payment process._
@@ -107,8 +100,6 @@ _As a customer, I want to pay securely using Stripe, so I can trust the payment 
 - **When** I submit my payment information  
 - **Then** Stripe securely processes the payment  
 - **And** I receive a success or failure message
-
----
 
 ### Order Confirmation
 **User Story**  
@@ -120,8 +111,6 @@ _As a customer, I want to receive confirmation of my order, so I know it was suc
 - **Then** I see an order confirmation page  
 - **And** I receive a confirmation email
 
----
-
 ### Product Reviews
 **User Story**  
 _As a customer, I want to leave a review on products I’ve purchased, so I can share my experience with others._
@@ -131,8 +120,6 @@ _As a customer, I want to leave a review on products I’ve purchased, so I can 
 - **When** I navigate to the product page  
 - **Then** I can submit a star rating and comment  
 - **And** the review is displayed publicly once submitted
-
----
 
 ### Contact Form for Custom Orders
 **User Story**  
@@ -144,8 +131,6 @@ _As a potential customer, I want to use a contact form to ask about custom croch
 - **And** I click submit  
 - **Then** I receive a success message  
 - **And** my message is sent to the admin’s email or dashboard
-
----
 
 ## Admin (Store Owner) User Stories
 
@@ -159,8 +144,6 @@ _As an admin, I want to add new crochet toys to the store, so I can keep my cata
 - **Then** I can enter product name, description, size, color, price, image, and inventory  
 - **And** the new product appears on the store page
 
----
-
 ### Edit Products
 **User Story**  
 _As an admin, I want to edit product information, so I can fix errors or make updates._
@@ -171,8 +154,6 @@ _As an admin, I want to edit product information, so I can fix errors or make up
 - **Then** I can modify the product's fields  
 - **And** changes are reflected on the frontend
 
----
-
 ### Remove Products
 **User Story**  
 _As an admin, I want to remove discontinued products, so customers only see available items._
@@ -181,8 +162,6 @@ _As an admin, I want to remove discontinued products, so customers only see avai
 - **Given** I am logged in as an admin  
 - **When** I click “Delete” on a product  
 - **Then** the product is no longer visible in the store
-
----
 
 ### Update Inventory
 **User Story**  
@@ -194,8 +173,6 @@ _As an admin, I want to update inventory levels, so I can track stock accurately
 - **Then** the new quantity is saved  
 - **And** the stock level affects whether it is shown as “in stock” or “sold out”
 
----
-
 ### View Sales Reports
 **User Story**  
 _As an admin, I want to view sales reports, so I can monitor revenue and product performance._
@@ -204,8 +181,6 @@ _As an admin, I want to view sales reports, so I can monitor revenue and product
 - **Given** I am logged in as an admin  
 - **When** I access the dashboard's reporting section  
 - **Then** I see metrics like total sales, number of orders, and top-selling products
-
----
 
 ## General User Stories
 
@@ -219,8 +194,6 @@ _As a user, I want the website to be responsive on mobile and desktop, so I can 
 - **Then** the layout adjusts appropriately  
 - **And** all functionality remains usable
 
----
-
 ### Fast Navigation
 **User Story**  
 _As a user, I want the platform to load quickly and be easy to navigate, so I can enjoy a smooth shopping experience._
@@ -230,8 +203,6 @@ _As a user, I want the platform to load quickly and be easy to navigate, so I ca
 - **When** I click on navigation links  
 - **Then** the pages load in under 3 seconds  
 - **And** the structure is consistent and intuitive
-
----
 
 ### Reliable Contact Form
 **User Story**  
