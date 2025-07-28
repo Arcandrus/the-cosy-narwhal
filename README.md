@@ -10,8 +10,9 @@ Code Institute Project Milestone 4 - Django Full Stack E-Commerce Development
    + [Order Model](#order-model)
    + [Profile Model](#profile-model)
 3. [User Stories](#user-stories)
-    + [Product](#product-epic)
-    + [Users](#users-epic)     
+    + [Customer User Stories](#customer-user-stories)
+    + [Admin User Stories](#admin-user-stories)
+    + [General User Stories](#general-user-stories)
 4. [Design](#design)
 5. [Technologies](#technologies)
 6. [Features](#features)
@@ -59,9 +60,188 @@ A live demo to the website can be found [here](https://the-cosy-narwhal-0266caf0
 ### Profile Model
 
 ## User Stories
+I decided to break the User Stories into three Epics, based on customer needs, admin needs and general functionality of the website. Each of these is explained and explored, along with acceptance criteria and using the Given/When/Then/And structure.
 
-### Product Epic
-### Users Epic
+## Customer (Shopper) User Stories
+
+### Browse Products
+**User Story**  
+_As a guest user, I want to browse all available crochet toys, so I can see what's available without creating an account._
+
+**Acceptance Criteria**
+- **Given** I’m on the homepage or product listing page  
+- **When** I load the page  
+- **Then** I see a grid or list of all available crochet toys with images and titles
+
+---
+
+### View Product Details
+**User Story**  
+_As a guest user, I want to view product details including size, color, and images, so I can make informed purchase decisions._
+
+**Acceptance Criteria**
+- **Given** I click on a product  
+- **When** the product detail page loads  
+- **Then** I see the name, description, price, size options, color options, and product image(s)
+
+---
+
+### Guest Checkout
+**User Story**  
+_As a guest user, I want to add items to my cart and checkout without creating an account, so I can shop quickly and easily._
+
+**Acceptance Criteria**
+- **Given** I have added at least one item to my cart  
+- **When** I go to checkout  
+- **Then** I am not required to sign up or log in  
+- **And** I can proceed directly to payment
+
+---
+
+### Stripe Payment
+**User Story**  
+_As a customer, I want to pay securely using Stripe, so I can trust the payment process._
+
+**Acceptance Criteria**
+- **Given** I’m on the checkout page  
+- **When** I submit my payment information  
+- **Then** Stripe securely processes the payment  
+- **And** I receive a success or failure message
+
+---
+
+### Order Confirmation
+**User Story**  
+_As a customer, I want to receive confirmation of my order, so I know it was successfully placed._
+
+**Acceptance Criteria**
+- **Given** I’ve completed a purchase  
+- **When** the payment is confirmed  
+- **Then** I see an order confirmation page  
+- **And** I receive a confirmation email
+
+---
+
+### Product Reviews
+**User Story**  
+_As a customer, I want to leave a review on products I’ve purchased, so I can share my experience with others._
+
+**Acceptance Criteria**
+- **Given** I have completed an order  
+- **When** I navigate to the product page  
+- **Then** I can submit a star rating and comment  
+- **And** the review is displayed publicly once submitted
+
+---
+
+### Contact Form for Custom Orders
+**User Story**  
+_As a potential customer, I want to use a contact form to ask about custom crochet orders, so I can request personalized products._
+
+**Acceptance Criteria**
+- **Given** I’m on the contact page  
+- **When** I fill in the form with my name, email, and message  
+- **And** I click submit  
+- **Then** I receive a success message  
+- **And** my message is sent to the admin’s email or dashboard
+
+---
+
+## Admin (Store Owner) User Stories
+
+### Add Products
+**User Story**  
+_As an admin, I want to add new crochet toys to the store, so I can keep my catalog up to date._
+
+**Acceptance Criteria**
+- **Given** I am logged in as an admin  
+- **When** I access the product dashboard and click “Add Product”  
+- **Then** I can enter product name, description, size, color, price, image, and inventory  
+- **And** the new product appears on the store page
+
+---
+
+### Edit Products
+**User Story**  
+_As an admin, I want to edit product information, so I can fix errors or make updates._
+
+**Acceptance Criteria**
+- **Given** I am logged in as an admin  
+- **When** I access the product list and click “Edit” on a product  
+- **Then** I can modify the product's fields  
+- **And** changes are reflected on the frontend
+
+---
+
+### Remove Products
+**User Story**  
+_As an admin, I want to remove discontinued products, so customers only see available items._
+
+**Acceptance Criteria**
+- **Given** I am logged in as an admin  
+- **When** I click “Delete” on a product  
+- **Then** the product is no longer visible in the store
+
+---
+
+### Update Inventory
+**User Story**  
+_As an admin, I want to update inventory levels, so I can track stock accurately._
+
+**Acceptance Criteria**
+- **Given** I am logged in as an admin  
+- **When** I change a product’s inventory count  
+- **Then** the new quantity is saved  
+- **And** the stock level affects whether it is shown as “in stock” or “sold out”
+
+---
+
+### View Sales Reports
+**User Story**  
+_As an admin, I want to view sales reports, so I can monitor revenue and product performance._
+
+**Acceptance Criteria**
+- **Given** I am logged in as an admin  
+- **When** I access the dashboard's reporting section  
+- **Then** I see metrics like total sales, number of orders, and top-selling products
+
+---
+
+## General User Stories
+
+### Responsive Design
+**User Story**  
+_As a user, I want the website to be responsive on mobile and desktop, so I can browse and shop comfortably from any device._
+
+**Acceptance Criteria**
+- **Given** I visit the site on different screen sizes  
+- **When** I interact with the UI  
+- **Then** the layout adjusts appropriately  
+- **And** all functionality remains usable
+
+---
+
+### Fast Navigation
+**User Story**  
+_As a user, I want the platform to load quickly and be easy to navigate, so I can enjoy a smooth shopping experience._
+
+**Acceptance Criteria**
+- **Given** I move between pages  
+- **When** I click on navigation links  
+- **Then** the pages load in under 3 seconds  
+- **And** the structure is consistent and intuitive
+
+---
+
+### Reliable Contact Form
+**User Story**  
+_As a user, I want the contact form to be accessible and reliable, so I can reach out to the seller without issues._
+
+**Acceptance Criteria**
+- **Given** I fill in the contact form with valid data  
+- **When** I submit it  
+- **Then** the message is sent successfully  
+- **And** I see a clear confirmation message
 
 ## Design
 
