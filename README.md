@@ -239,11 +239,11 @@ The `__str__()` method returns the `order_number`, which helps with readable log
               return self.order_number
 </details>
 
-### Profile Model
+## Profile Model
 
 The `Profile` model is used to store additional user information related to billing or shipping addresses. It extends the default user model with structured address fields, allowing for quicker checkouts and a better user experience.
 
-## **Field Breakdown**
+### **Field Breakdown**
 
 | Field | Type | Description |
 |-------|------|-------------|
