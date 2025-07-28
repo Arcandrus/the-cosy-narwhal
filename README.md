@@ -150,7 +150,7 @@ _As an admin, I want to edit product information, so I can fix errors or make up
 
 **Acceptance Criteria**
 - **Given** I am logged in as an admin  
-- **When** I access the product list and click “Edit” on a product  
+- **When** I access the product list and “Edit” a product  
 - **Then** I can modify the product's fields  
 - **And** changes are reflected on the frontend
 
@@ -160,7 +160,7 @@ _As an admin, I want to remove discontinued products, so customers only see avai
 
 **Acceptance Criteria**
 - **Given** I am logged in as an admin  
-- **When** I click “Delete” on a product  
+- **When** I access the product list and “Delete” a product  
 - **Then** the product is no longer visible in the store
 
 ### Update Inventory
