@@ -148,7 +148,7 @@ The `__str__` method returns the product’s name, which makes the model more re
 
 The `Order` model represents a single customer purchase transaction. It stores all relevant user data, item details, pricing, and shipping information.
 
-## **Field Breakdown**
+### **Field Breakdown**
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -160,7 +160,7 @@ The `Order` model represents a single customer purchase transaction. It stores a
 | `created_at` | `DateTimeField` | Timestamp when the order was created. Automatically set on creation. |
 | `updated_at` | `DateTimeField` | Timestamp when the order was last updated. Automatically refreshed on save. |
 
-## **Delivery Information Fields**
+### **Delivery Information Fields**
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -174,7 +174,7 @@ The `Order` model represents a single customer purchase transaction. It stores a
 
 Most fields have default values to prevent validation errors during anonymous or incomplete orders.
 
-## **Custom `save()` Method**
+### **Custom `save()` Method**
 
 The `save()` method is overridden to ensure each order is assigned a unique `order_number` before it’s saved:
 
@@ -184,14 +184,14 @@ The `save()` method is overridden to ensure each order is assigned a unique `ord
 
 This guarantees that each order is uniquely identifiable, even for guest checkouts.
 
-## **Private `_generate_order_number()` Method**
+### **Private `_generate_order_number()` Method**
 
 `def _generate_order_number(self):
     return uuid.uuid4().hex.upper()`
     
 This helper method returns a UUID-based string in uppercase hexadecimal format to uniquely identify the order.
 
-## **String Representation**
+### **String Representation**
 
 The `__str__()` method returns the `order_number`, which helps with readable logs and admin display.
 
@@ -203,7 +203,7 @@ The `__str__()` method returns the `order_number`, which helps with readable log
 - Can be extended later to include order status, payment confirmation, shipping tracking, etc.
 
 <details>
-<summary>Product Model shown here</summary>
+<summary>Order Model shown here</summary>
 
       class Order(models.Model):
           order_number = models.CharField(max_length=32, unique=True, editable=False)
