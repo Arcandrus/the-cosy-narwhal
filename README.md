@@ -830,6 +830,6 @@ I would like to thank my mentor, Medale Oluwafemi and my tutor Tom Cowen for the
 
 MASSIVE thank you to my best friends Rew and Emma for their continued support and belief in me as I've progressed as well as their help testing functionality and features and their valuable feedback, I love you both.
 
-Thanks go to the Frome MTG club who have also helped me with testing and troubleshooting. 
+Thanks go to the Yates Family who have also helped me with testing and troubleshooting. 
 
 I would also like to credit ChatGPT for helping me with specific debugging and formatting issues I faced when building this project, as well as helping me to refactor redundant code.
