@@ -132,7 +132,7 @@ _As a potential customer, I want to use a contact form to ask about custom croch
 - **Then** I receive a success message  
 - **And** my message is sent to the admin’s email or dashboard
 
-## Admin (Store Owner) User Stories
+## Admin User Stories
 
 ### Add Products
 **User Story**  
