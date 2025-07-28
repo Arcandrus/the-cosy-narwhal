@@ -36,6 +36,7 @@ Code Institute Project Milestone 4 - Django Full Stack E-Commerce Development
         + [Remove Product](#remove-product)
         + [Update Inventory](#update-inventory)
         + [Sales Report](#sales-report)
+    + [FAQ & Contact](#faq--contact)
 8. [Deployment](#deployment)
 9. [Testing](#testing)
    + [Validation](#validation)
@@ -252,26 +253,32 @@ A live demo to the website can be found [here](https://the-cosy-narwhal-0266caf0
 
 ## Features
 
+## Product Display & Cart
 ### All Products
 ### Product Search
 ### Add to Cart
 ### View Cart
-### Account Registration & User Profile
+
+## Account Registration & User Profile
 ### Registration
 ### User Profiles
 ### Order History
 ### Reviews
-### Checkout & Stripe
+
+## Checkout & Stripe
 ### Checkout
 ### Order Summary
 ### Stripe Integration
 ### Confirmation
-### Product Management
+
+## Product Management
 ### Add Product
 ### Edit Product
 ### Remove Product
 ### Update Inventory
 ### Sales Report
+
+## FAQ & Contact
 
 # Deployment 
 1. Log in to Heroku if you already have an account with them. If not, create an account.
