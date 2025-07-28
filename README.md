@@ -145,6 +145,63 @@ The `__str__` method returns the product’s name, which makes the model more re
 </details>
 
 ### Order Model
+
+The `Order` model represents a single customer purchase transaction. It stores all relevant user data, item details, pricing, and shipping information.
+
+## **Field Breakdown**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `order_number` | `CharField` | A unique, non-editable identifier for the order. Automatically generated using a UUID. |
+| `user` | `ForeignKey` → `AUTH_USER_MODEL` | Links the order to a registered user (optional). Allows guest checkout by making it nullable. |
+| `email` | `EmailField` | Email address associated with the order. Used for receipts and contact. Defaults to `'Unknown'`. |
+| `items` | `JSONField` | Stores all purchased product data (product IDs, names, quantities, prices) in structured JSON format. |
+| `total_price` | `DecimalField` | The total price of the order. Validated to be 0 or greater. |
+| `created_at` | `DateTimeField` | Timestamp when the order was created. Automatically set on creation. |
+| `updated_at` | `DateTimeField` | Timestamp when the order was last updated. Automatically refreshed on save. |
+
+## **Delivery Information Fields**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `full_name` | `CharField` | Full name of the recipient. |
+| `street_address1` | `CharField` | Primary street address for delivery. |
+| `street_address2` | `CharField` | Secondary address line (optional). |
+| `town_or_city` | `CharField` | The town or city of the shipping address. |
+| `county` | `CharField` | County or region (optional). |
+| `postcode` | `CharField` | Postal code for delivery. |
+| `country` | `CharField` | Country of the shipping address. |
+
+Most fields have default values to prevent validation errors during anonymous or incomplete orders.
+
+## **Custom `save()` Method**
+
+The `save()` method is overridden to ensure each order is assigned a unique `order_number` before it’s saved:
+
+1. If `order_number` is not already set,
+2. A UUID is generated using the `_generate_order_number()` method,
+3. The order is then saved normally.
+
+This guarantees that each order is uniquely identifiable, even for guest checkouts.
+
+## **Private `_generate_order_number()` Method**
+
+`def _generate_order_number(self):
+    return uuid.uuid4().hex.upper()`
+    
+This helper method returns a UUID-based string in uppercase hexadecimal format to uniquely identify the order.
+
+## **String Representation**
+
+The `__str__()` method returns the `order_number`, which helps with readable logs and admin display.
+
+## **Design Notes**
+
+- Uses `JSONField` for `items` to flexibly store varying order structures without requiring a separate `OrderItem` model.
+- Supports both registered and guest users (`user` is nullable).
+- Automatically tracks creation and update times for auditing and admin use.
+- Can be extended later to include order status, payment confirmation, shipping tracking, etc.
+
 ### Profile Model
 
 ## User Stories
