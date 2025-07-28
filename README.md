@@ -1,8 +1,42 @@
 # the-cosy-narwhal
 Code Institute Project Milestone 4 - Django Full Stack E-Commerce Development
 
-Test Commit
 
+## Table of Contents
+
+1. [Live Demo](#demo)
+2. [Database ERD](#database-erd)
+   + [CustomUser Model](#customuser-model)
+   + [Post Model](#post-model)
+   + [Comment Model](#comment-model)
+3. [User Stories](#user-stories)
+   + [Epics](#epics)
+        + [User Profile](#user-profile)
+        + [Content Interaction](#content-interaction)     
+4. [Design](#design)
+5. [Technologies](#technologies)
+6. [Features](#features)
+    + [Account Registration & User Profile](#account-registration--user-profile)
+        + [Registration](#registration)
+        + [User Profiles](#user-profiles)
+    + [Content Interaction](#content-interactions)
+        + [New Posts](#new-posts)
+        + [Comments](#comments)
+        + [Nested Replies](#nested-replies)
+    + [Post Filtering & Finding](#post-filtering--finding)
+        + [Categories](#categories)
+        + [Favourites](#favourites)
+        + [Popular Posts](#popular-posts)
+        + [Search](#search)
+    + [Edit & Delete](#edit--delete)
+8. [Deployment](#deployment)
+9. [Testing](#testing)
+   + [Validation](#validation)
+   + [Manual Testing](#manual-testing)
+   + [Responsive UI Testing](#responsive-ui-testing)
+   + [Browser Compatibility](#browser-compatibility)
+   + [User Story Testing](#user-story-testing)
+11. [Credits](#credits)
 
 The Cosy Narwhal - Basic Introduction
 
@@ -58,3 +92,5 @@ Example Item
  - Colours: N/A
  - Price: £12
  - Size: M
+
+
