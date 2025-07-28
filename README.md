@@ -54,8 +54,95 @@ Code Institute Project Milestone 4 - Django Full Stack E-Commerce Development
 A live demo to the website can be found [here](https://the-cosy-narwhal-0266caf0f910.herokuapp.com)
 
 ## Database ERD
-
 ### Product Model
+
+The `Product` model represents an individual handmade crochet toy. It defines all the core attributes necessary to manage product listings, variants, pricing, inventory, and image data.
+
+## **Field Breakdown**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `code` | `CharField` | Optional internal or SKU code for the product. |
+| `name` | `CharField` | The name/title of the product. Required. |
+| `description` | `TextField` | A detailed description of the product. |
+| `size` | `IntegerField` (choices) | Indicates the product's size, using predefined options: `Small (0)`, `Medium (1)`, and `Large (2)`. Defaults to `Small`. |
+| `has_colors` | `BooleanField` | Flags whether the product comes in multiple colors. |
+| `color` | `ForeignKey` → `Color` | Optionally links a product to a default or featured color. Can be null/blank. |
+| `available_colors` | `ManyToManyField` → `Color` | Links a product to all colors it's available in. |
+| `price` | `DecimalField` | The retail price of the product. Max 6 digits with 2 decimal places. |
+| `rating` | `DecimalField` | The product's average customer rating (e.g. 4.5). Nullable and defaults to 0. |
+| `image` | `ImageField` | Allows uploading an image file via Django. Stored in the `media/` folder using S3. |
+| `image_url` | `URLField` | Stores the full URL to the product image. Automatically updated from the `image` field if present. |
+| `inventory` | `IntegerField` | Tracks how many units are in stock. Defaults to 0. Cannot be blank. |
+
+## **Custom `save` Method**
+
+The `save()` method is overridden to keep the `image_url` field synchronized with the `image` field. When an image is uploaded:
+
+1. Django saves the image file.
+2. If the `image_url` doesn't match the uploaded image's `.url`, it's updated.
+3. A second save is triggered with `update_fields=['image_url']` to persist the change.
+
+This ensures consistent linking between uploaded images and their web-accessible URLs.
+
+## **String Representation**
+
+The `__str__` method returns the product’s name, which makes the model more readable in admin panels, shell, and debugging output.
+
+## **Design Notes**
+
+- The `size` field uses `choices`, making it easy to render dropdowns in forms and translate values in templates.
+- The use of both `color` (single default color) and `available_colors` (multiple options) allows flexibility in how color variants are handled on product pages.
+- Image support includes both uploaded files (`image`) and external URLs (`image_url`), making it compatible with S3, CDN-hosted images, or local storage.
+
+<summary>Product Model shown here</summary>
+<details>
+
+      class Product(models.Model):
+       SIZE = (
+           (0,'Small'),
+           (1, 'Medium'),
+           (2, 'Large')
+           )
+       code = models.CharField(max_length=254, null=True, blank=True)
+       name = models.CharField(max_length=254)
+       description = models.TextField()
+       size = models.IntegerField(choices=SIZE, null=False, blank=False, default=0)
+       has_colors = models.BooleanField(default=False, null=True, blank=True)
+   
+       color = models.ForeignKey(
+           'Color',
+           null=True,
+           blank=True,
+           on_delete=models.SET_NULL,
+           related_name='products_by_color'
+       )
+   
+       available_colors = models.ManyToManyField(
+           'Color',
+           blank=True,
+           related_name='products_available_colors'
+       )
+       
+       price = models.DecimalField(max_digits=6, decimal_places=2)
+       rating = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True, default=0)
+       image = models.ImageField(upload_to='media', null=True, blank=True)
+       image_url = models.URLField(max_length=1024, null=True, blank=True)
+       inventory = models.IntegerField(null=True, blank=False, default=0)
+   
+       def save(self, *args, **kwargs):
+               super().save(*args, **kwargs)
+               if self.image:
+                   # Update image_url with the full URL to the S3 image
+                   if self.image_url != self.image.url:
+                       self.image_url = self.image.url
+                       # Save again to update image_url field
+                       super().save(update_fields=['image_url'])
+   
+       def __str__(self):
+           return self.name
+</details>
+
 ### Order Model
 ### Profile Model
 
