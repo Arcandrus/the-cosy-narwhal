@@ -700,6 +700,7 @@ Allows admins to adjust stock levels, which control product availability and dis
 Provides admins with detailed metrics such as total sales, total value of sales and top-selling products to monitor business performance within a given time period.
 
 ### FAQ & Contact
+Provides a list of FAQs and a Contact form to allow users to contact admin.
 
 # Deployment 
 1. Log in to Heroku if you already have an account with them. If not, create an account.
@@ -819,6 +820,9 @@ Below follows a breakdown of each of the user stories and the results of the imp
 | Reliable Contact Form | Valid contact form submissions are processed successfully, with clear confirmation. | ✅ | ✅ | |
 
 ## Major Bugs & Errors
+The only big problem I came up against during development was when I deployed to Heroku. I thought my views and login were broken because my products page showed no information at all and I could not log in. After some testing and debugging it became apparent that the PostGres database was empty and as we were now in production environment, we were no longer reading from the development database. After creating a new superuser and a fixture to instantiate the products in the new database, everything worked as expected.
+
+There was a minor bug when I invited Tom to test the site. When he signed up the site generated a 500 Server Error, but the registration was successful. This happened because I forgot to update Herokus Config Vars with the Email app password after switching to true email sending. After adding this variable, everything worked as intended.
 
 # Credits
 I would like to thank my mentor, Medale Oluwafemi and my tutor Tom Cowen for their continued insights and support during this project.
