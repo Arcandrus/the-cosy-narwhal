@@ -144,7 +144,7 @@ The `__str__` method returns the product’s name, which makes the model more re
            return self.name
 </details>
 
-### Order Model
+## Order Model
 
 The `Order` model represents a single customer purchase transaction. It stores all relevant user data, item details, pricing, and shipping information.
 
@@ -201,6 +201,43 @@ The `__str__()` method returns the `order_number`, which helps with readable log
 - Supports both registered and guest users (`user` is nullable).
 - Automatically tracks creation and update times for auditing and admin use.
 - Can be extended later to include order status, payment confirmation, shipping tracking, etc.
+
+<details>
+<summary>Product Model shown here</summary>
+
+      class Order(models.Model):
+          order_number = models.CharField(max_length=32, unique=True, editable=False)
+          user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.CASCADE)
+          email = models.EmailField(max_length=254, default='Unknown')
+          items = models.JSONField()  # or Postgres JSONField if needed
+          total_price = models.DecimalField(
+              max_digits=10,
+              decimal_places=2,
+              validators=[MinValueValidator(0)]
+          )
+          created_at = models.DateTimeField(auto_now_add=True)
+          updated_at = models.DateTimeField(auto_now=True)
+
+          # Delivery information fields
+          full_name = models.CharField(max_length=100, default='Unknown')
+          street_address1 = models.CharField(max_length=80, default='Unknown')
+          street_address2 = models.CharField(max_length=80, blank=True)
+          town_or_city = models.CharField(max_length=40, default='Unknown')
+          county = models.CharField(max_length=80, blank=True)
+          postcode = models.CharField(max_length=20, default='Unknown')
+          country = models.CharField(max_length=40, default='Unknown')
+         
+          def save(self, *args, **kwargs):
+              if not self.order_number:
+                  self.order_number = self._generate_order_number()
+              super().save(*args, **kwargs)
+         
+          def _generate_order_number(self):
+              return uuid.uuid4().hex.upper()
+         
+          def __str__(self):
+              return self.order_number
+</details>
 
 ### Profile Model
 
