@@ -642,31 +642,62 @@ A wireframe for the initial design concepts can be found in the [technologies](#
 **Bootstrap** - To ensure responsive design and usability across all devices, I use a combination of Bootstrap classes and custom css.
 
 ## Features
+Most of the features I implemented were the direct responses to the User Stories listed above, as such, here follows an explanation of them in greater detail.
 
 ### Product Display & Cart
 #### All Products
+Displays the complete catalog of crochet toys with images, titles, and key details so users can browse available items easily.
+
 #### Product Search
+Allows users to search products by keywords, filtering results to quickly find specific crochet toys.
+
 #### Add to Cart
+Enables users to add selected products to their shopping cart for purchase.
+
 #### View Cart
+Displays the contents of the user’s cart, showing product details, quantities, and total price before checkout.
 
 ### Account Registration & User Profile
 #### Registration
+Provides a form for users to create a new account by entering necessary details such as email and password.
+
 #### User Profiles
+Allows registered users to view and update their personal information.
+
 #### Order History
+Shows users a history of their past purchases with details of each order.
+
 #### Reviews
+Lets users submit ratings and comments on products they have purchased, sharing their experience with others.
 
 ### Checkout & Stripe
 #### Checkout
+Guides users through the process of entering shipping and payment details to complete a purchase.
+
 #### Order Summary
+Displays a final review of cart contents, shipping info, and total cost before submitting payment.
+
 #### Stripe Integration
+Processes payments securely via Stripe, ensuring customer payment data is protected.
+
 #### Confirmation
+Provides an order confirmation page and sends a confirmation email once payment is successful.
 
 ### Product Management
 #### Add Product
+Enables admins to add new crochet toys by entering product details like name, description, price, size, color, images, and inventory.
+
 #### Edit Product
+Allows admins to update existing product information and reflect changes on the storefront.
+
 #### Remove Product
+Lets admins delete discontinued products to keep the catalog current.
+
 #### Update Inventory
+Allows admins to adjust stock levels, which control product availability and display status.
+
 #### Sales Report
+Provides admins with detailed metrics such as total sales, total value of sales and top-selling products to monitor business performance within a given time period.
 
 ### FAQ & Contact
 
