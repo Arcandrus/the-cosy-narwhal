@@ -1,6 +1,7 @@
-# the-cosy-narwhal
-Code Institute Project Milestone 4 - Django Full Stack E-Commerce Development
+# The Cosy Narwhal - Handmade Crochet Toys
+This project was a collaboration with my friend, Emma, who makes crochet toys and accessories, to create an e-commerce platform for her products.
 
+# Code Institute Project Milestone 4 - Django Full Stack E-Commerce Development
 
 ## Table of Contents
 
@@ -441,6 +442,19 @@ _As a user, I want the contact form to be accessible and reliable, so I can reac
 
 ## Design
 
+Taking into account Strategy, Scope, Structure, Skeleton and Surface, together with User Stories and desired outcomes, this is what I considered while building this project.
+
+Given this was a collaborative project, the colour scheme was set by Emma's branding choices, as she already had a logo and colour selection available as well as a main font. Unfortunately, the font she uses in her branding is a Canva exclusive font and as such, we worked together to find one available on Google Fonts that match it closely for consistency.
+
+(cosy marwhal logo here)
+(color scheme here)
+
+I chose a fixed top navigation style as it is both consistent accross multiple screen types and is intuative to use and navigate. This also allows for easy and maximal display for products and information as there is nothing "inside" the screen where this infomation would be presented.
+
+(navbar here)
+
+A wireframe for the initial design concepts can be found in the [technologies](#technologies) section.
+
 ## Technologies
 **HTML** - To create a basic site skeleton and add the content. The site consists of HTML template partials loaded within the **base.html** template.
 
@@ -617,13 +631,13 @@ _As a user, I want the contact form to be accessible and reliable, so I can reac
       </html>
 </details>
 
-**CSS** - To create a controlled and consistent display for each element and to give a great user experience. Using js, I applied a class based responsive design to the site.
+**CSS** - To create a controlled and consistent display for each element and to give a great user experience.
 
-**Javascript** - 
+**Javascript** - Several small scripts are implemented on pages that require them such as change listeners to redirect to different colours on the product page and Stripe integration.
 
-**Django** - This was the meat of the project, enabling full user controlled CRUD functionality. Implementing a CustomUser model as well as creating custom templates for much of the Django AllAuth library to allow for greater access and customisation across the sites features. 
+**Django** - This was the meat of the project, enabling full Admin user controlled CRUD functionality for the products in the database. I used customised AllAuth templates to enable greater customisation of AllAuth forms.
 
-**Balsamiq** - To create a wireframe, [here](mtg-forum-assets/mtg_forum.pdf) (pdf format)
+**Balsamiq** - To create a wireframe, [here]() (pdf format)
 
 **Bootstrap** - To ensure responsive design and usability across all devices, I use a combination of Bootstrap classes and custom css.
 
