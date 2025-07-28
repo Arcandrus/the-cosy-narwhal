@@ -52,9 +52,9 @@ Code Institute Project Milestone 4 - Django Full Stack E-Commerce Development
 ## Demo
 A live demo to the website can be found [here](https://the-cosy-narwhal-0266caf0f910.herokuapp.com)
 
-# Database ERD
+## Database ERD
 
-# User Stories
+## User Stories
 
 ## Design
 
@@ -65,171 +65,178 @@ A live demo to the website can be found [here](https://the-cosy-narwhal-0266caf0
 <summary>base.html is shown here</summary>
     
     {% load static %}
-    {% url 'posts' as posts_url %}
-    {% url 'account_login' as login_url %}
-    {% url 'account_signup' as signup_url %}
-    {% url 'account_logout' as logout_url %}
-    
-    <!DOCTYPE html>
-    <html lang="en-US">
-    
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="keywords" content="">
-        <meta name="author" content="">
-    
-        <!-- FontAwesome Import -->
-        <script src="https://kit.fontawesome.com/9ea763a632.js" crossorigin="anonymous"></script>
-        <!-- Bootstrap CSS Import -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet"
-            integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
-        <!-- jQuery (required by Summernote) -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <!-- Bootstrap JS (required by Summernote) -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Summernote CSS & JS -->
-        <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote.min.css" rel="stylesheet">
-        <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote.min.js"></script>
-        <!-- Custom CSS -->
-        <link rel="stylesheet" href="{% static 'css/style.css' %}">
-        <title>MTG Forum</title>
-    </head>
-    
-    <body class="">
-        <header>
-            <img class="icon" alt="Brand Icon" src="{% static 'image/card.png' %}">
-            <h1>MTG FORUM</h1>
-                <div class="header-spacer"></div>
-                <button id="menu-toggle" class="right hamburger" aria-label="Toggle sidebar">
-                    &#9776;
-                </button>
-        </header>
-    
-        <div class="page-wrapper d-flex"> <!-- Flex container -->
-    
-            <aside class="sidebar">
-                {% if user.is_authenticated %}
-                <div class="profile_container">
-                    <div class="profile_picture">
-                        <img src="{{ user.profile_picture.url }}" alt="Profile Picture">
-                    </div>
-                    <div class="profile_details">
-                        <p><strong>{{ user }}</strong></p>
-                        <p><strong><i class="fa-solid fa-pencil"></i> Posts:</strong> {{ user.post_count }}</p>
-                        <p><strong><i class="fa-solid fa-comment"></i> Comments:</strong> {{ user.comment_count }}</p>
-                        <p><strong><i class="fa-solid fa-circle-check"></i> Status:</strong> {{ user.user_status }}</p>
-                    </div>
-                </div>
-                {% endif %}
-                <div class="search-wrapper">
-                    <form method="GET" action="{% url 'search_results' %}">
-                        <input type="text" name="q" placeholder="Search posts..." required>
-                        <button class="btn search-btn btn-primary" type="submit" aria-label="Search">
-                            <i class="fas fa-magnifying-glass"></i>
-                        </button>
-                    </form>
-                </div>
-    
-                <nav class="sidebar-nav" aria-label="Sidebar navigation">
-                    <ul>
-                        {% if user.is_authenticated %}
-                        <li><a href="{% url 'create_post' %}"><i class="fa-solid fa-plus"></i> New Post</a></li>
-                        <li><a href="{% url 'account_logout' %}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-                        </li>
-                        {% else %}
-                        <li><a href="{% url 'account_signup' %}"><i class="fa-solid fa-user-plus"></i> Register</a></li>
-                        <li><a href="{% url 'account_login' %}"><i class="fa-solid fa-right-to-bracket"></i> Login</a></li>
-                        {% endif %}
-    
-                        <li>
-                            <hr>
-                        </li>
-    
-                        <li><a href="{% url 'post_list' %}"><i class="fa-solid fa-house"></i> Home</a></li>
-                        <li><a href="{% url 'category_list' %}"><i class="fa-solid fa-list"></i> Categories</a></li>
-                        <li><a href="{% url 'favourite_posts' %}"><i class="fa-solid fa-star"></i> Favourites</a></li>
-                        <li><a href="{% url 'popular_posts' %}"><i class="fa-solid fa-fire"></i> Popular</a></li>
-    
-                        <li>
-                            <hr>
-                        </li>
-    
-                        {% if user.is_authenticated %}
-                        <li><a href="{% url 'profile' username=request.user.username %}"><i class="fa-solid fa-user"></i>
-                                Profile</a></li>
-                        <li><a href="{% url 'user_settings' %}"><i class="fa-solid fa-gear"></i> Settings</a></li>
-                        {% else %}
-                        <li><a href="{% url 'account_login' %}"><i class="fa-solid fa-user"></i> Profile</a></li>
-                        {% endif %}
-                    </ul>
-                </nav>
-            </aside>
-            <div id="sidebar-overlay"></div>
-    
-            <main class="content flex-grow-1 p-3">
-                {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>
-                        {{ message }}
-                        </li>
-                        {% endfor %}
-                </ul>
-                {% endif %}
-    
-                {% block content %}
-                <!-- Content Goes here -->
-                {% endblock content %}
-            </main>
-    
-        </div>
-    
-        <footer>
-            <p>Copyright Eric Harper 2025</p>
-        </footer>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="{% static 'js/like.js' %}"></script>
-        <script src="{% static 'js/comments.js' %}"></script>
-        <script src="{% static 'js/post_edit.js' %}"></script>
-        <script src="{% static 'js/messages.js' %}"></script>
-        <script src="{% static 'js/favourite.js' %}"></script>
-        <script src="{% static 'js/screen_check.js' %}"></script>
-    
-        <!-- Hamburger -->
-        <script>
-            const toggleBtn = document.getElementById('menu-toggle');
-            const sidebar = document.querySelector('.sidebar');
-            const overlay = document.getElementById('sidebar-overlay');
-    
-            function toggleSidebar() {
-                const isOpen = sidebar.classList.toggle('open');
-                overlay.classList.toggle('active', isOpen);
-            }
-    
-            toggleBtn.addEventListener('click', toggleSidebar);
-    
-            // Dismiss sidebar when clicking the overlay
-            overlay.addEventListener('click', () => {
-                sidebar.classList.remove('open');
-                overlay.classList.remove('active');
-            });
-        </script>
-    </body>
-    
-    </html>
+
+      <!doctype html>
+      <html lang="en">
+      
+      <head>
+          {% block core_meta %}
+          <!-- Required meta tags -->
+          <meta http-equiv="X-UA-Compatible" content="ie=edge">
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+          {% endblock %}
+      
+          {% block extra_meta %}
+          {% endblock %}
+      
+          {% block core_css %}
+          <!-- Bootstrap CSS -->
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+              integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+          <!-- Googlefonts Import-->
+          <link rel="preconnect" href="https://fonts.googleapis.com">
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+          <link
+              href="https://fonts.googleapis.com/css2?family=Bad+Script&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+              rel="stylesheet">
+          <!-- Core Custom CSS -->
+          <link href="{% static 'css/base.css' %}" rel="stylesheet">
+          {% endblock %}
+      
+          {% block extra_css %}
+          {% endblock %}
+      
+          {% block core_js %}
+          <!-- Bootstrap JS -->
+          <script src="https://code.jquery.com/jquery-3.7.1.js"
+              integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+          <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+              integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+              crossorigin="anonymous"></script>
+          <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
+              integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+"
+              crossorigin="anonymous"></script>
+          <!-- FontAwesome Kit -->
+          <script src="https://kit.fontawesome.com/9ea763a632.js" crossorigin="anonymous"></script>
+          <!-- Stripe JS -->
+          <script src="https://js.stripe.com/v3/"></script>
+          {% endblock %}
+      
+          {% block extra_js %}
+          {% endblock %}
+      
+          <title>The Cosy Narwhal - Handmade Crochet</title>
+      </head>
+      
+      <body>
+          <header class="container-fluid fixed-top">
+              <div id="topnav" class="row bg-grad p-2 d-none d-lg-flex align-items-center">
+                  <div
+                      class="col-12 col-lg-4 d-flex align-items-center justify-content-center justify-content-lg-start py-lg-0">
+                      <a href="{% url 'home' %}" class="nav-link main-logo-link">
+                          <h2 class="logo-font text-black m-0">The Cosy Narwhal</h2>
+                      </a>
+                  </div>
+      
+                  <div class="col-12 col-lg-4 d-flex align-items-center py-1 py-lg-0">
+                      <form method="GET" action="{% url 'products' %}" class="w-100">
+                          <div class="input-group">
+                              <input class="form-control border border-black rounded" 
+                                  type="text" name="q"
+                                  placeholder="Search our site"
+                                  value="{{ search_term|default:'' }}">
+                              <div class="input-group-append">
+                                  <button class="btn btn-black border border-black rounded" type="submit">
+                                      <span class="icon"><i class="fas fa-search"></i></span>
+                                  </button>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+      
+                  <div
+                      class="col-12 col-lg-4 d-flex align-items-center justify-content-center justify-content-lg-end py-1 py-lg-0">
+                      <ul class="list-inline list-unstyled m-0 d-flex align-items-center">
+                          <li class="list-inline-item dropdown mx-2">
+                              <a class="text-black nav-link" href="{% url 'products' %}">
+                                  <div class="text-center">
+                                      <div><i class="fa-solid fa-store"></i></div>
+                                      <p class="my-0">Products</p>
+                                  </div>
+                              </a>
+                          </li>
+                          <li class="list-inline-item dropdown mx-2">
+                              <a class="text-black nav-link" href="#" id="user-options" data-toggle="dropdown"
+                                  aria-haspopup="true" aria-expanded="false">
+                                  <div class="text-center">
+                                      <div><i class="fas fa-user fa-lg"></i></div>
+                                      <p class="my-0">My Account</p>
+                                  </div>
+                              </a>
+                              <div class="dropdown-menu border-0" aria-labelledby="user-options">
+                                  {% if request.user.is_authenticated %}
+                                  {% if request.user.is_superuser %}
+                                  <a href="{% url 'product_management' %}" class="dropdown-item">Product Management</a>
+                                  {% endif %}
+                                  <a href="{% url 'profile' %}" class="dropdown-item">My Profile</a>
+                                  <a href="{% url 'account_logout' %}" class="dropdown-item">Logout</a>
+                                  {% else %}
+                                  <a href="{% url 'account_signup' %}" class="dropdown-item">Register</a>
+                                  <a href="{% url 'account_login' %}" class="dropdown-item">Login</a>
+                                  {% endif %}
+                              </div>
+                          </li>
+                          <li class="list-inline-item mx-2">
+                              <a class="nav-link" href="{% url 'view_bag' %}">
+                                  <div class="text-center">
+                                      <div><i class="fa-solid fa-cart-shopping"></i></div>
+                                      <p class="my-0">My Cart</p>
+                                      <p class="my-0">
+                                          {% if grand_total %}
+                                          £{{ grand_total|floatformat:2 }}
+                                          {% else %}
+                                          {% endif %}
+                                      </p>
+                                  </div>
+                              </a>
+                          </li>
+                      </ul>
+                  </div>
+              </div>
+              <div class="row p-2 d-lg-none d-md bg-grad">
+                  <nav class="navbar navbar-expand-lg navbar-light w-100">
+                      {% include 'includes/mobile_top_header.html' %}
+                  </nav>
+              </div>
+          </header>
+          <div class="container">
+          {% block content %}
+          {% endblock %}
+          </div>
+          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+          {% if messages %}
+          <div class="message-container">
+              {% for message in messages %}
+              {% with message.level as level %}
+              {% if level == 40 %}
+              {% include 'includes/toasts/toast_error.html' %}
+              {% elif level == 30 %}
+              {% include 'includes/toasts/toast_warning.html' %}
+              {% elif level == 25 %}
+              {% include 'includes/toasts/toast_success.html' %}
+              {% else %}
+              {% include 'includes/toasts/toast_info.html' %}
+              {% endif %}
+              {% endwith %}
+              {% endfor %}
+          </div>
+          {% endif %}
+          <script type="text/javascript">
+              $('.toast').toast('show');
+          </script>
+          {% block postloadjs %}
+          {% endblock %}
+      </body>
+      <footer class="footer bg-grad-rev w-100 d-lg-flex fixed-bottom">
+          {% include 'includes/footer.html' %}
+      </footer>
+      </html>
 </details>
 
 **CSS** - To create a controlled and consistent display for each element and to give a great user experience. Using js, I applied a class based responsive design to the site.
 
-**Javascript** - This is where most of the work for this project was done, as much of the system runs on Javascript
-+ comments.js - Contains the functionality to post comments, post replies and edit/ delete both
-+ favourite.js - Enables AJAX js for the favourite button, both processing the form and updating the button
-+ like.js - Enables the like button functionality in a similar vein to the favourite button
-+ messages.js - Controls the display of Django messages
-+ post_edit.js - Enables the inline form to allow users to edit any of their own posts
-+ screen_check.js - As part of responsive design, this js file checks for screen size changes as well as orientation changes
+**Javascript** - 
 
 **Django** - This was the meat of the project, enabling full user controlled CRUD functionality. Implementing a CustomUser model as well as creating custom templates for much of the Django AllAuth library to allow for greater access and customisation across the sites features. 
 
@@ -237,7 +244,29 @@ A live demo to the website can be found [here](https://the-cosy-narwhal-0266caf0
 
 **Bootstrap** - To ensure responsive design and usability across all devices, I use a combination of Bootstrap classes and custom css.
 
-# Features
+## Features
+
+All Products
+Product Search
+Add to Cart
+View Cart
+Account Registration & User Profile
+Registration
+User Profiles
+Order History
+Reviews
+Checkout & Stripe
+Checkout
+Order Summary
+Stripe Integration
+Confirmation
+Product Management
+Add Product
+Edit Product
+Remove Product
+Update Inventory
+Sales Report
+
 # Deployment 
 1. Log in to Heroku if you already have an account with them. If not, create an account.
 2. Once signed in, click on the "Create New App" button located above your dashboard. Give your app a unique name, choose the region you're in (United States/Europe) and click "Create app".
