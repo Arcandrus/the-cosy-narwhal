@@ -241,6 +241,49 @@ The `__str__()` method returns the `order_number`, which helps with readable log
 
 ### Profile Model
 
+The `Profile` model is used to store additional user information related to billing or shipping addresses. It extends the default user model with structured address fields, allowing for quicker checkouts and a better user experience.
+
+## **Field Breakdown**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `user` | `OneToOneField` → `AUTH_USER_MODEL` | Links one profile to one user account. Ensures a unique profile per user. If the user is deleted, the profile is also removed (`on_delete=CASCADE`). |
+| `full_name` | `CharField` | The user's full name for identification and address purposes. |
+| `street_address1` | `CharField` | The primary street address. Required. |
+| `street_address2` | `CharField` | Secondary address line (optional). Useful for apartment or suite numbers. |
+| `town_or_city` | `CharField` | City or town portion of the user's address. |
+| `county` | `CharField` | County or region information. |
+| `postcode` | `CharField` | Postal or ZIP code. |
+| `country` | `CharField` | Country of residence. Could be upgraded to a country-select field in the future. |
+
+### **String Representation**
+
+The `__str__()` method returns the associated user's `username`, making it easy to identify profiles in the Django admin or logs.
+
+### **Design Notes**
+
+- Used for pre-filling checkout forms and maintaining shipping info between sessions.
+- Ensures personal address data is kept separate from the core `User` model.
+- The one-to-one relationship enforces a strict 1:1 connection between users and profiles.
+- Could be extended to store phone numbers, preferences, or default payment methods.
+
+<details>
+<summary>Profile Model shown here</summary>
+
+      class Profile(models.Model):
+          user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+          full_name = models.CharField(max_length=150)
+          street_address1 = models.CharField(max_length=255)
+          street_address2 = models.CharField(max_length=255, blank=True, null=True)
+          town_or_city = models.CharField(max_length=100)
+          county = models.CharField(max_length=100)
+          postcode = models.CharField(max_length=20)
+          country = models.CharField(max_length=100)
+      
+          def __str__(self):
+              return self.user.username
+</details>
+
 ## User Stories
 I decided to break the User Stories into three Epics, based on customer needs, admin needs and general functionality of the website. Each of these is explained and explored, along with acceptance criteria and using the Given/When/Then/And structure.
 ## Customer User Stories
