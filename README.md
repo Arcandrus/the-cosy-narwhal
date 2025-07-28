@@ -761,8 +761,26 @@ DevTools Lighthouse Scores. The big problem with the Best Practices score was th
 
 All these features were manually tested by me and several others, these are the results of those tests.
 
-| Feature | Expectation | Action | Result |
-| ---------- | ---------- | ------------ | ----------- |
+| Feature                   | Expectation                                                  | Action                                                        | Result         |
+|---------------------------|--------------------------------------------------------------|---------------------------------------------------------------|----------------|
+| All Products              | All available products are displayed on the product page.    | Navigate to product listing page.                             | Passed         |
+| Product Search            | Users can search for products by keyword.                    | Enter keyword in search bar and view filtered results.        | Passed         |
+| Add to Cart               | Users can add products to their cart without issues.          | Click “Add to Cart” on a product page.                        | Passed         |
+| View Cart                 | Users can view cart contents accurately.                     | Open cart page to review added products and quantities.       | Passed         |
+| Registration              | New users can create an account.                             | Fill registration form and submit.                            | Passed         |
+| User Profiles             | Registered users can view and edit profile data.             | Access profile page and update information.                   | Passed         |
+| Order History             | Users can view past orders in their profile.                 | Navigate to order history section and review orders.          | Passed         |
+| Reviews                   | Users can submit and see product reviews.                    | Submit a review on a purchased product and verify display.    | Passed         |
+| Checkout                 | Checkout form captures all necessary info correctly.         | Fill checkout details and proceed to payment.                 | Passed         |
+| Order Summary             | Order summary displays correct order details before payment. | Review order summary page.                                     | Passed         |
+| Stripe Integration        | Payment is processed securely via Stripe.                    | Submit payment and confirm success message.                   | Passed         |
+| Confirmation              | Users receive order confirmation page and email.             | Complete payment and check for confirmation page/email.       | Passed         |
+| Add Product              | Admins can add new products with full details.                | Use dashboard to add a new product.                           | Passed         |
+| Edit Product             | Admins can update product information and see changes live.  | Modify existing product details and save.                     | Passed         |
+| Remove Product           | Admins can delete products and they are removed from the store. | Delete product from dashboard and check storefront.           | Passed         |
+| Update Inventory         | Stock levels update correctly and affect availability.       | Change inventory count and verify stock status.               | Passed         |
+| Sales Report             | Admins can view accurate sales data and metrics.              | Access reports dashboard and review sales figures.            | Passed         |
+
 
 ## Responsive UI Testing
 
