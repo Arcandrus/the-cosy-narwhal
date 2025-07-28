@@ -54,11 +54,11 @@ Code Institute Project Milestone 4 - Django Full Stack E-Commerce Development
 A live demo to the website can be found [here](https://the-cosy-narwhal-0266caf0f910.herokuapp.com)
 
 ## Database ERD
-### Product Model
+## Product Model
 
 The `Product` model represents an individual handmade crochet toy. It defines all the core attributes necessary to manage product listings, variants, pricing, inventory, and image data.
 
-## **Field Breakdown**
+### **Field Breakdown**
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -75,7 +75,7 @@ The `Product` model represents an individual handmade crochet toy. It defines al
 | `image_url` | `URLField` | Stores the full URL to the product image. Automatically updated from the `image` field if present. |
 | `inventory` | `IntegerField` | Tracks how many units are in stock. Defaults to 0. Cannot be blank. |
 
-## **Custom `save` Method**
+### **Custom `save` Method**
 
 The `save()` method is overridden to keep the `image_url` field synchronized with the `image` field. When an image is uploaded:
 
@@ -85,19 +85,20 @@ The `save()` method is overridden to keep the `image_url` field synchronized wit
 
 This ensures consistent linking between uploaded images and their web-accessible URLs.
 
-## **String Representation**
+### **String Representation**
 
 The `__str__` method returns the product’s name, which makes the model more readable in admin panels, shell, and debugging output.
 
-## **Design Notes**
+### **Design Notes**
 
 - The `size` field uses `choices`, making it easy to render dropdowns in forms and translate values in templates.
 - The use of both `color` (single default color) and `available_colors` (multiple options) allows flexibility in how color variants are handled on product pages.
 - Image support includes both uploaded files (`image`) and external URLs (`image_url`), making it compatible with S3, CDN-hosted images, or local storage.
 
-<summary>Product Model shown here</summary>
-<details>
 
+<details>
+<summary>Product Model shown here</summary>
+   
       class Product(models.Model):
        SIZE = (
            (0,'Small'),
