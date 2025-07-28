@@ -10,9 +10,8 @@ Code Institute Project Milestone 4 - Django Full Stack E-Commerce Development
    + [Order Model](#order-model)
    + [Profile Model](#profile-model)
 3. [User Stories](#user-stories)
-   + [Epics](#epics)
-        + [Product Epic](#product-epic)
-        + [Users Epic](#users-epic)     
+    + [Product](#product-epic)
+    + [Users](#users-epic)     
 4. [Design](#design)
 5. [Technologies](#technologies)
 6. [Features](#features)
@@ -55,6 +54,9 @@ A live demo to the website can be found [here](https://the-cosy-narwhal-0266caf0
 ## Database ERD
 
 ## User Stories
+
+### Product Epic
+### Users Epic
 
 ## Design
 
