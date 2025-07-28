@@ -750,8 +750,23 @@ I tested the site on several popular browsers to ensure functionality and usabli
 ## User Story Testing
 Below follows a breakdown of each of the user stories and the results of the implementation and testing of each.
 
-| User Story | Acceptance criteria | Criteria Met? | Tested | Notes |
-| ---------- | ---------- | ---------- | ---------- | ---------- |
+| **User Story**                          | **Acceptance Criteria**                                                                                                                                  | **Criteria Met?** | **Tested** | **Notes** |
+|----------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------|------------|-----------|
+| Browse Products                        | View a list/grid of all available crochet toys with images and titles on the homepage or product listing page.                                           | ✅                 | ✅          |           |
+| View Product Details                   | View name, description, price, size, color options, and images on the product detail page.                                                               | ✅                 | ✅          |           |
+| Guest Checkout                         | Add items to cart and checkout without account creation; proceed directly to payment.                                                                    | ✅                 | ✅          |           |
+| Stripe Payment                         | Submit payment securely through Stripe and receive success/failure message.                                                                              | ✅                 | ✅          |           |
+| Order Confirmation                     | After payment, display confirmation page and send confirmation email.                                                                                    | ✅                 | ✅          |           |
+| Product Reviews                        | After purchase, leave a star rating and comment on product pages, which displays publicly.                                                               | ✅                 | ✅          | Product reveiws are currently set to a single reveiw per product, per user |
+| Contact Form for Custom Orders        | Submit name, email, and message via contact form; receive success message; message sent to admin.                                                        | ✅                 | ✅          |           |
+| Add Products (Admin)                   | Logged-in admin can add product name, description, size, color, price, image, and inventory. Product appears in store.                                  | ✅                 | ✅          |           |
+| Edit Products (Admin)                 | Logged-in admin can edit product fields and see updates on the frontend.                                                                                 | ✅                 | ✅          |           |
+| Remove Products (Admin)               | Logged-in admin can delete products; removed items are no longer visible.                                                                                | ✅                 | ✅          |           |
+| Update Inventory (Admin)              | Admin can change inventory count, which updates product availability (in stock/sold out).                                                                | ✅                 | ✅          |           |
+| View Sales Reports (Admin)            | Admin can view dashboard metrics such as total sales, orders, and top-selling products.                                                                  | ✅                 | ✅          |           |
+| Responsive Design                     | Site adjusts layout and maintains full functionality on various screen sizes.                                                                            | ✅                 | ✅          |           |
+| Fast Navigation                       | Pages load in under 3 seconds; site structure is intuitive and consistent.                                                                               | ✅                 | ✅          |           |
+| Reliable Contact Form                 | Valid contact form submissions are processed successfully, with clear confirmation.                                                                      | ✅                 | ✅          |           |
 
 ## Major Bugs & Errors
 
