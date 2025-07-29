@@ -802,10 +802,80 @@ Addotionally, this is the page where users can leave a review of the product, wh
 (screenshot of product detail page)
 
 #### Add to Cart
-Enables users to add selected products to their shopping cart for purchase.
+Enables users to add selected products to their shopping cart for purchase. By clicking the "Add to Cart" button the add_to_bag view is called. This take the product code and matches it to the product id within the database, and also gets the color and/ or size chosen along with the quantity. Then adds this information to the bag session object and displays a toast to the user showing how many and of what has been added to the bag. The grand total under the "My Cart" nav-link will also update dynamically as products are added.
+
+<details>
+   <summary>Add to Bag View</summary>
+   
+      def add_to_bag(request, item_id):
+          quantity = int(request.POST.get('quantity', 1))
+          redirect_url = request.POST.get('redirect_url')
+      
+          try:
+              product = Product.objects.get(code=item_id)
+          except Product.DoesNotExist:
+              messages.error(request, "Sorry, that product does not exist.")
+              return redirect('home') 
+      
+          color = format_color_name(product.color.name) if product.color else "N/A"
+          size = product.get_size_display() if hasattr(product, 'get_size_display') else "N/A"
+      
+          bag = request.session.get('bag', {})
+      
+          if item_id in bag:
+              bag[item_id] += quantity
+          else:
+              bag[item_id] = quantity
+      
+          request.session['bag'] = bag
+      
+          messages.success(request, f"Added {product.name} (Color: {color}, Size: {size}) to your bag.")
+      
+          return redirect(redirect_url)
+</details>
+
+(screenshot of add to bag)
 
 #### View Cart
-Displays the contents of the user’s cart, showing product details, quantities, and total price before checkout.
+Displays the contents of the user’s cart, showing product details, quantities, and total price before checkout. This view also allows the user to remove items from the bag. First the view collects the information from the session and adds it to the `order_items` list to make a secondary list of the bag items for processing. Then for each item in the bag session, it renders it within a table displaying its information, along with the delivery charge to be applied and the grand total of products cost and delivery charge.
+
+<details>
+   <summary>Bag Summary View</summary>
+
+      def view_bag(request):
+          bag = request.session.get('bag', {})
+      
+          order_items = []
+          total_price = 0
+      
+          for code, qty in bag.items():
+              try:
+                  product = Product.objects.get(code=code)
+                  line_total = product.price * qty
+                  total_price += line_total
+                  order_items.append({
+                      'product': product,
+                      'quantity': qty,
+                      'line_total': line_total,
+                  })
+              except Product.DoesNotExist:
+                  continue
+      
+          delivery_charge, delivery_type, grand_total = calculate_delivery(order_items)
+      
+          context = {
+              'bag': bag, 
+              'order_items': order_items,
+              'total_price': total_price,
+              'delivery_charge': delivery_charge,
+              'delivery_type': delivery_type,
+              'grand_total': grand_total,
+          }
+      
+          return render(request, 'bag/bag.html', context)
+</details>
+
+(screenshot of view bag)
 
 ### Account Registration & User Profile
 #### Registration
