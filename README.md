@@ -1208,7 +1208,7 @@ Once the order has been processed, the user is shown a summary of the order by c
 </details>
 
 <details>
-   <summary>Screenshot of Checkout Summary Page</summary>
+   <summary>Screenshot of Checkout Summary Page (some information redacted)</summary>
 
 ![](./the-cosy-narwhal-assets/checkout1.png)
 </details>
@@ -1265,7 +1265,7 @@ Once the order has been processed, the user is shown a summary of the order by c
 </details>
 
 <details>
-   <summary>Screenshot of Checkout Success</summary>
+   <summary>Screenshot of Checkout Success, the lower part of the page shows delivery address and confirmation email address. This has been cut off for security.</summary>
 
 ![](./the-cosy-narwhal-assets/checkout3.png)
 </details>
@@ -1616,7 +1616,7 @@ The options for add, edit and inventory are all controlled by a single form that
 <details>
    <summary>Screenshot of Product Management</summary>
    
-![](./the-cosy-narwhal-assets/product_mangement.png)
+![](./the-cosy-narwhal-assets/product_management.png)
 </details>
 
 <details>
