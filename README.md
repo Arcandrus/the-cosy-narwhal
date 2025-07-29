@@ -2071,7 +2071,7 @@ The FAQ page is a simple text render of frequently asked questions, including ca
 [W3C HTML validator](https://validator.w3.org) seemed to really struggle with the Django generated content so I instead validated the raw HTML after Django rendering, which showed only one error consistently. The screenshot below shows the error and this occurs because we have both the standard navbar and the mobile version of the navbar loaded at all times, ready for the switch if the screen width threshold is broken. As such, the validator sees two duplicate ids and panics but this can be safely ignored as only one of the menus is active at a time depending on screen width. No other errors detected.
 
 <details>
-   <summary>HTML Error Sumamry</summary>
+   <summary>HTML Error Summary</summary>
    
 ![](./the-cosy-narwhal-assets/html_pass.png)
 </details>
@@ -2135,13 +2135,41 @@ All these features were manually tested by me and several others, these are the 
 ## Responsive UI Testing
 Everything within the site is designed with a mobile first approach using a combination of bootstrap utility classes and custom CSS to make the site responsive and usable on every device. Below are some gif demos of the responsive designs.
 
-(home)
-(products)
-(product details)
-(cart)
-(checkout)
-(order summary)
-(profile)
+<details>
+   <summary>Home</summary>
+   
+![](./the-cosy-narwhal-assets/home.gif)
+</details>
+
+<details>
+   <summary>All Products</summary>
+   
+![](./the-cosy-narwhal-assets/products.gif)
+</details>
+
+<details>
+   <summary>Product Detail</summary>
+   
+![](./the-cosy-narwhal-assets/product_detail.gif)
+</details>
+
+<details>
+   <summary>Cart Summary</summary>
+   
+![](./the-cosy-narwhal-assets/cart.gif)
+</details>
+
+<details>
+   <summary>Checkout</summary>
+   
+![](./the-cosy-narwhal-assets/checkout.gif)
+</details>
+
+<details>
+   <summary>Profile</summary>
+   
+![](./the-cosy-narwhal-assets/profile.gif)
+</details>
 
 ## Browser Compatibility
 I tested the site on several popular browsers to ensure functionality and usablity on each. Here are the results of those tests.
