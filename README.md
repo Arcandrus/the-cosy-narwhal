@@ -24,14 +24,10 @@ This project was a collaboration with my friend, Emma, who makes crochet toys an
         + [View Cart](#view-cart)
     + [Account Registration & User Profile](#account-registration--user-profile)
         + [Registration](#registration)
-        + [User Profiles](#user-profiles)
-        + [Order History](#order-history)
-        + [Reviews](#reviews)
+        + [Profile & Order History](#profile--order-history)
     + [Checkout & Stripe](#checkout--stripe)
         + [Checkout](#checkout)
-        + [Order Summary](#order-summary)
         + [Stripe Integration](#stripe-integration)
-        + [Confirmation](#confirmation)
     + [Product Management](#product-management)
         + [Add Product](#add-product)
         + [Edit Product](#edit-product)
@@ -42,7 +38,7 @@ This project was a collaboration with my friend, Emma, who makes crochet toys an
 8. [Deployment](#deployment)
 9. [Testing](#testing)
    + [Validation](#validation)
-   + [Manual Testing](#manual-testing)
+   + [Feature Testing](#feature-testing)
    + [Responsive UI Testing](#responsive-ui-testing)
    + [Browser Compatibility](#browser-compatibility)
    + [User Story Testing](#user-story-testing)
@@ -707,8 +703,17 @@ Within the template, there are conditional statements that display information a
        return render(request, 'product/product.html', context)
 </details>
 
-(screenshot of main products page)
-(screenshot of search results)
+<details>
+   <summary>Screenshot of Main Products Page</summary>
+   
+![](./the-cosy-narwhal-assets/products_main.png)
+</details>
+
+<details>
+   <summary>Screenshot of Search Results Page</summary>
+
+![](./the-cosy-narwhal-assets/product_search.png)
+</details>
 
 #### Product Detail
 Allows users to see detailed information about the selected product. Once the user has selected a product the product detail view renders that products full display information, including its description and any reveiws left for the product.
@@ -799,7 +804,11 @@ Addotionally, this is the page where users can leave a review of the product, wh
           return render(request, "product/product_detail.html", context)
 </details>
 
-(screenshot of product detail page)
+<details>
+   <summary>Screenshot of Product Detail Page</summary>
+
+![](./the-cosy-narwhal-assets/product_detail.png)
+</details>
 
 #### Add to Cart
 Enables users to add selected products to their shopping cart for purchase. By clicking the "Add to Cart" button the add_to_bag view is called. This take the product code and matches it to the product id within the database, and also gets the color and/ or size chosen along with the quantity. Then adds this information to the bag session object and displays a toast to the user showing how many and of what has been added to the bag. The grand total under the "My Cart" nav-link will also update dynamically as products are added.
@@ -834,10 +843,8 @@ Enables users to add selected products to their shopping cart for purchase. By c
           return redirect(redirect_url)
 </details>
 
-(screenshot of add to bag)
-
 #### View Cart
-Displays the contents of the user’s cart, showing product details, quantities, and total price before checkout. This view also allows the user to remove items from the bag. First the view collects the information from the session and adds it to the `order_items` list to make a secondary list of the bag items for processing. Then for each item in the bag session, it renders it within a table displaying its information, along with the delivery charge to be applied and the grand total of products cost and delivery charge.
+Displays the contents of the user’s cart, showing product details, quantities, and total price before checkout. This view also allows the user to remove items from the bag. First the view collects the information from the session and adds it to the `order_items` list to make a secondary list of the bag items for processing. Then for each item in the bag session, the template renders it within a table displaying its information, along with the delivery charge to be applied and the grand total of products cost and delivery charge.
 
 <details>
    <summary>Bag Summary View</summary>
@@ -875,52 +882,1175 @@ Displays the contents of the user’s cart, showing product details, quantities,
           return render(request, 'bag/bag.html', context)
 </details>
 
-(screenshot of view bag)
+<details>
+   <summary>Screenshot of Cart Summary Page</summary>
+
+![](./the-cosy-narwhal-assets/view_bag.png)
+</details>
 
 ### Account Registration & User Profile
 #### Registration
-Provides a form for users to create a new account by entering necessary details such as email and password.
+Provides a form for users to create a new account by entering necessary details such as email and password. To allow for more control over the all-auth template, I used a custom sign up form to capture the delivery information and have a custom rendering style. This removes the labels and uses placeholders to show users what each field requires. I feel this presents a cleaner and more streamlined form to the user, improving overall user experience. When the sign up is complete, the users profile is created and the default delivery information in populated with these values to prepare for orders being placed.
 
-#### User Profiles
-Allows registered users to view and update their personal information.
+<details>
+   <summary>Custom Sign Up Form</summary>
 
-#### Order History
-Shows users a history of their past purchases with details of each order.
+      class CustomSignupForm(SignupForm):
+          full_name = forms.CharField(
+              max_length=150,
+              label="",
+              widget=forms.TextInput(attrs={"placeholder": "Full Name"}),
+          )
+          street_address1 = forms.CharField(
+              max_length=255,
+              label="",
+              widget=forms.TextInput(attrs={"placeholder": "Street Address 1"}),
+          )
+          street_address2 = forms.CharField(
+              max_length=255,
+              required=False,
+              label="",
+              widget=forms.TextInput(attrs={"placeholder": "Street Address 2 (Optional)"}),
+          )
+          town_or_city = forms.CharField(
+              max_length=100,
+              label="",
+              widget=forms.TextInput(attrs={"placeholder": "Town or City"}),
+          )
+          county = forms.CharField(
+              max_length=100,
+              label="",
+              widget=forms.TextInput(attrs={"placeholder": "County"}),
+          )
+          postcode = forms.CharField(
+              max_length=20,
+              label="",
+              widget=forms.TextInput(attrs={"placeholder": "Postcode"}),
+          )
+          country = forms.CharField(
+              max_length=100,
+              label="",
+              widget=forms.TextInput(attrs={"placeholder": "Country"}),
+          )
+      
+          def __init__(self, *args, **kwargs):
+              super().__init__(*args, **kwargs)
+      
+              self.helper = FormHelper()
+              self.helper.form_method = "post"
+              self.helper.add_input(Submit("submit", "Sign Up", css_class="btn btn-def"))
+      
+              # Set placeholders for built-in fields
+              self.fields["username"].widget.attrs.update({"placeholder": "Username"})
+              self.fields["email"].widget.attrs.update({"placeholder": "Email"})
+              self.fields["password1"].widget.attrs.update({"placeholder": "Password"})
+              self.fields["password2"].widget.attrs.update(
+                  {"placeholder": "Confirm Password"}
+              )
+              self.fields["password1"].help_text = """
+                  <div class="password-rules">
+                      Your password can't be too similar to your other personal information.
+                      <br>
+                      Your password must contain at least 8 characters.
+                      <br>
+                      Your password can't be a commonly used password.
+                      <br>
+                      Your password can't be entirely numeric.
+                  </div>
+              """
+      
+              # Remove labels from all fields
+              for field in self.fields.values():
+                  field.label = ""
+      
+          def save(self, request):
+              user = super().save(request)
+      
+              # update profile fields as you already do
+              profile = user.profile
+              profile.full_name = self.cleaned_data['full_name']
+              profile.street_address1 = self.cleaned_data['street_address1']
+              profile.street_address2 = self.cleaned_data.get('street_address2', '')
+              profile.town_or_city = self.cleaned_data['town_or_city']
+              profile.county = self.cleaned_data['county']
+              profile.postcode = self.cleaned_data['postcode']
+              profile.country = self.cleaned_data['country']
+              profile.save()
+      
+              return user
+</details>
 
-#### Reviews
-Lets users submit ratings and comments on products they have purchased, sharing their experience with others.
+<details>
+   <summary>Screenshot of the Sign Up Form</summary>
+
+![](./the-cosy-narwhal-assets/signup.png))
+</details>
+
+#### Profile & Order History
+Allows registered users to view and update their personal information. The profile page also shows the Delivery Information form which autopopulates upon sign up but can be edited here if the information has changed. If the user has placed any orders, they will also be displayed here, with the ability to look at the order summary.
+
+<details>
+   <summary>Profile View</summary>
+
+      @login_required
+      def profile_view(request):
+          profile = request.user.profile  # Assumes a Profile instance exists
+          past_orders = Order.objects.filter(user=request.user).order_by('-created_at')
+      
+          if request.method == 'POST':
+              # Update profile with submitted form data
+              profile.full_name = request.POST.get('full_name', profile.full_name)
+              profile.street_address1 = request.POST.get('street_address1', profile.street_address1)
+              profile.street_address2 = request.POST.get('street_address2', profile.street_address2)
+              profile.town_or_city = request.POST.get('town_or_city', profile.town_or_city)
+              profile.county = request.POST.get('county', profile.county)
+              profile.postcode = request.POST.get('postcode', profile.postcode)
+              profile.country = request.POST.get('country', profile.country)
+              profile.save()
+      
+              messages.success(request, 'Your profile has been updated successfully!')
+              return redirect('profile')  # Reload page after saving
+      
+          context = {
+              'profile': profile,
+              'past_orders': past_orders,
+          }
+          return render(request, 'profiles/profile.html', context)
+</details>
+
+<details>
+   <summary>Delivery Information Form</summary>
+   
+      class DeliveryInfoForm(forms.ModelForm):
+          email = forms.EmailField(
+              required=True,  # Not required since it won't be edited here
+              widget=forms.EmailInput(attrs={
+                  'placeholder': 'Email Address',
+                  'class': 'form-control',
+              }),
+              label='',
+          )
+      
+          class Meta:
+              model = Profile
+              fields = [
+                  'full_name',
+                  # we won't include email here because it's a separate field
+                  'street_address1',
+                  'street_address2',
+                  'town_or_city',
+                  'county',
+                  'postcode',
+                  'country',
+              ]
+              widgets = {
+                  'full_name': forms.TextInput(attrs={'placeholder': 'Full Name'}),
+                  'street_address1': forms.TextInput(attrs={'placeholder': 'Street Address 1'}),
+                  'street_address2': forms.TextInput(attrs={'placeholder': 'Street Address 2'}),
+                  'town_or_city': forms.TextInput(attrs={'placeholder': 'Town or City'}),
+                  'county': forms.TextInput(attrs={'placeholder': 'County'}),
+                  'postcode': forms.TextInput(attrs={'placeholder': 'Postcode'}),
+                  'country': forms.TextInput(attrs={'placeholder': 'Country'}),
+              }
+      
+          def __init__(self, *args, **kwargs):
+              user_email = kwargs.pop('user_email', None)
+              super().__init__(*args, **kwargs)
+      
+              # Set the email field value to user email and keep it disabled
+              if user_email:
+                  self.fields['email'].initial = user_email
+      
+              for field_name, field in self.fields.items():
+                  # form-control class for all except email (already set in widget attrs)
+                  if field_name != 'email':
+                      existing_classes = field.widget.attrs.get('class', '')
+                      classes = (existing_classes + ' form-control').strip()
+                      field.widget.attrs['class'] = classes
+                  field.label = ''
+      
+                  field_order = [
+                      'full_name',
+                      'email',
+                      'street_address1',
+                      'street_address2',
+                      'town_or_city',
+                      'county',
+                      'postcode',
+                      'country',
+                  ]
+                  self.fields = {k: self.fields[k] for k in field_order if k in self.fields}
+</details>
+
+<details>
+   <summary>Screenshot of Profile Page (some information redacted)</summary>
+
+![](./the-cosy-narwhal-assets/profile.png)
+</details>
+
+<details>
+   <summary>Screenshot of Order Summary (some information redacted)</summary>
+
+![](./the-cosy-narwhal-assets/order_summary.png)
+</details>
 
 ### Checkout & Stripe
 #### Checkout
-Guides users through the process of entering shipping and payment details to complete a purchase.
+Guides users through the process of entering shipping and payment details to complete a purchase. This all begins at the `checkout_view`, which compiles the information from the session bag as well as the profile delivery information to create an informative and easy to follow checkout flow. Additionally, it allows for non-registered users to complete a checkout as well, so guests can make one off purchases.
 
-#### Order Summary
-Displays a final review of cart contents, shipping info, and total cost before submitting payment.
+Once the order has been processed, the user is shown a summary of the order by calling the `checkout_success` view and then the information is passed through to the `save_order` view, which submits the information to the database and stores the transaction with a list of the relevant inforamtion such as delivery details and ordered products. Addotionally as part of the `save_order` view, there is a checkbox that allows registered users to save the information that they have entered for delivery at this point, which will change the default values for future orders by updating the Profile of the user. As the order is not considered successful until we save the order, it is also at this point that the confirmation email is sent to the user.
+
+<details>
+   <summary>Checkout View</summary>
+   
+      def checkout_view(request):
+          print("Checkout view called with method:", request.method)
+          bag = request.session.get('bag', {})
+      
+          # Build order summary & total price
+          order_items = []
+          total_price = 0
+          for code, qty in bag.items():
+              try:
+                  product = Product.objects.get(code=code)
+                  line_total = product.price * qty
+                  total_price += line_total
+                  order_items.append({
+                      'product': product,
+                      'quantity': qty,
+                      'line_total': line_total,
+                  })
+              except Product.DoesNotExist:
+                  continue
+      
+          delivery_charge, delivery_type, grand_total = calculate_delivery(order_items)
+          
+          # Authenticated user data (if available)
+          profile = None
+          user_email = ''
+          if request.user.is_authenticated:
+              profile = getattr(request.user, 'profile', None)
+              user_email = request.user.email
+      
+          if request.method == 'POST':
+              form = DeliveryInfoForm(request.POST, instance=profile, user_email=user_email)
+              if form.is_valid():
+                  # Capture the save_info checkbox value ('on' if checked)
+                  save_info = request.POST.get('save_info') == 'on'
+      
+                  # Save delivery info in session
+                  delivery_data = form.cleaned_data
+                  request.session['delivery_info'] = {
+                      'email': delivery_data.get('email'),
+                      'full_name': delivery_data.get('full_name', ''),
+                      'street_address1': delivery_data.get('street_address1', ''),
+                      'street_address2': delivery_data.get('street_address2', ''),
+                      'town_or_city': delivery_data.get('town_or_city', ''),
+                      'county': delivery_data.get('county', ''),
+                      'postcode': delivery_data.get('postcode', ''),
+                      'country': delivery_data.get('country', ''),
+                  }
+                  request.session['save_info'] = save_info
+                  request.session.modified = True
+                  # Create Stripe PaymentIntent
+                  try:
+                      metadata = {}
+                      if request.user.is_authenticated:
+                          metadata['user_id'] = request.user.id
+      
+                      intent = stripe.PaymentIntent.create(
+                          amount=int(grand_total * 100),
+                          currency='gbp',
+                          metadata=metadata,
+                      )
+                  except Exception as e:
+                      form.add_error(None, f"Payment initialization error: {e}")
+                      return render(request, 'checkout/checkout.html', {
+                          'order_items': order_items,
+                          'total_price': total_price,
+                          'delivery_charge': delivery_charge,
+                          'delivery_type': delivery_type,
+                          'grand_total': grand_total,
+                          'form': form,
+                          'bag_json': json.dumps(bag),
+                          'delivery_info': request.session.get('delivery_info', {}),
+                          'save_info': request.session.get('save_info', True),
+                      })
+      
+                  return render(request, 'checkout/checkout.html', {
+                      'order_items': order_items,
+                      'total_price': total_price,
+                      'delivery_charge': delivery_charge,
+                      'delivery_type': delivery_type,
+                      'grand_total': grand_total,
+                      'form': form,
+                      'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
+                      'client_secret': intent.client_secret,
+                      'payment_phase': True,
+                      'bag_json': json.dumps(bag),
+                      'delivery_info': request.session.get('delivery_info', {}),
+                      'save_info': request.session.get('save_info', True),
+                  })
+          else:
+              form = DeliveryInfoForm(instance=profile, user_email=user_email)
+      
+          return render(request, 'checkout/checkout.html', {
+              'order_items': order_items,
+              'total_price': total_price,
+              'delivery_charge': delivery_charge,
+              'delivery_type': delivery_type,
+              'grand_total': grand_total,
+              'form': form,
+              'bag_json': json.dumps(bag),
+              'delivery_info': request.session.get('delivery_info', {}),
+              'save_info': request.session.get('save_info', True),
+          })
+</details>
+
+<details>
+   <summary>Screenshot of Checkout Summary Page (some information redacted)</summary>
+
+![](./the-cosy-narwhal-assets/checkout1.png)
+</details>
+
+<details>
+   <summary>Screenshot of Payment Phase</summary>
+
+![](./the-cosy-narwhal-assets/checkout2.png)
+</details>
+
+<details>
+   <summary>Checkout Success View</summary>
+
+      def checkout_success(request, order_number):
+          order = get_object_or_404(Order, order_number=order_number)
+          
+          # Decrement inventory for each product in the order
+          for code, qty in order.items.items():
+              try:
+                  product = Product.objects.get(code=code)
+                  product.inventory = max(product.inventory - qty, 0)  # Prevent negative inventory
+                  product.save()
+              except Product.DoesNotExist:
+                  # Optionally log this or handle missing product case
+                  continue
+      
+          request.session['bag'] = {}
+          request.session.pop('order_data', None)
+      
+          # Build order items to show nicely
+          order_items = []
+          for code, qty in order.items.items():
+              try:
+                  product = Product.objects.get(code=code)
+                  order_items.append({
+                      'product': product,
+                      'quantity': qty,
+                      'line_total': product.price * qty,
+                  })
+              except Product.DoesNotExist:
+                  continue
+      
+          delivery_charge, delivery_type, total_with_delivery = calculate_delivery(order_items)
+      
+          context = {
+              'order': order,
+              'order_items': order_items,
+              'delivery_charge': delivery_charge,
+              'delivery_type': delivery_type,
+              'total_with_delivery': total_with_delivery,
+          }
+      
+          return render(request, 'checkout/checkout_success.html', context)
+</details>
+
+<details>
+   <summary>Screenshot of Checkout Success, the lower part of the page shows delivery address and confirmation email address. This has been cut off for security.</summary>
+
+![](./the-cosy-narwhal-assets/checkout3.png)
+</details>
+
+<details>
+   <summary>Save Order View</summary>
+   
+      @csrf_protect
+      def save_order(request):
+          if request.method != 'POST':
+              return JsonResponse({'error': 'POST request required'}, status=400)
+      
+          try:
+              data = json.loads(request.body)
+              bag = data.get('items')
+              total_price = data.get('total_price')
+      
+              # Get delivery info
+              email = data.get('email')
+              full_name = data.get('full_name')
+              street_address1 = data.get('street_address1')
+              street_address2 = data.get('street_address2', '')
+              town_or_city = data.get('town_or_city')
+              county = data.get('county', '')
+              postcode = data.get('postcode')
+              country = data.get('country')
+              save_info = data.get('save_info', True)  # Defaults to True if not sent
+          except Exception:
+              return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+      
+          if not bag or total_price is None:
+              return JsonResponse({'error': 'Invalid order data'}, status=400)
+      
+          user = request.user if request.user.is_authenticated else None
+      
+          # Save the order
+          try:
+              order = Order.objects.create(
+                  user=user,
+                  email=email,
+                  items=bag,
+                  total_price=total_price,
+                  full_name=full_name,
+                  street_address1=street_address1,
+                  street_address2=street_address2,
+                  town_or_city=town_or_city,
+                  county=county,
+                  postcode=postcode,
+                  country=country,
+              )
+          except Exception as e:
+              return JsonResponse({'error': f'Failed to save order: {str(e)}'}, status=500)
+      
+          # Save delivery info to profile if requested and user is authenticated
+          if save_info and user is not None:
+              profile = getattr(user, 'profile', None)
+              if profile:
+                  profile.full_name = full_name
+                  profile.street_address1 = street_address1
+                  profile.street_address2 = street_address2
+                  profile.town_or_city = town_or_city
+                  profile.county = county
+                  profile.postcode = postcode
+                  profile.country = country
+                  profile.save()
+          else:
+              print("DEBUG: Not saving profile info or user not authenticated")
+      
+          # Build order items for email and delivery calculation
+          order_items = []
+          for code, qty in bag.items():
+              try:
+                  product = Product.objects.get(code=code)
+                  line_total = product.price * qty
+                  order_items.append({
+                      'product': product,
+                      'quantity': qty,
+                      'line_total': line_total,
+                  })
+              except Product.DoesNotExist:
+                  continue
+      
+          # Calculate delivery charge, type, and grand total
+          delivery_charge, delivery_type, grand_total = calculate_delivery(order_items)
+      
+          try:
+              context = {
+                  'order_number': order.order_number,
+                  'full_name': full_name,
+                  'street_address1': street_address1,
+                  'street_address2': street_address2,
+                  'town_or_city': town_or_city,
+                  'county': county,
+                  'postcode': postcode,
+                  'country': country,
+                  'order_items': order_items,
+                  'delivery_charge': delivery_charge,
+                  'total': grand_total,
+              }
+      
+              subject = f'The Cosy Narwhal - Order Number {order.order_number}'
+              from_email = settings.DEFAULT_FROM_EMAIL
+              to_email = [email]
+      
+              # Render both HTML and plain text (optional fallback)
+              html_message = render_to_string('emails/conf_email.html', context)
+              text_message = render_to_string('emails/conf_email.txt', context)  # Make this template too
+      
+              # Create and send the multi-part email
+              msg = EmailMultiAlternatives(subject, text_message, from_email, to_email)
+              msg.attach_alternative(html_message, "text/html")
+              msg.send()
+      
+          except Exception as e:
+              print("Failed to send confirmation email:", e)
+      
+          # Clear bag
+          request.session['bag'] = {}
+          request.session.save()
+      
+          return JsonResponse({'status': 'success', 'order_number': getattr(order, 'order_number', order.pk)})
+</details>
 
 #### Stripe Integration
-Processes payments securely via Stripe, ensuring customer payment data is protected.
+Processes payments securely via Stripe, ensuring customer payment data is protected. Stripe is integrated using the code from Stripe docs. Javascript for this is shown below. This uses a minimal widget to ensure that the process is intuative and usable on any device. I've also implemented within the template of the checkout page, that this widget is hidden when you first navigate to it. After the user confirms the delivery information and is ready to continue, that section of the page is replaced with the payment widget. To make sure the information isn't lost, it is all stored in hidden inputs that can then be read after the payment widget has loaded.
 
-#### Confirmation
-Provides an order confirmation page and sends a confirmation email once payment is successful.
+<details>
+   <summary>Checkout Template</summary>
+
+      {% extends "base.html" %}
+      {% load custom_filters %}
+      {% block content %}
+      
+      <!-- Left side: Order Summary -->
+      <h2>Your Order</h2>
+      
+      <hr>
+      <div class="row flex-column-reverse flex-md-row align-items-start mb-3">
+          <!-- Right side: Delivery Form OR Stripe Payment Widget -->
+          <div class="col-md-6">
+              {% if payment_phase %}
+              <h2>Complete Payment</h2>
+              <p>Please enter your payment details below</p>
+              <form id="payment-form">
+                  <!-- Hidden delivery fields pulled from session -->
+                  <input type="hidden" name="email" value="{{ delivery_info.email }}">
+                  <input type="hidden" name="full_name" value="{{ delivery_info.full_name }}">
+                  <input type="hidden" name="street_address1" value="{{ delivery_info.street_address1 }}">
+                  <input type="hidden" name="street_address2" value="{{ delivery_info.street_address2 }}">
+                  <input type="hidden" name="town_or_city" value="{{ delivery_info.town_or_city }}">
+                  <input type="hidden" name="county" value="{{ delivery_info.county }}">
+                  <input type="hidden" name="postcode" value="{{ delivery_info.postcode }}">
+                  <input type="hidden" name="country" value="{{ delivery_info.country }}">
+                  <input type="hidden" id="save-info" name="save_info" value="{{ save_info|default_if_none:'true' }}">
+      
+                  <div class="form-control mt-3" id="card-element"><!--Stripe.js injects the Card Element here--></div>    
+                  <button class="btn btn-def mt-3" id="submit">Pay £{{ grand_total|floatformat:2 }}</button>
+                  <div id="error-message"></div>
+              </form>
+              <script type="application/json" id="bag-data">{{ bag_json|safe }}</script>
+              <span id="total-price" style="display:none;">{{ grand_total|floatformat:2 }}</span>
+              <script type="text/javascript">
+                  const stripe = Stripe('{{ stripe_public_key }}');
+                  const elements = stripe.elements();
+                  const cardElement = elements.create('card');
+                  cardElement.mount('#card-element');
+      
+                  const form = document.getElementById('payment-form');
+                  const errorMessage = document.getElementById('error-message');
+      
+                  let bag = {};
+                  try {
+                      bag = JSON.parse(document.getElementById('bag-data').textContent);
+                  } catch (e) {
+                      errorMessage.textContent = 'Invalid bag data.';
+                  }
+      
+                  const totalPrice = parseFloat(document.getElementById('total-price').textContent);
+      
+                  form.addEventListener('submit', async (e) => {
+                      e.preventDefault();
+                      const email = document.querySelector('input[name="email"]').value;
+                      const fullName = document.querySelector('input[name="full_name"]').value;
+                      const streetAddress1 = document.querySelector('input[name="street_address1"]').value;
+                      const streetAddress2 = document.querySelector('input[name="street_address2"]').value;
+                      const townOrCity = document.querySelector('input[name="town_or_city"]').value;
+                      const county = document.querySelector('input[name="county"]').value;
+                      const postcode = document.querySelector('input[name="postcode"]').value;
+                      const country = document.querySelector('input[name="country"]').value;
+      
+                      // Get the checkbox value
+                      const saveInfo = document.getElementById('save-info')?.value === 'true';
+      
+                      const { error, paymentIntent } = await stripe.confirmCardPayment(
+                          '{{ client_secret }}', {
+                          payment_method: {
+                              card: cardElement,
+                          }
+                      });
+      
+                      if (error) {
+                          errorMessage.textContent = error.message;
+                      } else if (paymentIntent.status === 'succeeded') {
+                          fetch("{% url 'save_order' %}", {
+                              method: "POST",
+                              headers: {
+                                  "X-CSRFToken": "{{ csrf_token }}",
+                                  "Content-Type": "application/json",
+                              },
+                              body: JSON.stringify({
+                                  items: bag,
+                                  email: email,
+                                  total_price: totalPrice,
+                                  full_name: fullName,
+                                  street_address1: streetAddress1,
+                                  street_address2: streetAddress2,
+                                  town_or_city: townOrCity,
+                                  county: county,
+                                  postcode: postcode,
+                                  country: country,
+                                  save_info: saveInfo
+                              }),
+                          })
+                          .then(res => res.json())
+                          .then(data => {
+                              if (data.status === 'success') {
+                                  window.location.href = `/checkout/success/${data.order_number}/`;
+                              } else {
+                                  errorMessage.textContent = 'Error saving order data.';
+                              }
+                          })
+                          .catch(() => {
+                              errorMessage.textContent = 'Network error saving order data.';
+                          });
+                      }
+                  });
+              </script>
+      
+              {% else %}
+              <h2>Delivery Information</h2>
+              <form method="post" action="{% url 'checkout' %}">
+                  {% csrf_token %}
+                  {{ form.as_p }}
+                  {% if user.is_authenticated %}
+              <div class="form-check mt-2 mb-3 d-flex justify-content-center align-items-center">
+                  <input 
+                      class="form-check-input mb-3" 
+                      type="checkbox" 
+                      id="save-info" 
+                      name="save_info"
+                      {% if save_info %}checked{% endif %}>
+                  <label class="form-check-label mt-4" for="save-info">
+                      Save this delivery Information as default.
+                  </label>
+              </div>
+              {% endif %}
+                  <button class="btn btn-def mb-4" type="submit">Continue to Payment</button>
+              </form>
+              {% endif %}
+          </div>
+          <div class="col-md-6">
+              <div class="scroll">
+                  <!-- Table display on larger screens -->
+                  <table class="table d-none d-md-table">
+                      <tbody>
+                          {% for product_code, quantity in bag.items %}
+                          {% with product=product_code|product_by_code %}
+                          <tr>
+                              <td>
+                                  {% if product.image %}
+                                  <img class="product-img-small" src="{{ product.image.url }}" alt="{{ product.name }}">
+                                  {% else %}
+                                  <img class="product-img-small" src="{{ product.image_url }}" alt="{{ product.name }}">
+                                  {% endif %}
+                              </td>
+                              <td colspan="2">{{ product.name }}</td>
+                          </tr>
+                          <tr class="text-center product-info-checkout">
+                              <td>
+                                  <strong>Quantity: </strong> x{{ quantity }}
+                              </td>
+                              <td>
+                                  <strong>Price: </strong>£{{ product.price }}
+                              </td>
+                              <td>
+                                  <strong>Subtotal: </strong>£{{ product.price|multiply:quantity|floatformat:2 }}
+                              </td>
+                          </tr>
+                          {% endwith %}
+                          {% empty %}
+                          <tr>
+                              <td colspan="5">Your cart is empty.</td>
+                          </tr>
+                          {% endfor %}
+                      </tbody>
+                  </table>
+                  <!-- Stacked div display on smaller screens -->
+                  <div class="d-block d-md-none">
+                      {% for product_code, quantity in bag.items %}
+                      {% with product=product_code|product_by_code %}
+                      <div class="mb-2 p-2">
+                          <div class="d-flex flex-column justify-content-center align-items-center">
+                              <div class="mb-3">
+                                  {% if product.image %}
+                                  <img class="product-img-small" src="{{ product.image.url }}" alt="{{ product.name }}">
+                                  {% else %}
+                                  <img class="product-img-small" src="{{ product.image_url }}" alt="{{ product.name }}">
+                                  {% endif %}
+                              </div>
+                              <div>
+                                  <h6 class="mb-3">{{ product.name }}</h6>
+                              </div>
+                              <div>
+                                  <div><strong>Quantity: </strong>x{{ quantity }}</div>
+                                  <div><strong>Price: </strong>£{{ product.price }}</div>
+                                  <div><strong>Subtotal: </strong>£{{ product.price|multiply:quantity|floatformat:2 }}</div>
+                              </div>
+                          </div>
+                      </div>
+                      <hr>
+                      {% endwith %}
+                      {% empty %}
+                      <div>Your cart is empty.</div>
+                      {% endfor %}
+                  </div>
+              </div>
+              <hr>
+              <div class="col text-right mb-4">
+                  <p><strong>Delivery: </strong>£{{ delivery_charge|floatformat:2 }}</p>
+                  <p><strong>Grand Total: </strong>£{{ grand_total|floatformat:2 }}</p>
+              </div>
+          </div>
+          <hr>
+      </div>
+      
+      {% endblock %}
+</details>
 
 ### Product Management
+As product management should only be accessible by authorised users, I added a test to the views which enforces this.
+
+      @user_passes_test(is_superuser)
+      def product_management(request):
+          return render(request, 'product/product_management.html')
+
+The options for add, edit and inventory are all controlled by a single form that renders the fields as needed.
+
+<details>
+   <summary>Screenshot of Product Management</summary>
+   
+![](./the-cosy-narwhal-assets/product_management.png)
+</details>
+
+<details>
+   <summary>Product Form</summary>
+   
+      class ProductForm(forms.ModelForm):
+          class Meta:
+              model = Product
+              fields = [
+                  'code',
+                  'name',
+                  'description',
+                  'size',
+                  'has_colors',
+                  'color',
+                  'available_colors',
+                  'price',
+                  'image',
+                  'image_url',
+                  'inventory',
+              ]
+              widgets = {
+                  'description': forms.Textarea(attrs={'rows': 3}),
+                  'available_colors': forms.CheckboxSelectMultiple(), 
+              }
+      
+          def __init__(self, *args, **kwargs):
+              super().__init__(*args, **kwargs)
+              for field_name, field in self.fields.items():
+                  # Skip adding form-control for checkbox/radio groups
+                  if isinstance(field.widget, (forms.CheckboxSelectMultiple, forms.CheckboxInput, forms.RadioSelect)):
+                      continue
+                  # Add 'form-control' class
+                  existing_classes = field.widget.attrs.get('class', '')
+                  field.widget.attrs['class'] = f'{existing_classes} form-control'.strip()
+      
+      class ProductInventoryForm(forms.ModelForm):
+          class Meta:
+              model = Product
+              fields = ['inventory']
+              widgets = {
+                  'inventory': forms.NumberInput(attrs={'class': 'form-control'}),
+              }
+      
+      ProductInventoryFormSet = modelformset_factory(
+          Product,
+          form=ProductInventoryForm,
+          extra=0
+      )
+</details>
+
 #### Add Product
-Enables admins to add new crochet toys by entering product details like name, description, price, size, color, images, and inventory.
+Enables admins to add new crochet toys by entering product details like name, description, price, size, color, images, and inventory. The template renders the Product Form with all fields blank, ready to recieve the new information and allows for superusers to add a product to the database. When submitted, the information is sent to the database and a new product is created.
+
+<details>
+   <summary>Add Product View</summary>
+   
+      @user_passes_test(is_superuser)
+      def add_product(request):
+          if request.method == 'POST':
+              form = ProductForm(request.POST, request.FILES) 
+              if form.is_valid():
+                  form.save()
+                  new_product = form.save()
+                  messages.success(request, f"'{new_product.name}' added successfully!")
+                  return redirect('product_management') 
+          else:
+              form = ProductForm()
+      
+          return render(request, 'product/add_product.html', {'form': form})
+</details>
+
+<details>
+   <summary>Screenshot of Add Product Page</summary>
+
+![](./the-cosy-narwhal-assets/add_product.png)
+</details>
 
 #### Edit Product
-Allows admins to update existing product information and reflect changes on the storefront.
+Allows admins to update existing product information and reflect changes on the storefront. Similarly to the `add_product` view, the `edit_product` view renders the Product Form, but this page has a dropdown menu that is populated by the products within the database. On selection, the fields are populated with the values of the selected product and allow for the superuser to edit and of these fields and then save the changes.
+
+Additionally there is a search function at the top, allowing superusers to search for specific products instead of scrolling through the list in the dropdown. The search results act as links to populate the form with the selected product.
+
+<details>
+   <summary>Edit Product View</summary>
+      
+      @user_passes_test(is_superuser)
+      def edit_product(request):
+          products = Product.objects.all().order_by('name')  # full list for dropdown
+      
+          product = None
+          form = None
+          search_results = None
+      
+          # Get params
+          product_id = request.GET.get('product_id')
+          search_query = request.GET.get('search')
+      
+          # Load product to edit
+          if product_id:
+              product = get_object_or_404(Product, pk=product_id)
+          elif search_query:
+              # Get all matching products for search results
+              search_results = Product.objects.filter(
+                  models.Q(code__icontains=search_query) | 
+                  models.Q(name__icontains=search_query)
+              ).order_by('name')
+              # Select first matching product to edit (optional)
+              product = search_results.first()
+      
+          if request.method == 'POST':
+              product_id_post = request.POST.get('product_id')
+              product = get_object_or_404(Product, pk=product_id_post)
+              form = ProductForm(request.POST, request.FILES, instance=product)
+              if form.is_valid():
+                  messages.success(request, f'{product.name} Updated Successfully')
+                  form.save()
+                  return redirect(f"{request.path}?product_id={product.id}")
+              else:
+                  print(form.errors)
+          else:
+              if product:
+                  form = ProductForm(instance=product)
+      
+          context = {
+              'products': products,
+              'form': form,
+              'selected_product': product,
+              'search_query': search_query,
+              'search_results': search_results,
+          }
+      
+          return render(request, 'product/edit_product.html', context)
+</details>
+
+<details>
+   <summary>Screenshot of Edit Product Page, showing the search results for "turtle"</summary>
+
+![](./the-cosy-narwhal-assets/edit_product.png)
+</details>
 
 #### Remove Product
-Lets admins delete discontinued products to keep the catalog current.
+Lets admins delete discontinued products to keep the catalog current. Using similar logic to the `edit_product` view, this allows superusers to remove products from the databasse completely. It also features a dropdown and search functionality. The selected product is removed when the user clicks "Remove Product" button. There is a defensive alert that will ask the user to confrim deletion before it is processed.
+
+<details>
+   <summary>Delete Form from Template</summary>
+
+      <form method="post" onsubmit="return confirm('Are you sure you want to delete this product?');">
+          {% csrf_token %}
+          <label for="product_select">Select product to remove:</label>
+          <select class="form-control" name="product_id" id="product_select" required>
+              <option value="">-- Select a product --</option>
+              {% for product in products %}
+                  <option value="{{ product.id }}" {% if request.GET.product_id == product.id|stringformat:"s" %}selected{% endif %}>
+                      {{ product.name }} ({{ product.code }})
+                  </option>
+              {% endfor %}
+          </select>
+          <button class="btn btn-def mt-2" type="submit">Remove Product</button>
+      </form>
+</details>
+
+<details>
+   <summary>Delete Product View</summary>
+   
+         @user_passes_test(is_superuser)
+         def remove_product(request):
+             products = Product.objects.all().order_by('name')
+             search_query = request.GET.get('search')
+             product_to_delete = None
+             search_results = []
+         
+             if search_query:
+                 search_results = Product.objects.filter(
+                     models.Q(code__icontains=search_query) | models.Q(name__icontains=search_query)
+                 )
+         
+             if request.method == 'POST':
+                 product_id = request.POST.get('product_id')
+                 product_to_delete = get_object_or_404(Product, pk=product_id)
+                 product_to_delete.delete()
+                 messages.success(request, f"Product '{product_to_delete.name}' was removed successfully.")
+                 return redirect('remove_product')
+         
+             context = {
+                 'products': products,
+                 'search_query': search_query,
+                 'search_results': search_results,
+             }
+             return render(request, 'product/remove_product.html', context)
+</details>
+
+<details>
+   <summary>Screenshot of Remove Product Page</summary>
+
+![](./the-cosy-narwhal-assets/remove_product.png)
+</details>
 
 #### Update Inventory
-Allows admins to adjust stock levels, which control product availability and display status.
+Allows admins to adjust stock levels, which control product availability and display status. Rendering a full list of products with only a single editable field, this allows superusers to update the inventory of all products in one place, instead of needing to edit each individual product inventory using `edit_product`.
+
+<details>
+   <summary>Update Inventory View</summary>
+
+      @user_passes_test(is_superuser)
+      def update_inventory(request):
+          queryset = Product.objects.all()
+      
+          if request.method == 'POST':
+              formset = ProductInventoryFormSet(request.POST, queryset=queryset)
+      
+              print("POST received!")
+              print("Raw POST data:", request.POST)
+      
+              if formset.is_valid():
+                  print("Formset is valid.")
+                  formset.save()
+                  messages.success(request, "Inventory successfully updated.")
+                  return redirect('product_management')
+              else:
+                  print("Formset errors:", formset.errors)
+          else:
+              formset = ProductInventoryFormSet(queryset=queryset)
+      
+          return render(request, 'product/inventory.html', {
+              'formset': formset,
+          })
+</details>
 
 #### Sales Report
-Provides admins with detailed metrics such as total sales, total value of sales and top-selling products to monitor business performance within a given time period.
+Provides superusers with detailed metrics such as total sales, total value of sales and top-selling products to monitor business performance within a given time period, and rendered in a readable table. There are several filtering options including by timestamp (24hrs, 7 days, 30 days and All Time) to allow the superuser to see whats successfully sold in a given time and track trends. Also, there are sorting options as well to allow the superuser to see most sales, highest gross etc.
+
+<details>
+   <summary>Sales Report View</summary>
+   
+         @user_passes_test(is_superuser)
+         def sales(request):
+             # Get filter period from query params, default to 7 days
+             period = request.GET.get('period', '7')
+             sort = request.GET.get('sort', 'most_sales')  # get sorting option, default to most_sales
+             now = timezone.now()
+         
+             if period == '1':
+                 start_date = now - timedelta(days=1)
+             elif period == '7':
+                 start_date = now - timedelta(days=7)
+             elif period == '30':
+                 start_date = now - timedelta(days=30)
+             else:  # 'all' or invalid value
+                 start_date = None
+         
+             if start_date:
+                 orders = Order.objects.filter(created_at__gte=start_date)
+             else:
+                 orders = Order.objects.all()
+         
+             # Aggregate total units sold per product code
+             sales_data = defaultdict(int)
+             for order in orders:
+                 for code, qty in order.items.items():
+                     sales_data[code] += qty
+         
+             # Build product sales info
+             products_sales = []
+             total_sales = Decimal('0.00')  # initialize total
+         
+             product_codes = sales_data.keys()
+             products = Product.objects.filter(code__in=product_codes)
+             products_map = {p.code: p for p in products}
+         
+             for code, qty_sold in sales_data.items():
+                 product = products_map.get(code)
+                 if not product:
+                     continue  # product deleted
+         
+                 subtotal = qty_sold * product.price
+                 total_sales += subtotal
+         
+                 products_sales.append({
+                     'image': product.image.url if product.image else None,
+                     'code': product.code,
+                     'name': product.name,
+                     'units_sold': qty_sold,
+                     'price': product.price,
+                     'subtotal': subtotal,
+                     'inventory': product.inventory,
+                 })
+         
+             # Sorting logic
+             if sort == 'most_sales':
+                 products_sales.sort(key=lambda x: x['units_sold'], reverse=True)
+             elif sort == 'highest_subtotal':
+                 products_sales.sort(key=lambda x: x['subtotal'], reverse=True)
+             elif sort == 'lowest_stock':
+                 products_sales.sort(key=lambda x: x['inventory'])
+             elif sort == 'price_high_to_low':
+                 products_sales.sort(key=lambda x: x['price'], reverse=True)
+             elif sort == 'price_low_to_high':
+                 products_sales.sort(key=lambda x: x['price'])
+             else:
+                 # default fallback sort
+                 products_sales.sort(key=lambda x: x['units_sold'], reverse=True)
+         
+             context = {
+                 'products_sales': products_sales,
+                 'selected_period': period,
+                 'selected_sort': sort,  # pass the selected sort for template to highlight dropdown
+                 'total_sales': total_sales,
+             }
+         
+             return render(request, 'product/sales.html', context)
+</details>
+
+<details>
+   <summary>Screenshot of Sales Report Page</summary>
+
+![](./the-cosy-narwhal-assets/sales_report.png)
+</details>
 
 ### FAQ & Contact
-Provides a list of FAQs and a Contact form to allow users to contact admin.
+Provides a list of FAQs and a Contact form to allow users to contact admin. The contact form has a hidden input for order number which does not need to be included for "Custom Make" or "Other". The rest of the options are to do with orders and therefore have the order number field available to the user.
+
+<details>
+   <summary>Contact Form</summary>
+
+      REASON_CHOICES = [
+          ('', 'Select a reason'),  # default empty option
+          ('refund', 'Request Refund / Return'),
+          ('problem', 'Problems With Order'),
+          ('wisimo', 'Where Is My Order?'),
+          ('custom', 'Custom Make'),
+          ('other', 'Any Other'),
+      ]
+      
+      class ContactForm(forms.Form):
+          name = forms.CharField(
+              max_length=100,
+              required=True,
+              widget=forms.TextInput(attrs={
+                  'class': 'form-control',
+                  'placeholder': 'Your Name'
+              })
+          )
+          email = forms.EmailField(
+              required=True,
+              widget=forms.EmailInput(attrs={
+                  'class': 'form-control',
+                  'placeholder': 'Your Email'
+              })
+          )
+          reason = forms.ChoiceField(
+              required=True,
+              choices=REASON_CHOICES,
+              widget=forms.Select(attrs={
+                  'class': 'form-control'
+              })
+          )
+          order_number = forms.CharField(
+              required=False,
+              widget=forms.TextInput(attrs={
+                  'class': 'form-control',
+                  'placeholder': 'Order Number'
+              })
+          )
+          message = forms.CharField(
+              required=True,
+              widget=forms.Textarea(attrs={
+                  'class': 'form-control',
+                  'placeholder': 'Enter your message here...',
+                  'rows': 5
+              })
+          )
+</details>
+
+<details>
+   <summary>Contact Form Template</summary>
+
+      {% extends "base.html" %}
+      {% load static %}
+      
+      {% block content %}
+      
+      <h3>Contact Us</h3>
+      <p>If you are having issues with an order, want to talk about a custom project you'd like to arrange or anything else, please use the contact form below.</p>
+      
+      <form method="post">
+          {% csrf_token %}
+          
+          {{ form.name }}<br>
+          {{ form.email }}<br>
+          {{ form.reason }}<br>
+      
+          <div id="order-number-field" style="display: none;">
+              {{ form.order_number }}<br>
+          </div>
+      
+          {{ form.message }}<br>
+      
+          <button type="submit" class="btn btn-def mt-2">Submit</button>
+      </form>
+      
+      <script>
+          const reasonSelect = document.getElementById("id_reason");
+          const orderNumberField = document.getElementById("order-number-field");
+      
+          function toggleOrderField() {
+              const val = reasonSelect.value;
+              if (['refund', 'problem', 'wisimo'].includes(val)) {
+                  orderNumberField.style.display = "block";
+              } else {
+                  orderNumberField.style.display = "none";
+              }
+          }
+      
+          reasonSelect.addEventListener('change', toggleOrderField);
+          document.addEventListener('DOMContentLoaded', toggleOrderField);
+      </script>
+      
+      {% endblock %}
+</details>
+
+<details>
+   <summary>Screenshot of Contact Page</summary>
+
+![](./the-cosy-narwhal-assets/contact.png)
+</details>
+
+The FAQ page is a simple text render of frequently asked questions, including care details and delivery providers.
+
+<details>
+   <summary>Screenshot of FAQ Page</summary>
+
+![](./the-cosy-narwhal-assets/faq.png)
+</details>
 
 # Deployment 
 1. Log in to Heroku if you already have an account with them. If not, create an account.
@@ -938,7 +2068,7 @@ Provides a list of FAQs and a Contact form to allow users to contact admin.
 ## Validation
 
 **HTML** <br>
-[W3C HTML validator](https://validator.w3.org) seemed to really struggle with the Django generated content so I instead validated the raw HTML after Django rendering, which showed only one error consistently. The scrrenshot below shows the error and this occurs because we have both the standard navbar and the mobile version of the navbar loaded at all times, ready for the switch if the screen width threshold is broken. As such, the validator sees two duplicate ids and panics but this can be safely ignored as only one of the menus is active at a time depending on screen width. No other errors detected.
+[W3C HTML validator](https://validator.w3.org) seemed to really struggle with the Django generated content so I instead validated the raw HTML after Django rendering, which showed only one error consistently. The screenshot below shows the error and this occurs because we have both the standard navbar and the mobile version of the navbar loaded at all times, ready for the switch if the screen width threshold is broken. As such, the validator sees two duplicate ids and panics but this can be safely ignored as only one of the menus is active at a time depending on screen width. No other errors detected.
 
 <details>
    <summary>HTML Error Sumamry</summary>
@@ -978,7 +2108,7 @@ DevTools Lighthouse Scores. The big problem with the Best Practices score was th
 
 ## Manual Testing
 
-### Manual Testing
+### Feature Testing
 
 All these features were manually tested by me and several others, these are the results of those tests.
 
