@@ -56,8 +56,7 @@
 <body>
     <header class="container-fluid fixed-top">
         <div id="topnav" class="row bg-grad p-2 d-none d-lg-flex align-items-center">
-            <div
-                class="col-12 col-lg-4 d-flex align-items-center justify-content-center justify-content-lg-start py-lg-0">
+            <div class="col-12 col-lg-4 d-flex align-items-center justify-content-center justify-content-lg-start py-lg-0">
                 <a href="{% url 'home' %}" class="nav-link main-logo-link">
                     <h2 class="logo-font text-black m-0">The Cosy Narwhal</h2>
                 </a>
@@ -79,8 +78,7 @@
                 </form>
             </div>
 
-            <div
-                class="col-12 col-lg-4 d-flex align-items-center justify-content-center justify-content-lg-end py-1 py-lg-0">
+            <div class="col-12 col-lg-4 d-flex align-items-center justify-content-center justify-content-lg-end py-1 py-lg-0">
                 <ul class="list-inline list-unstyled m-0 d-flex align-items-center">
                     <li class="list-inline-item dropdown mx-2">
                         <a class="text-black nav-link" aria-label="Main products display page" href="{% url 'products' %}">
@@ -161,8 +159,8 @@
     </script>
     {% block postloadjs %}
     {% endblock %}
+    <footer class="footer bg-grad-rev w-100 d-lg-flex fixed-bottom">
+        {% include 'includes/footer.html' %}
+    </footer>
 </body>
-<footer class="footer bg-grad-rev w-100 d-lg-flex fixed-bottom">
-    {% include 'includes/footer.html' %}
-</footer>
 </html>
