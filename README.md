@@ -1229,7 +1229,7 @@ Once the order has been processed, the user is shown a summary of the order by c
 (screeshot of checkout success)
 
 <details>
-   <sumamry>Save Order View</sumamry>
+   <summary>Save Order View</summary>
    
       @csrf_protect
       def save_order(request):
