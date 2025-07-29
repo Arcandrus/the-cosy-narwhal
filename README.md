@@ -18,8 +18,8 @@ This project was a collaboration with my friend, Emma, who makes crochet toys an
 5. [Technologies](#technologies)
 6. [Features](#features)
     + [Product Display & Cart](#product-display--cart)
-        + [All Products](#all-products)
-        + [Product Search](#product-search)
+        + [All Products & Search](#all-products--search)
+        + [Product Detail](#product-detail)
         + [Add to Cart](#add-to-cart)
         + [View Cart](#view-cart)
     + [Account Registration & User Profile](#account-registration--user-profile)
@@ -650,11 +650,89 @@ A wireframe for the initial design concepts can be found in the [technologies](#
 Most of the features I implemented were the direct responses to the User Stories listed above, as such, here follows an explanation of them in greater detail.
 
 ### Product Display & Cart
-#### All Products
-Displays the complete catalog of crochet toys with images, titles, and key details so users can browse available items easily.
+#### All Products & Search
+Displays the complete catalog of crochet toys with images, titles, and key details so users can browse available items easily. The main porduct pages users a custom filter in the view to group products by product code, and only display the products considered unique within that set. This however is different when displaying a search result, as then, it will show all results that match the search criteria without filtering the product codes.
 
-#### Product Search
-Allows users to search products by keywords, filtering results to quickly find specific crochet toys.
+Within the template, there are conditional statements that display information about wether the item is in stock or has additional color options.
+
+<details>
+   <summary>Conditional Statements from template</summary>
+
+         <p><strong>{{ product.display_name }}</strong></p>
+         # If product is out of stock
+         {% if product.inventory == 0 %}
+         <small>Currently out of stock</small>
+         {% endif %}
+         # If product has color options
+         {% if product.has_colors %}
+         <small>Color choices available</small>
+         {% endif %}
+</details>
+
+<details>
+   <summary>Product View</summary>
+   
+      def all_products(request):
+       query = request.GET.get('q', '')
+       all_products = Product.objects.order_by('code', 'id')
+   
+       if query:
+           # Search: show all matching with full product names (no trimming)
+           all_products = all_products.filter(
+               Q(name__icontains=query) | Q(description__icontains=query)
+           )
+           products_to_show = all_products
+           for product in products_to_show:
+               product.display_name = product.name  # full name with variant info
+       else:
+           # No search: show unique prefixes with trimmed names
+           seen_prefixes = set()
+           unique_products = []
+           for product in all_products:
+               prefix = product.code[:3]
+               if prefix not in seen_prefixes:
+                   if '-' in product.name:
+                       product.display_name = product.name.split('-')[0].strip()
+                   else:
+                       product.display_name = product.name
+                   unique_products.append(product)
+                   seen_prefixes.add(prefix)
+           products_to_show = unique_products
+   
+       context = {
+           'products': products_to_show,
+           'search_term': query,
+       }
+   
+       return render(request, 'product/product.html', context)
+</details>
+
+(screenshot of main products page)
+(screenshot of search results)
+
+#### Product Detail
+Allows users to see detailed information about the selected product. Once the user has selected a product the product detail view renders that products full display information, including its description and any reveiws left for the product.
+
+The same conditional statements exist on this page however, the out of stock statement will now disable the "Add to Cart" button if the item is not in stock and change its text to reflect this. Additionally there is a limit place on the quantity selector that forbids users adding more than the currently available stock to the cart as a defensive measure against overordering.
+
+<details>
+   <summary>Defensive Programming snippet</summary>
+
+      <form class="d-flex align-items-center gap-2" method="POST" action="{% url 'add_to_bag' product.code %}">
+           {% csrf_token %}
+           <input class="rounded form-control w-auto"
+               type="{% if product.inventory == 0 %}hidden{% else %}number{% endif %}" name="quantity"
+               value="1" min="1" max="{{ product.inventory }}">
+
+           <input type="hidden" name="redirect_url" value="{{ request.path }}">
+
+           <button class="btn btn-def {% if product.inventory == 0 %}disabled{% endif %}" type="submit" {% if product.inventory == 0 %}disabled{% endif %}>
+               {% if product.inventory == 0 %}Sorry, I'm currently out of stock{% else %}Add to Cart{% endif %}
+           </button>
+       </form>
+</details>
+
+(screenshot of product detail page)
 
 #### Add to Cart
 Enables users to add selected products to their shopping cart for purchase.
