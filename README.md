@@ -18,8 +18,8 @@ This project was a collaboration with my friend, Emma, who makes crochet toys an
 5. [Technologies](#technologies)
 6. [Features](#features)
     + [Product Display & Cart](#product-display--cart)
-        + [All Products](#all-products)
-        + [Product Search](#product-search)
+        + [All Products & Search](#all-products--search)
+        + [Product Detail](#product-detail)
         + [Add to Cart](#add-to-cart)
         + [View Cart](#view-cart)
     + [Account Registration & User Profile](#account-registration--user-profile)
@@ -468,8 +468,8 @@ A wireframe for the initial design concepts can be found in the [technologies](#
 <details>
 <summary>base.html is shown here</summary>
     
-    {% load static %}
-
+      {% load static %}
+      
       <!doctype html>
       <html lang="en">
       
@@ -526,8 +526,7 @@ A wireframe for the initial design concepts can be found in the [technologies](#
       <body>
           <header class="container-fluid fixed-top">
               <div id="topnav" class="row bg-grad p-2 d-none d-lg-flex align-items-center">
-                  <div
-                      class="col-12 col-lg-4 d-flex align-items-center justify-content-center justify-content-lg-start py-lg-0">
+                  <div class="col-12 col-lg-4 d-flex align-items-center justify-content-center justify-content-lg-start py-lg-0">
                       <a href="{% url 'home' %}" class="nav-link main-logo-link">
                           <h2 class="logo-font text-black m-0">The Cosy Narwhal</h2>
                       </a>
@@ -541,7 +540,7 @@ A wireframe for the initial design concepts can be found in the [technologies](#
                                   placeholder="Search our site"
                                   value="{{ search_term|default:'' }}">
                               <div class="input-group-append">
-                                  <button class="btn btn-black border border-black rounded" type="submit">
+                                  <button aria-label="search" class="btn btn-black border border-black rounded" type="submit">
                                       <span class="icon"><i class="fas fa-search"></i></span>
                                   </button>
                               </div>
@@ -549,11 +548,10 @@ A wireframe for the initial design concepts can be found in the [technologies](#
                       </form>
                   </div>
       
-                  <div
-                      class="col-12 col-lg-4 d-flex align-items-center justify-content-center justify-content-lg-end py-1 py-lg-0">
+                  <div class="col-12 col-lg-4 d-flex align-items-center justify-content-center justify-content-lg-end py-1 py-lg-0">
                       <ul class="list-inline list-unstyled m-0 d-flex align-items-center">
                           <li class="list-inline-item dropdown mx-2">
-                              <a class="text-black nav-link" href="{% url 'products' %}">
+                              <a class="text-black nav-link" aria-label="Main products display page" href="{% url 'products' %}">
                                   <div class="text-center">
                                       <div><i class="fa-solid fa-store"></i></div>
                                       <p class="my-0">Products</p>
@@ -562,7 +560,7 @@ A wireframe for the initial design concepts can be found in the [technologies](#
                           </li>
                           <li class="list-inline-item dropdown mx-2">
                               <a class="text-black nav-link" href="#" id="user-options" data-toggle="dropdown"
-                                  aria-haspopup="true" aria-expanded="false">
+                                  aria-haspopup="true" aria-expanded="false" aria-label="Account options">
                                   <div class="text-center">
                                       <div><i class="fas fa-user fa-lg"></i></div>
                                       <p class="my-0">My Account</p>
@@ -582,7 +580,7 @@ A wireframe for the initial design concepts can be found in the [technologies](#
                               </div>
                           </li>
                           <li class="list-inline-item mx-2">
-                              <a class="nav-link" href="{% url 'view_bag' %}">
+                              <a class="nav-link" aria-label="View your cart" href="{% url 'view_bag' %}">
                                   <div class="text-center">
                                       <div><i class="fa-solid fa-cart-shopping"></i></div>
                                       <p class="my-0">My Cart</p>
@@ -626,15 +624,15 @@ A wireframe for the initial design concepts can be found in the [technologies](#
               {% endfor %}
           </div>
           {% endif %}
-          <script type="text/javascript">
+          <script>
               $('.toast').toast('show');
           </script>
           {% block postloadjs %}
           {% endblock %}
+          <footer class="footer bg-grad-rev w-100 d-lg-flex fixed-bottom">
+              {% include 'includes/footer.html' %}
+          </footer>
       </body>
-      <footer class="footer bg-grad-rev w-100 d-lg-flex fixed-bottom">
-          {% include 'includes/footer.html' %}
-      </footer>
       </html>
 </details>
 
@@ -644,7 +642,7 @@ A wireframe for the initial design concepts can be found in the [technologies](#
 
 **Django** - This was the meat of the project, enabling full Admin user controlled CRUD functionality for the products in the database. I used customised AllAuth templates to enable greater customisation of AllAuth forms.
 
-**Balsamiq** - To create a wireframe, [here]() (pdf format)
+**Balsamiq** - To create a wireframe, [here](./the-cosy-narwhal-assets/the-cosy-narwhal.pdf) (pdf format)
 
 **Bootstrap** - To ensure responsive design and usability across all devices, I use a combination of Bootstrap classes and custom css.
 
@@ -652,17 +650,232 @@ A wireframe for the initial design concepts can be found in the [technologies](#
 Most of the features I implemented were the direct responses to the User Stories listed above, as such, here follows an explanation of them in greater detail.
 
 ### Product Display & Cart
-#### All Products
-Displays the complete catalog of crochet toys with images, titles, and key details so users can browse available items easily.
+#### All Products & Search
+Displays the complete catalog of crochet toys with images, titles, and key details so users can browse available items easily. The main porduct pages users a custom filter in the view to group products by product code, and only display the products considered unique within that set. This however is different when displaying a search result, as then, it will show all results that match the search criteria without filtering the product codes.
 
-#### Product Search
-Allows users to search products by keywords, filtering results to quickly find specific crochet toys.
+Within the template, there are conditional statements that display information about wether the item is in stock or has additional color options.
+
+<details>
+   <summary>Conditional Statements from template</summary>
+
+         <p><strong>{{ product.display_name }}</strong></p>
+         # If product is out of stock
+         {% if product.inventory == 0 %}
+         <small>Currently out of stock</small>
+         {% endif %}
+         # If product has color options
+         {% if product.has_colors %}
+         <small>Color choices available</small>
+         {% endif %}
+</details>
+
+<details>
+   <summary>Product View</summary>
+   
+      def all_products(request):
+       query = request.GET.get('q', '')
+       all_products = Product.objects.order_by('code', 'id')
+   
+       if query:
+           # Search: show all matching with full product names (no trimming)
+           all_products = all_products.filter(
+               Q(name__icontains=query) | Q(description__icontains=query)
+           )
+           products_to_show = all_products
+           for product in products_to_show:
+               product.display_name = product.name  # full name with variant info
+       else:
+           # No search: show unique prefixes with trimmed names
+           seen_prefixes = set()
+           unique_products = []
+           for product in all_products:
+               prefix = product.code[:3]
+               if prefix not in seen_prefixes:
+                   if '-' in product.name:
+                       product.display_name = product.name.split('-')[0].strip()
+                   else:
+                       product.display_name = product.name
+                   unique_products.append(product)
+                   seen_prefixes.add(prefix)
+           products_to_show = unique_products
+   
+       context = {
+           'products': products_to_show,
+           'search_term': query,
+       }
+   
+       return render(request, 'product/product.html', context)
+</details>
+
+(screenshot of main products page)
+(screenshot of search results)
+
+#### Product Detail
+Allows users to see detailed information about the selected product. Once the user has selected a product the product detail view renders that products full display information, including its description and any reveiws left for the product.
+
+The same conditional statements exist on this page however, the out of stock statement will now disable the "Add to Cart" button if the item is not in stock and change its text to reflect this. Additionally there is a limit place on the quantity selector that forbids users adding more than the currently available stock to the cart as a defensive measure against overordering.
+
+Addotionally, this is the page where users can leave a review of the product, which is restricted by searching the users order history and only allowing reviews if they have previoulsy ordered the product, and is restricted to one review per person per product.
+
+<details>
+   <summary>Defensive Programming snippet</summary>
+
+      <form class="d-flex align-items-center gap-2" method="POST" action="{% url 'add_to_bag' product.code %}">
+           {% csrf_token %}
+           <input class="rounded form-control w-auto"
+               type="{% if product.inventory == 0 %}hidden{% else %}number{% endif %}" name="quantity"
+               value="1" min="1" max="{{ product.inventory }}">
+
+           <input type="hidden" name="redirect_url" value="{{ request.path }}">
+
+           <button class="btn btn-def {% if product.inventory == 0 %}disabled{% endif %}" type="submit" {% if product.inventory == 0 %}disabled{% endif %}>
+               {% if product.inventory == 0 %}Sorry, I'm currently out of stock{% else %}Add to Cart{% endif %}
+           </button>
+       </form>
+</details>
+
+<details>
+   <summary>Product Detail View</summary>
+   
+      def product_detail(request, product_id):
+          product = get_object_or_404(Product, pk=product_id)
+      
+          prefix = product.code[:3]
+          variant_products = Product.objects.filter(code__startswith=prefix).order_by('id')
+      
+          # Build color_links
+          color_links = []
+          for color in product.available_colors.all():
+              variant = variant_products.filter(color=color).first()
+              if variant:
+                  color_links.append((color.name.lower(), variant.id))
+          color_links.sort(key=lambda x: x[0])
+      
+          # Build size_links
+          size_links = []
+          for size_value, size_label in Product.SIZE:
+              if size_value == product.size:
+                  continue
+              variant = variant_products.filter(size=size_value, color=product.color).first()
+              if variant:
+                  size_links.append((size_value, size_label, variant.id))
+      
+          reviews = product.reviews.all().order_by('-created_at')
+      
+          # Check if user can leave a review
+          can_review = False
+          if request.user.is_authenticated:
+              already_reviewed = reviews.filter(user=request.user).exists()
+      
+              if not already_reviewed:
+                  user_orders = Order.objects.filter(user=request.user)
+                  for order in user_orders:
+                      if product.code in order.items:
+                          can_review = True
+                          break
+      
+          # Only accept POST if allowed
+          if request.method == 'POST' and can_review:
+              form = ReviewForm(request.POST)
+              if form.is_valid():
+                  review = form.save(commit=False)
+                  review.product = product
+                  review.user = request.user
+                  review.save()
+                  return redirect('product_detail', product_id=product.id)
+          else:
+              form = ReviewForm()
+      
+          context = {
+              'product': product,
+              'product_id_str': str(product.id),
+              'color_links': color_links,
+              'size_links': size_links,
+              'reviews': reviews,
+              'form': form,
+              'can_review': can_review,
+          }
+      
+          return render(request, "product/product_detail.html", context)
+</details>
+
+(screenshot of product detail page)
 
 #### Add to Cart
-Enables users to add selected products to their shopping cart for purchase.
+Enables users to add selected products to their shopping cart for purchase. By clicking the "Add to Cart" button the add_to_bag view is called. This take the product code and matches it to the product id within the database, and also gets the color and/ or size chosen along with the quantity. Then adds this information to the bag session object and displays a toast to the user showing how many and of what has been added to the bag. The grand total under the "My Cart" nav-link will also update dynamically as products are added.
+
+<details>
+   <summary>Add to Bag View</summary>
+   
+      def add_to_bag(request, item_id):
+          quantity = int(request.POST.get('quantity', 1))
+          redirect_url = request.POST.get('redirect_url')
+      
+          try:
+              product = Product.objects.get(code=item_id)
+          except Product.DoesNotExist:
+              messages.error(request, "Sorry, that product does not exist.")
+              return redirect('home') 
+      
+          color = format_color_name(product.color.name) if product.color else "N/A"
+          size = product.get_size_display() if hasattr(product, 'get_size_display') else "N/A"
+      
+          bag = request.session.get('bag', {})
+      
+          if item_id in bag:
+              bag[item_id] += quantity
+          else:
+              bag[item_id] = quantity
+      
+          request.session['bag'] = bag
+      
+          messages.success(request, f"Added {product.name} (Color: {color}, Size: {size}) to your bag.")
+      
+          return redirect(redirect_url)
+</details>
+
+(screenshot of add to bag)
 
 #### View Cart
-Displays the contents of the user’s cart, showing product details, quantities, and total price before checkout.
+Displays the contents of the user’s cart, showing product details, quantities, and total price before checkout. This view also allows the user to remove items from the bag. First the view collects the information from the session and adds it to the `order_items` list to make a secondary list of the bag items for processing. Then for each item in the bag session, it renders it within a table displaying its information, along with the delivery charge to be applied and the grand total of products cost and delivery charge.
+
+<details>
+   <summary>Bag Summary View</summary>
+
+      def view_bag(request):
+          bag = request.session.get('bag', {})
+      
+          order_items = []
+          total_price = 0
+      
+          for code, qty in bag.items():
+              try:
+                  product = Product.objects.get(code=code)
+                  line_total = product.price * qty
+                  total_price += line_total
+                  order_items.append({
+                      'product': product,
+                      'quantity': qty,
+                      'line_total': line_total,
+                  })
+              except Product.DoesNotExist:
+                  continue
+      
+          delivery_charge, delivery_type, grand_total = calculate_delivery(order_items)
+      
+          context = {
+              'bag': bag, 
+              'order_items': order_items,
+              'total_price': total_price,
+              'delivery_charge': delivery_charge,
+              'delivery_type': delivery_type,
+              'grand_total': grand_total,
+          }
+      
+          return render(request, 'bag/bag.html', context)
+</details>
+
+(screenshot of view bag)
 
 ### Account Registration & User Profile
 #### Registration
@@ -739,28 +952,28 @@ Provides a list of FAQs and a Contact form to allow users to contact admin.
 <details>
    <summary>CSS Pass</summary>
    
-![](./mtg-forum-assets/pass_css.png)
+![](./the-cosy-narwhal-assets/css_pass.png)
 </details>
 
 **JS** <br>
-[BeautifyTools JS Validator](https://beautifytools.com/javascript-validator.php) was used to validate all my js scripts and each returned no errors. I've included one screenshot, but I ran every script through the validator.
+[BeautifyTools JS Validator](https://beautifytools.com/javascript-validator.php) was used to validate my major js scripts and returned no errors. I've included a screenshot of my largest script, being the Stripe checkout handler, but I ran every script through the validator.
 
 <details>
    <summary>JS Pass</summary>
    
-![](./mtg-forum-assets/js_pass.png)
+![](./the-cosy-narwhal-assets/js_pass.png)
 </details>
 
 **Python** <br>
 [Pep8 CI](https://pep8ci.herokuapp.com) was used to validate all *.py files and with the exception of a couple of trailing whitespaces and incorrect spacing, which I then fixed, everything came back clear.
 
 **Lighthouse** <br>
-DevTools Lighthouse Scores. The big problem with the Best Practices score was the third party cookies, most of which were the cloudinary images, and I'm not sure how to make this any better.
+DevTools Lighthouse Scores. The big problem with the Best Practices score was the third party cookies and I'm not sure how to make this any better.
 
 <details>
    <summary>Lighthouse</summary>
    
-![](./mtg-forum-assets/lighthouse_scores.png)
+![](./the-cosy-narwhal-assets/lighthouse.png)
 </details>
 
 ## Manual Testing
