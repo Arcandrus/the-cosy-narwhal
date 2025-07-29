@@ -805,7 +805,7 @@ Addotionally, this is the page where users can leave a review of the product, wh
 </details>
 
 <details>
-   <sumamry>Screenshot of Product Detail Page</sumamry>
+   <summary>Screenshot of Product Detail Page</summary>
 
 ![](./the-cosy-narwhal-assets/product_detail.png)
 </details>
