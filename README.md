@@ -468,8 +468,8 @@ A wireframe for the initial design concepts can be found in the [technologies](#
 <details>
 <summary>base.html is shown here</summary>
     
-    {% load static %}
-
+      {% load static %}
+      
       <!doctype html>
       <html lang="en">
       
@@ -526,8 +526,7 @@ A wireframe for the initial design concepts can be found in the [technologies](#
       <body>
           <header class="container-fluid fixed-top">
               <div id="topnav" class="row bg-grad p-2 d-none d-lg-flex align-items-center">
-                  <div
-                      class="col-12 col-lg-4 d-flex align-items-center justify-content-center justify-content-lg-start py-lg-0">
+                  <div class="col-12 col-lg-4 d-flex align-items-center justify-content-center justify-content-lg-start py-lg-0">
                       <a href="{% url 'home' %}" class="nav-link main-logo-link">
                           <h2 class="logo-font text-black m-0">The Cosy Narwhal</h2>
                       </a>
@@ -541,7 +540,7 @@ A wireframe for the initial design concepts can be found in the [technologies](#
                                   placeholder="Search our site"
                                   value="{{ search_term|default:'' }}">
                               <div class="input-group-append">
-                                  <button class="btn btn-black border border-black rounded" type="submit">
+                                  <button aria-label="search" class="btn btn-black border border-black rounded" type="submit">
                                       <span class="icon"><i class="fas fa-search"></i></span>
                                   </button>
                               </div>
@@ -549,11 +548,10 @@ A wireframe for the initial design concepts can be found in the [technologies](#
                       </form>
                   </div>
       
-                  <div
-                      class="col-12 col-lg-4 d-flex align-items-center justify-content-center justify-content-lg-end py-1 py-lg-0">
+                  <div class="col-12 col-lg-4 d-flex align-items-center justify-content-center justify-content-lg-end py-1 py-lg-0">
                       <ul class="list-inline list-unstyled m-0 d-flex align-items-center">
                           <li class="list-inline-item dropdown mx-2">
-                              <a class="text-black nav-link" href="{% url 'products' %}">
+                              <a class="text-black nav-link" aria-label="Main products display page" href="{% url 'products' %}">
                                   <div class="text-center">
                                       <div><i class="fa-solid fa-store"></i></div>
                                       <p class="my-0">Products</p>
@@ -562,7 +560,7 @@ A wireframe for the initial design concepts can be found in the [technologies](#
                           </li>
                           <li class="list-inline-item dropdown mx-2">
                               <a class="text-black nav-link" href="#" id="user-options" data-toggle="dropdown"
-                                  aria-haspopup="true" aria-expanded="false">
+                                  aria-haspopup="true" aria-expanded="false" aria-label="Account options">
                                   <div class="text-center">
                                       <div><i class="fas fa-user fa-lg"></i></div>
                                       <p class="my-0">My Account</p>
@@ -582,7 +580,7 @@ A wireframe for the initial design concepts can be found in the [technologies](#
                               </div>
                           </li>
                           <li class="list-inline-item mx-2">
-                              <a class="nav-link" href="{% url 'view_bag' %}">
+                              <a class="nav-link" aria-label="View your cart" href="{% url 'view_bag' %}">
                                   <div class="text-center">
                                       <div><i class="fa-solid fa-cart-shopping"></i></div>
                                       <p class="my-0">My Cart</p>
@@ -626,15 +624,15 @@ A wireframe for the initial design concepts can be found in the [technologies](#
               {% endfor %}
           </div>
           {% endif %}
-          <script type="text/javascript">
+          <script>
               $('.toast').toast('show');
           </script>
           {% block postloadjs %}
           {% endblock %}
+          <footer class="footer bg-grad-rev w-100 d-lg-flex fixed-bottom">
+              {% include 'includes/footer.html' %}
+          </footer>
       </body>
-      <footer class="footer bg-grad-rev w-100 d-lg-flex fixed-bottom">
-          {% include 'includes/footer.html' %}
-      </footer>
       </html>
 </details>
 
@@ -755,12 +753,12 @@ Provides a list of FAQs and a Contact form to allow users to contact admin.
 [Pep8 CI](https://pep8ci.herokuapp.com) was used to validate all *.py files and with the exception of a couple of trailing whitespaces and incorrect spacing, which I then fixed, everything came back clear.
 
 **Lighthouse** <br>
-DevTools Lighthouse Scores. The big problem with the Best Practices score was the third party cookies, most of which were the cloudinary images, and I'm not sure how to make this any better.
+DevTools Lighthouse Scores. The big problem with the Best Practices score was the third party cookies and I'm not sure how to make this any better.
 
 <details>
    <summary>Lighthouse</summary>
    
-![](./mtg-forum-assets/lighthouse_scores.png)
+![](./the-cosy-narwhal-assets/lighthouse.png)
 </details>
 
 ## Manual Testing
