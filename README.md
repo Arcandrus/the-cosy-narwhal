@@ -49,7 +49,7 @@ This project was a collaboration with my friend, Emma, who makes crochet toys an
 11. [Credits](#credits)
 
 
-![](/responsive_ui.png)
+![](./the-cosy-narwhal-assets/responsive_ui.png)
 
 ## Demo
 A live demo to the website can be found [here](https://the-cosy-narwhal-0266caf0f910.herokuapp.com)
