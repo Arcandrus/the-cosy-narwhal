@@ -703,8 +703,17 @@ Within the template, there are conditional statements that display information a
        return render(request, 'product/product.html', context)
 </details>
 
+<details>
+   <summary>Screenshot of Main Products Page</summary>
+   
 ![](./the-cosy-narwhal-assets/products_main.png)
+</details>
+
+<details>
+   <summary>Screenshot of Search Results Page</summary>
+
 ![](./the-cosy-narwhal-assets/product_search.png)
+</details>
 
 #### Product Detail
 Allows users to see detailed information about the selected product. Once the user has selected a product the product detail view renders that products full display information, including its description and any reveiws left for the product.
@@ -795,7 +804,11 @@ Addotionally, this is the page where users can leave a review of the product, wh
           return render(request, "product/product_detail.html", context)
 </details>
 
+<details>
+   <sumamry>Screenshot of Product Detail Page</sumamry>
+
 ![](./the-cosy-narwhal-assets/product_detail.png)
+</details>
 
 #### Add to Cart
 Enables users to add selected products to their shopping cart for purchase. By clicking the "Add to Cart" button the add_to_bag view is called. This take the product code and matches it to the product id within the database, and also gets the color and/ or size chosen along with the quantity. Then adds this information to the bag session object and displays a toast to the user showing how many and of what has been added to the bag. The grand total under the "My Cart" nav-link will also update dynamically as products are added.
@@ -869,7 +882,11 @@ Displays the contents of the user’s cart, showing product details, quantities,
           return render(request, 'bag/bag.html', context)
 </details>
 
+<details>
+   <summary>Screenshot of Cart Summary Page</summary>
+
 ![](./the-cosy-narwhal-assets/view_bag.png)
+</details>
 
 ### Account Registration & User Profile
 #### Registration
@@ -963,7 +980,11 @@ Provides a form for users to create a new account by entering necessary details 
               return user
 </details>
 
+<details>
+   <summary>Screenshot of the Sign Up Form</summary>
+
 ![](./the-cosy-narwhal-assets/signup.png))
+</details>
 
 #### Profile & Order History
 Allows registered users to view and update their personal information. The profile page also shows the Delivery Information form which autopopulates upon sign up but can be edited here if the information has changed. If the user has placed any orders, they will also be displayed here, with the ability to look at the order summary.
@@ -1061,8 +1082,17 @@ Allows registered users to view and update their personal information. The profi
                   self.fields = {k: self.fields[k] for k in field_order if k in self.fields}
 </details>
 
+<details>
+   <summary>Screenshot of Profile Page (some information redacted)</summary>
+
 ![](./the-cosy-narwhal-assets/profile.png)
+</details>
+
+<details>
+   <summary>Screenshot of Order Summary (some information redacted)</summary>
+
 ![](./the-cosy-narwhal-assets/order_summary.png)
+</details>
 
 ### Checkout & Stripe
 #### Checkout
@@ -1177,8 +1207,17 @@ Once the order has been processed, the user is shown a summary of the order by c
           })
 </details>
 
+<details>
+   <summary>Screenshot of Checkout Summary Page</summary>
+
 ![](./the-cosy-narwhal-assets/checkout1.png)
+</details>
+
+<details>
+   <summary>Screenshot of Payment Phase</summary>
+
 ![](./the-cosy-narwhal-assets/checkout2.png)
+</details>
 
 <details>
    <summary>Checkout Success View</summary>
@@ -1225,7 +1264,11 @@ Once the order has been processed, the user is shown a summary of the order by c
           return render(request, 'checkout/checkout_success.html', context)
 </details>
 
+<details>
+   <summary>Screenshot of Checkout Success</summary>
+
 ![](./the-cosy-narwhal-assets/checkout3.png)
+</details>
 
 <details>
    <summary>Save Order View</summary>
@@ -1571,6 +1614,12 @@ As product management should only be accessible by authorised users, I added a t
 The options for add, edit and inventory are all controlled by a single form that renders the fields as needed.
 
 <details>
+   <summary>Screenshot of Product Management</summary>
+   
+![](./the-cosy-narwhal-assets/product_mangement.png)
+</details>
+
+<details>
    <summary>Product Form</summary>
    
       class ProductForm(forms.ModelForm):
@@ -1640,7 +1689,11 @@ Enables admins to add new crochet toys by entering product details like name, de
           return render(request, 'product/add_product.html', {'form': form})
 </details>
 
+<details>
+   <summary>Screenshot of Add Product Page</summary>
+
 ![](./the-cosy-narwhal-assets/add_product.png)
+</details>
 
 #### Edit Product
 Allows admins to update existing product information and reflect changes on the storefront. Similarly to the `add_product` view, the `edit_product` view renders the Product Form, but this page has a dropdown menu that is populated by the products within the database. On selection, the fields are populated with the values of the selected product and allow for the superuser to edit and of these fields and then save the changes.
@@ -1699,7 +1752,11 @@ Additionally there is a search function at the top, allowing superusers to searc
           return render(request, 'product/edit_product.html', context)
 </details>
 
+<details>
+   <summary>Screenshot of Edit Product Page, showing the search results for "turtle"</summary>
+
 ![](./the-cosy-narwhal-assets/edit_product.png)
+</details>
 
 #### Remove Product
 Lets admins delete discontinued products to keep the catalog current. Using similar logic to the `edit_product` view, this allows superusers to remove products from the databasse completely. It also features a dropdown and search functionality. The selected product is removed when the user clicks "Remove Product" button. There is a defensive alert that will ask the user to confrim deletion before it is processed.
@@ -1752,7 +1809,11 @@ Lets admins delete discontinued products to keep the catalog current. Using simi
              return render(request, 'product/remove_product.html', context)
 </details>
 
+<details>
+   <summary>Screenshot of Remove Product Page</summary>
+
 ![](./the-cosy-narwhal-assets/remove_product.png)
+</details>
 
 #### Update Inventory
 Allows admins to adjust stock levels, which control product availability and display status. Rendering a full list of products with only a single editable field, this allows superusers to update the inventory of all products in one place, instead of needing to edit each individual product inventory using `edit_product`.
@@ -1869,7 +1930,11 @@ Provides superusers with detailed metrics such as total sales, total value of sa
              return render(request, 'product/sales.html', context)
 </details>
 
+<details>
+   <summary>Screenshot of Sales Report Page</summary>
+
 ![](./the-cosy-narwhal-assets/sales_report.png)
+</details>
 
 ### FAQ & Contact
 Provides a list of FAQs and a Contact form to allow users to contact admin. The contact form has a hidden input for order number which does not need to be included for "Custom Make" or "Other". The rest of the options are to do with orders and therefore have the order number field available to the user.
@@ -1973,11 +2038,19 @@ Provides a list of FAQs and a Contact form to allow users to contact admin. The 
       {% endblock %}
 </details>
 
+<details>
+   <summary>Screenshot of Contact Page</summary>
+
 ![](./the-cosy-narwhal-assets/contact.png)
+</details>
 
 The FAQ page is a simple text render of frequently asked questions, including care details and delivery providers.
 
+<details>
+   <summary>Screenshot of FAQ Page</summary>
+
 ![](./the-cosy-narwhal-assets/faq.png)
+</details>
 
 # Deployment 
 1. Log in to Heroku if you already have an account with them. If not, create an account.
