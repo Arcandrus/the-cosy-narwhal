@@ -55,6 +55,9 @@ This project was a collaboration with my friend, Emma, who makes crochet toys an
 A live demo to the website can be found [here](https://the-cosy-narwhal-0266caf0f910.herokuapp.com)
 
 ## Database ERD
+
+[](the-cosy-narwhal-assets/erd.png)
+
 ## Product Model
 
 The `Product` model represents an individual handmade crochet toy. It defines all the core attributes necessary to manage product listings, variants, pricing, inventory, and image data.
