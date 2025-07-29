@@ -56,7 +56,7 @@ A live demo to the website can be found [here](https://the-cosy-narwhal-0266caf0
 
 ## Database ERD
 
-[](the-cosy-narwhal-assets/erd.png)
+![](the-cosy-narwhal-assets/erd.png)
 
 ## Product Model
 
