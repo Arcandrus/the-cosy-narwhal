@@ -642,7 +642,7 @@ A wireframe for the initial design concepts can be found in the [technologies](#
 
 **Django** - This was the meat of the project, enabling full Admin user controlled CRUD functionality for the products in the database. I used customised AllAuth templates to enable greater customisation of AllAuth forms.
 
-**Balsamiq** - To create a wireframe, [here]() (pdf format)
+**Balsamiq** - To create a wireframe, [here](./the-cosy-narwhal-assets/the-cosy-narwhal.pdf) (pdf format)
 
 **Bootstrap** - To ensure responsive design and usability across all devices, I use a combination of Bootstrap classes and custom css.
 
