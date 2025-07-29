@@ -449,12 +449,19 @@ Taking into account Strategy, Scope, Structure, Skeleton and Surface, together w
 
 Given this was a collaborative project, the colour scheme was set by Emma's branding choices, as she already had a logo and colour selection available as well as a main font. Unfortunately, the font she uses in her branding is a Canva exclusive font and as such, we worked together to find one available on Google Fonts that match it closely for consistency.
 
-(cosy marwhal logo here)
-(color scheme here)
+<details>
+   <summary>Brand Logo</summary>
+   
+![](./the-cosy-narwhal-assets/the-cosy-narwhal-logo.png)
+</details>
+
+<details>
+   <summary>Color Palette</summary>
+   
+![](./the-cosy-narwhal-assets/palette.png)
+</details>
 
 I chose a fixed top navigation style as it is both consistent accross multiple screen types and is intuative to use and navigate. This also allows for easy and maximal display for products and information as there is nothing "inside" the screen where this infomation would be presented.
-
-(navbar here)
 
 A wireframe for the initial design concepts can be found in the [technologies](#technologies) section.
 
@@ -983,7 +990,7 @@ Provides a form for users to create a new account by entering necessary details 
 <details>
    <summary>Screenshot of the Sign Up Form</summary>
 
-![](./the-cosy-narwhal-assets/signup.png)
+![](./the-cosy-narwhal-assets/signup.png))
 </details>
 
 #### Profile & Order History
