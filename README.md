@@ -739,7 +739,7 @@ Provides a list of FAQs and a Contact form to allow users to contact admin.
 <details>
    <summary>CSS Pass</summary>
    
-![](./mtg-forum-assets/pass_css.png)
+![](./mtg-forum-assets/css_pass.png)
 </details>
 
 **JS** <br>
