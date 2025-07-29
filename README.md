@@ -739,16 +739,16 @@ Provides a list of FAQs and a Contact form to allow users to contact admin.
 <details>
    <summary>CSS Pass</summary>
    
-![](./mtg-forum-assets/css_pass.png)
+![](./the-cosy-narwhal-assets/css_pass.png)
 </details>
 
 **JS** <br>
-[BeautifyTools JS Validator](https://beautifytools.com/javascript-validator.php) was used to validate all my js scripts and each returned no errors. I've included one screenshot, but I ran every script through the validator.
+[BeautifyTools JS Validator](https://beautifytools.com/javascript-validator.php) was used to validate my major js scripts and returned no errors. I've included a screenshot of my largest script, being the Stripe checkout handler, but I ran every script through the validator.
 
 <details>
    <summary>JS Pass</summary>
    
-![](./mtg-forum-assets/js_pass.png)
+![](./the-cosy-narwhal-assets/js_pass.png)
 </details>
 
 **Python** <br>
