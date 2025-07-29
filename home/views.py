@@ -37,7 +37,7 @@ def contact(request):
                 subject,
                 message,
                 settings.DEFAULT_FROM_EMAIL,
-                ['thecosynarwhal@outlook.com'],
+                ['thecosynarwhal@gmail.com'],
             )
             return redirect('contact_success')
     else:

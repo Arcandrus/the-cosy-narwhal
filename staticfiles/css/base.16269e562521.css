@@ -93,11 +93,6 @@ footer .nav-link {
     border-radius: 15px;
 }
 
-.dropdown-align-right {
-  left: auto !important;
-  right: 0;
-}
-
 .btn {
     border-radius: 10px;
 }
@@ -322,10 +317,6 @@ td {
         font-size: small;
     }
 
-    .dropdown-item {
-        font-size: small;
-    }
-
     .container {
         padding-top: 150px;
     }
@@ -353,9 +344,5 @@ td {
 
     .nav-link {
         padding: 0;
-    }
-
-    .dropdown-item {
-        font-size: small;
     }
 }
