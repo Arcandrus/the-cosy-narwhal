@@ -6,7 +6,7 @@ This project was a collaboration with my friend, Emma, who makes crochet toys an
 ## Table of Contents
 
 1. [Live Demo](#demo)
-2. [Database ERD](#database-erd)
+2. [Database](#database)
    + [Product Model](#product-model)
    + [Order Model](#order-model)
    + [Profile Model](#profile-model)
@@ -54,11 +54,12 @@ This project was a collaboration with my friend, Emma, who makes crochet toys an
 ## Demo
 A live demo to the website can be found [here](https://the-cosy-narwhal-0266caf0f910.herokuapp.com)
 
-## Database ERD
+## Database
 
 <details>
-   <summary>Database ERD Diagram</summary>
-![](the-cosy-narwhal-assets/erd.png)
+   <summary>ERD Diagram</summary>
+   
+![](./the-cosy-narwhal-assets/erd.png)
 </details>
 
 ## Product Model
