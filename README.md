@@ -725,12 +725,12 @@ Provides a list of FAQs and a Contact form to allow users to contact admin.
 ## Validation
 
 **HTML** <br>
-[W3C HTML validator](https://validator.w3.org) seemed to really struggle with the Django generated content so I instead validated the raw HTML after Django rendering, which showed no errors
+[W3C HTML validator](https://validator.w3.org) seemed to really struggle with the Django generated content so I instead validated the raw HTML after Django rendering, which showed only one error consistently. The scrrenshot beolw shows the error and this occurs because we have both the standard navbar and the mobile version of the navbar loaded at all times, ready for the switch if the screen width threshold is broken. As such, the validator sees two duplicate ids and panics but this can be safely ignored as only one of the menus is active at a time depending on screen width. No other errors detected.
 
 <details>
-   <summary>HTML Pass</summary>
+   <summary>HTML Error Sumamry</summary>
    
-![](./mtg-forum-assets/pass_html.png)
+![](./the-cosy-narwhal-assets/html_pass.png)
 </details>
 
 **CSS** <br>
@@ -788,8 +788,6 @@ All these features were manually tested by me and several others, these are the 
 | Remove Product | Admins can delete products and they are removed from the store. | Delete product from dashboard and check storefront. | ✅ |
 | Update Inventory | Stock levels update correctly and affect availability. | Change inventory count and verify stock status. | ✅ |
 | Sales Report | Admins can view accurate sales data and metrics. | Access reports dashboard and review sales figures. | ✅ |
-
-
 
 ## Responsive UI Testing
 
