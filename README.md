@@ -715,6 +715,8 @@ Allows users to see detailed information about the selected product. Once the us
 
 The same conditional statements exist on this page however, the out of stock statement will now disable the "Add to Cart" button if the item is not in stock and change its text to reflect this. Additionally there is a limit place on the quantity selector that forbids users adding more than the currently available stock to the cart as a defensive measure against overordering.
 
+Addotionally, this is the page where users can leave a review of the product, which is restricted by searching the users order history and only allowing reviews if they have previoulsy ordered the product, and is restricted to one review per person per product.
+
 <details>
    <summary>Defensive Programming snippet</summary>
 
@@ -730,6 +732,71 @@ The same conditional statements exist on this page however, the out of stock sta
                {% if product.inventory == 0 %}Sorry, I'm currently out of stock{% else %}Add to Cart{% endif %}
            </button>
        </form>
+</details>
+
+<details>
+   <summary>Product Detail View</summary>
+   
+      def product_detail(request, product_id):
+          product = get_object_or_404(Product, pk=product_id)
+      
+          prefix = product.code[:3]
+          variant_products = Product.objects.filter(code__startswith=prefix).order_by('id')
+      
+          # Build color_links
+          color_links = []
+          for color in product.available_colors.all():
+              variant = variant_products.filter(color=color).first()
+              if variant:
+                  color_links.append((color.name.lower(), variant.id))
+          color_links.sort(key=lambda x: x[0])
+      
+          # Build size_links
+          size_links = []
+          for size_value, size_label in Product.SIZE:
+              if size_value == product.size:
+                  continue
+              variant = variant_products.filter(size=size_value, color=product.color).first()
+              if variant:
+                  size_links.append((size_value, size_label, variant.id))
+      
+          reviews = product.reviews.all().order_by('-created_at')
+      
+          # Check if user can leave a review
+          can_review = False
+          if request.user.is_authenticated:
+              already_reviewed = reviews.filter(user=request.user).exists()
+      
+              if not already_reviewed:
+                  user_orders = Order.objects.filter(user=request.user)
+                  for order in user_orders:
+                      if product.code in order.items:
+                          can_review = True
+                          break
+      
+          # Only accept POST if allowed
+          if request.method == 'POST' and can_review:
+              form = ReviewForm(request.POST)
+              if form.is_valid():
+                  review = form.save(commit=False)
+                  review.product = product
+                  review.user = request.user
+                  review.save()
+                  return redirect('product_detail', product_id=product.id)
+          else:
+              form = ReviewForm()
+      
+          context = {
+              'product': product,
+              'product_id_str': str(product.id),
+              'color_links': color_links,
+              'size_links': size_links,
+              'reviews': reviews,
+              'form': form,
+              'can_review': can_review,
+          }
+      
+          return render(request, "product/product_detail.html", context)
 </details>
 
 (screenshot of product detail page)
