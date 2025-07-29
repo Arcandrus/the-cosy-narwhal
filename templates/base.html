@@ -71,7 +71,7 @@
                             placeholder="Search our site"
                             value="{{ search_term|default:'' }}">
                         <div class="input-group-append">
-                            <button name="search" class="btn btn-black border border-black rounded" type="submit">
+                            <button aria-label="search" class="btn btn-black border border-black rounded" type="submit">
                                 <span class="icon"><i class="fas fa-search"></i></span>
                             </button>
                         </div>
@@ -83,7 +83,7 @@
                 class="col-12 col-lg-4 d-flex align-items-center justify-content-center justify-content-lg-end py-1 py-lg-0">
                 <ul class="list-inline list-unstyled m-0 d-flex align-items-center">
                     <li class="list-inline-item dropdown mx-2">
-                        <a class="text-black nav-link" href="{% url 'products' %}">
+                        <a class="text-black nav-link" aria-label="Main products display page" href="{% url 'products' %}">
                             <div class="text-center">
                                 <div><i class="fa-solid fa-store"></i></div>
                                 <p class="my-0">Products</p>
@@ -92,7 +92,7 @@
                     </li>
                     <li class="list-inline-item dropdown mx-2">
                         <a class="text-black nav-link" href="#" id="user-options" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
+                            aria-haspopup="true" aria-expanded="false" aria-label="Account options">
                             <div class="text-center">
                                 <div><i class="fas fa-user fa-lg"></i></div>
                                 <p class="my-0">My Account</p>
@@ -112,7 +112,7 @@
                         </div>
                     </li>
                     <li class="list-inline-item mx-2">
-                        <a class="nav-link" href="{% url 'view_bag' %}">
+                        <a class="nav-link" aria-label="View your cart" href="{% url 'view_bag' %}">
                             <div class="text-center">
                                 <div><i class="fa-solid fa-cart-shopping"></i></div>
                                 <p class="my-0">My Cart</p>
