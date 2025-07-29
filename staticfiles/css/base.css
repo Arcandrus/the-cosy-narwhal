@@ -348,7 +348,7 @@ td {
 
 @media(max-width: 500px) {
     .list-inline-item {
-        font-size: smaller;
+        font-size: small;
     }
 
     .nav-link {
