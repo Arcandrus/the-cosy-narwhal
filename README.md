@@ -2133,7 +2133,15 @@ All these features were manually tested by me and several others, these are the 
 | Sales Report | Admins can view accurate sales data and metrics. | Access reports dashboard and review sales figures. | ✅ |
 
 ## Responsive UI Testing
+Everything within the site is designed with a mobile first approach using a combination of bootstrap utility classes and custom CSS to make the site responsive and usable on every device. Below are some gif demos of the responsive designs.
 
+(home)
+(products)
+(product details)
+(cart)
+(checkout)
+(order summary)
+(profile)
 
 ## Browser Compatibility
 I tested the site on several popular browsers to ensure functionality and usablity on each. Here are the results of those tests.
