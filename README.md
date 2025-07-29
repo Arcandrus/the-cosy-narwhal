@@ -830,8 +830,6 @@ Enables users to add selected products to their shopping cart for purchase. By c
           return redirect(redirect_url)
 </details>
 
-(screenshot of add to bag)
-
 #### View Cart
 Displays the contents of the user’s cart, showing product details, quantities, and total price before checkout. This view also allows the user to remove items from the bag. First the view collects the information from the session and adds it to the `order_items` list to make a secondary list of the bag items for processing. Then for each item in the bag session, the template renders it within a table displaying its information, along with the delivery charge to be applied and the grand total of products cost and delivery charge.
 
