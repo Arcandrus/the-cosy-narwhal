@@ -449,12 +449,19 @@ Taking into account Strategy, Scope, Structure, Skeleton and Surface, together w
 
 Given this was a collaborative project, the colour scheme was set by Emma's branding choices, as she already had a logo and colour selection available as well as a main font. Unfortunately, the font she uses in her branding is a Canva exclusive font and as such, we worked together to find one available on Google Fonts that match it closely for consistency.
 
-(cosy marwhal logo here)
-(color scheme here)
+<details>
+   <summary>Brand Logo</summary>
+   
+![](./the-cosy-narwhal-assets/the-cosy-narwhal-logo.png)
+</details>
+
+<details>
+   <summary>Color Palette</summary>
+   
+![](./the-cosy-narwhal-assets/palette.png)
+</details>
 
 I chose a fixed top navigation style as it is both consistent accross multiple screen types and is intuative to use and navigate. This also allows for easy and maximal display for products and information as there is nothing "inside" the screen where this infomation would be presented.
-
-(navbar here)
 
 A wireframe for the initial design concepts can be found in the [technologies](#technologies) section.
 
@@ -2071,7 +2078,7 @@ The FAQ page is a simple text render of frequently asked questions, including ca
 [W3C HTML validator](https://validator.w3.org) seemed to really struggle with the Django generated content so I instead validated the raw HTML after Django rendering, which showed only one error consistently. The screenshot below shows the error and this occurs because we have both the standard navbar and the mobile version of the navbar loaded at all times, ready for the switch if the screen width threshold is broken. As such, the validator sees two duplicate ids and panics but this can be safely ignored as only one of the menus is active at a time depending on screen width. No other errors detected.
 
 <details>
-   <summary>HTML Error Sumamry</summary>
+   <summary>HTML Error Summary</summary>
    
 ![](./the-cosy-narwhal-assets/html_pass.png)
 </details>
@@ -2133,7 +2140,43 @@ All these features were manually tested by me and several others, these are the 
 | Sales Report | Admins can view accurate sales data and metrics. | Access reports dashboard and review sales figures. | ✅ |
 
 ## Responsive UI Testing
+Everything within the site is designed with a mobile first approach using a combination of bootstrap utility classes and custom CSS to make the site responsive and usable on every device. Below are some gif demos of the responsive designs.
 
+<details>
+   <summary>Home</summary>
+   
+![](./the-cosy-narwhal-assets/home.gif)
+</details>
+
+<details>
+   <summary>All Products</summary>
+   
+![](./the-cosy-narwhal-assets/products.gif)
+</details>
+
+<details>
+   <summary>Product Detail</summary>
+   
+![](./the-cosy-narwhal-assets/product_detail.gif)
+</details>
+
+<details>
+   <summary>Cart Summary</summary>
+   
+![](./the-cosy-narwhal-assets/cart.gif)
+</details>
+
+<details>
+   <summary>Checkout</summary>
+   
+![](./the-cosy-narwhal-assets/checkout.gif)
+</details>
+
+<details>
+   <summary>Profile</summary>
+   
+![](./the-cosy-narwhal-assets/profile.gif)
+</details>
 
 ## Browser Compatibility
 I tested the site on several popular browsers to ensure functionality and usablity on each. Here are the results of those tests.
