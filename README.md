@@ -983,7 +983,7 @@ Provides a form for users to create a new account by entering necessary details 
 <details>
    <summary>Screenshot of the Sign Up Form</summary>
 
-![](./the-cosy-narwhal-assets/signup.png))
+![](./the-cosy-narwhal-assets/signup.png)
 </details>
 
 #### Profile & Order History
