@@ -66,7 +66,7 @@ The `Product` model represents an individual handmade crochet toy. It defines al
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `code` | `CharField` | Optional internal or SKU code for the product. |
+| `code` | `CharField` | SKU code for the product, prefixed by product type, eg WHA for Whale. Required.|
 | `name` | `CharField` | The name/title of the product. Required. |
 | `description` | `TextField` | A detailed description of the product. |
 | `size` | `IntegerField` (choices) | Indicates the product's size, using predefined options: `Small (0)`, `Medium (1)`, and `Large (2)`. Defaults to `Small`. |
